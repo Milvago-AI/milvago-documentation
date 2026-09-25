@@ -1,0 +1,23 @@
+{
+  "sidebar.docsSidebar.category.Administration": {
+    "message": "Administração"
+  },
+  "sidebar.docsSidebar.category.Avancé": {
+    "message": "Avançado"
+  },
+  "sidebar.docsSidebar.category.Fleet": {
+    "message": "Fleet"
+  },
+  "sidebar.docsSidebar.category.Installation": {
+    "message": "Instalação"
+  },
+  "sidebar.docsSidebar.category.Introduction": {
+    "message": "Introdução"
+  },
+  "sidebar.docsSidebar.category.Mon Profil": {
+    "message": "Meu perfil"
+  },
+  "sidebar.docsSidebar.category.Monitoring": {
+    "message": "Monitoring"
+  }
+}

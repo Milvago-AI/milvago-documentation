@@ -1,0 +1,32 @@
+import translations from './translations';
+
+export default {
+  ...translations,
+  fr: {
+    title: 'Une plateforme, deux niveaux de communication',
+    intro: 'Du navigateur à la base de données, suivez les connexions et leurs frontières.',
+    network: 'Plateforme', local: 'Sur le poste', enlarge: 'Agrandir le schéma', close: 'Fermer', pan: 'Faites défiler le schéma horizontalement',
+    networkDescription: 'Le poste et la console contactent l’entrée HTTPS. Le serveur communique avec Keycloak et PostgreSQL sur le réseau privé.',
+    localDescription: 'L’extension échange avec le service par Native Messaging et IPC. Les téléchargements d’extensions restent sur loopback. L’agent contacte le serveur et le navigateur les sites IA.',
+    outside: 'ACCÈS CLIENTS', private: 'SERVICES PRIVÉS', endpoint: 'POSTE PROTÉGÉ',
+    device: 'Agent Milvago', deviceLines: ['Politiques · événements', 'Catalogue · mises à jour'],
+    gateway: 'Entrée HTTPS', gatewayLines: ['Reverse proxy / Ingress', 'ou Gateway API · à configurer'],
+    server: 'Serveur Milvago', serverLines: ['Go · API · console React', 'HTTP interne · :4020'],
+    console: 'Console web', consoleLines: ['Navigateur administrateur', 'Session · API REST'],
+    identity: 'Keycloak', identityLines: ['OIDC · connexion · MFA', 'HTTPS public / HTTP privé'],
+    database: 'PostgreSQL', databaseLines: ['Données Milvago + identité', 'Bases et rôles séparés'],
+    browser: 'Extension navigateur', browserLines: ['Contrôle sur les sites couverts', 'Community / Enterprise'],
+    relay: 'Relais local', relayLines: ['Hôte Native Messaging', 'Lancé par le navigateur'],
+    agent: 'Service agent', agentLines: ['Identité · politique · file', 'Synchronisation sortante'],
+    sites: 'Services IA', sitesLines: ['Trafic du navigateur', 'HTTPS direct vers les sites'],
+    packages: 'Extensions embarquées', packagesLines: ['Servies par l’agent local', 'CRX en HTTP · XPI en HTTPS'],
+    remote: 'Instance Milvago', remoteLines: ['URL de provisionnement', 'Politiques · événements'],
+    stdio: 'stdio · sans TCP', ipc: 'IPC · sans TCP', internal: 'HTTP · 4020', sql: 'TCP · 5432',
+    oidc: 'OIDC · 8080¹', login: 'HTTPS · 443²', packagesEdge: 'Loopback uniquement',
+    networkNote: 'Les flèches indiquent l’initiateur de la connexion ; les réponses empruntent le même canal. 443 est le port HTTPS usuel, remplaçable par celui de votre URL. ¹ 8080 est l’adresse interne du Compose. ² Le navigateur doit aussi joindre l’URL publique de Keycloak. Keycloak accède à sa base sur 5432.',
+    localNote: 'IPC Windows : named pipe. IPC Linux : socket Unix. Les ports 17641/17651 concernent Community ; 17642/17652 concernent Enterprise. Ils servent les paquets d’extensions, pas les décisions de politique.',
+    enterprise: 'Enterprise · flux optionnels',
+    enterpriseNetwork: 'Serveur → collecteur OTLP : URL configurée, /v1/logs et /v1/metrics. Client MCP → instance : HTTPS, /mcp. Voir le tableau des ports.',
+    enterpriseLocal: 'Outils natifs → collecteur local : OTLP sur un port attribué et conservé. Agent → collecteur : IPC. Clients couverts → filtre local : 47831–47834, puis HTTPS 443 vers les fournisseurs.',
+  },
+};

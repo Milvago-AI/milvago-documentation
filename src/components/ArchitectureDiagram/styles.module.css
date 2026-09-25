@@ -1,0 +1,35 @@
+.diagram { margin: 28px 0 36px; border: 1px solid var(--mv-border); border-radius: 12px; overflow: hidden; background: var(--mv-surface); }
+.header { padding: 24px 26px 18px; border-bottom: 1px solid var(--mv-border); }
+.kicker { color: var(--mv-accent-text); font-size: 10px; font-weight: 700; letter-spacing: .12em; }
+.header h2 { font-size: 22px; margin: 9px 0; }
+.header p { color: var(--mv-text-2); font-size: 13px; margin: 0; }
+.toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 22px 0; }
+.switcher { display: flex; padding: 3px; background: var(--mv-bg); border: 1px solid var(--mv-border); border-radius: 7px; }
+.diagram button { font: inherit; cursor: pointer; }
+.switcher button { border: 0; background: transparent; padding: 7px 12px; border-radius: 4px; color: var(--mv-text-2); font-size: 12px; }
+.switcher button[aria-pressed='true'] { background: var(--mv-elevated); color: var(--mv-raised-link); font-weight: 600; }
+.expand, .modalHeader button { border: 0; background: transparent; color: var(--mv-accent-text); font-size: 12px !important; }
+.diagram button:focus-visible { outline: 2px solid var(--mv-focus); outline-offset: 3px; }
+.canvas { overflow-x: auto; padding: 12px; }
+.canvas:focus-visible { outline: 2px solid var(--mv-focus); outline-offset: -3px; }
+.pan { display: none; }
+.canvas svg { display: block; width: 100%; min-width: 660px; height: auto; color: var(--mv-text-2); }
+.zone { fill: var(--mv-bg); stroke: var(--mv-border); stroke-dasharray: 4 6; }
+.zoneLabel { fill: var(--mv-text-2); font-size: 11px; font-weight: 600; letter-spacing: 1.5px; }
+.node { fill: var(--mv-surface); stroke: var(--mv-border-strong); }
+.primaryNode { fill: var(--mv-surface-2); stroke: var(--mv-accent-hi); stroke-width: 1.5; }
+.number { font-size: 11px; fill: var(--mv-accent-text); font-weight: 600; }
+.nodeTitle { font-size: 16px; fill: var(--mv-text); font-weight: 700; }
+.detail { font-size: 13px; fill: var(--mv-text-2); }
+.edge { fill: none; stroke: var(--mv-text-3); stroke-width: 1.5; }
+.edgeLabel { fill: var(--mv-text-2); font-size: 12px; font-weight: 600; paint-order: stroke; stroke: var(--mv-bg); stroke-width: 6px; stroke-linejoin: round; }
+.small { fill: var(--mv-text-2); font-size: 10px; paint-order: stroke; stroke: var(--mv-bg); stroke-width: 5px; }
+.enterprise { margin: 0 10px; padding: 14px 16px; border-left: 2px solid var(--mv-accent-text); background: var(--mv-accent-bg); font-size: 12px; }
+.enterprise strong { color: var(--mv-text); }
+.enterprise p { margin: 4px 0 0; color: var(--mv-text-2); line-height: 1.65; }
+.caption { margin: 0; padding: 14px 24px 22px; color: var(--mv-text-2); font-size: 12px; line-height: 1.7; }
+.modal { width: min(1280px, 96vw); max-width: none; max-height: 94vh; padding: 0; border: 1px solid var(--mv-border-strong); border-radius: 12px; background: var(--mv-surface); color: var(--mv-text); }
+.modal::backdrop { background: #080d18cc; backdrop-filter: blur(5px); }
+.modalHeader { display: flex; justify-content: space-between; align-items: center; padding: 18px 24px; border-bottom: 1px solid var(--mv-border); }
+@media(max-width: 600px) { .header { padding: 20px; } .toolbar { align-items: flex-start; flex-direction: column; padding: 14px 16px 0; } .header h2 { font-size: 20px; } .caption { padding: 14px 20px 20px; } }
+@media(max-width: 768px) { .canvas svg { min-width: 960px; } .pan { display: block; margin: 12px 20px 0; font-size: 11px; color: var(--mv-text-2); } }

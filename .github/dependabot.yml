@@ -1,0 +1,21 @@
+# Every dependency is pinned to an exact version: an upgrade is an explicit, reviewed change,
+# never a resolution side effect. Dependabot proposes those changes as grouped pull requests.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    versioning-strategy: increase
+    groups:
+      npm:
+        patterns: ["*"]
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]

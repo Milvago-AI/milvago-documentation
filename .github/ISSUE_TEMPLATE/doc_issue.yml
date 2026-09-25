@@ -1,0 +1,54 @@
+name: Documentation issue
+description: Something in the documentation is wrong, unclear or missing.
+labels: ["documentation", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time. **Security problems do not go here**: follow SECURITY.md.
+        A bug in the product itself belongs to the product repository, not here.
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      description: URL or path of the page.
+      placeholder: "https://docs.milvago.ai/docs/…"
+    validations:
+      required: true
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language
+      multiple: true
+      options:
+        - English
+        - Français
+        - Español
+        - Português (Brasil)
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind of problem
+      options:
+        - Incorrect — does not match the product
+        - Unclear — hard to follow
+        - Missing — a topic or a step is not covered
+        - Translation
+        - Typo or formatting
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: What is wrong
+      description: Quote the passage, and say what you expected or what the product actually does.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Milvago version and edition
+      description: If the problem concerns a behavior of the product.
+      placeholder: "Community 0.x.y"

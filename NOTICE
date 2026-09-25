@@ -1,0 +1,11 @@
+Milvago documentation
+Copyright (c) 2026 Milvago AI, LLC
+
+Milvago AI, LLC is the copyright holder and licensor of this repository.
+Text, diagrams and screenshots: Apache-2.0. Full text: LICENSE.
+
+"Milvago" and the Milvago logo are trademarks of Milvago AI, LLC.
+
+Third-party material:
+- Inter typeface (static/fonts/), SIL Open Font License 1.1, https://rsms.me/inter/
+- Docusaurus and the other npm dependencies retain their own licenses (package-lock.json).

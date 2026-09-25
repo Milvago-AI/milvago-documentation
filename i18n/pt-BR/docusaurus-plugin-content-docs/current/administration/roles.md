@@ -1,0 +1,70 @@
+---
+sidebar_position: 2
+title: Funções
+---
+
+# Funções
+
+## Acessar a tela
+
+Clique em **Administração** > **Funções**. Você precisa de `roles.manage`.
+
+1. Clique em **Nova função**.
+2. Informe o nome e selecione as permissões a conceder.
+3. Clique em **Salvar**.
+4. Verifique se a função aparece na lista com as permissões escolhidas.
+
+A tela Funções responde à pergunta "**quem tem direito a fazer o quê**". Ela define as funções da organização e, para cada uma, o conjunto de permissões que concede. O acesso exige a permissão `roles.manage` — entre as funções integradas, apenas o Proprietário a possui; sem ela, a tela mostra "É necessário acesso de proprietário".
+
+## O princípio: permissões, não rótulos
+
+As autorizações são portadas por **permissões** verificadas pelo servidor a cada chamada, nunca pelo nome de uma função. Uma função não é senão um conjunto nomeado de permissões: dar a ela um nome lisonjeiro não lhe concede nenhum direito adicional, e uma edição declarada pelo cliente jamais concede autorização.
+
+As permissões do catálogo, e seu rótulo no console:
+
+| Permissão | Rótulo |
+| --- | --- |
+| `overview.read` | Visão geral |
+| `events.read` | Eventos e cartografia |
+| `devices.read` | Ver os dispositivos |
+| `devices.manage` | Gerenciar os dispositivos |
+| `members.read` | Ver os membros |
+| `members.manage` | Gerenciar os membros |
+| `roles.manage` | Gerenciar as funções |
+| `observability.manage` | Gerenciar a observabilidade |
+| `settings.manage` | Gerenciar as configurações |
+| `policy.manage` | Gerenciar a política (Shadow AI) |
+| `installers.manage` | Gerenciar os instaladores |
+| `content.read` | Ler os conteúdos |
+| `content.purge` | Expurgar os conteúdos retidos |
+| `audit.read` | Registro de auditoria |
+| `organizations.manage` | Gerenciar as organizações |
+| `directory.manage` | Gerenciar o diretório LDAP |
+
+[IMAGEAMETTREICI 01]
+
+## Funções integradas e funções personalizadas
+
+Três funções integradas existem em toda organização, portadas com a menção "integrada" e em somente leitura:
+
+- **Proprietário** (`owner`): todas as permissões do catálogo.
+- **Administrador** (`admin`): as permissões de operação, sem `roles.manage`, `audit.read`, `organizations.manage` nem `directory.manage`.
+- **Leitor** (`viewer`): visão geral, eventos e dispositivos em leitura.
+
+O botão "Nova função" cria uma função personalizada: um nome, e as permissões marcadas uma a uma. Na criação como na edição, nada vem pré-marcado — uma função começa sem autorização e se alarga deliberadamente. Um nome já usado é sinalizado antes de salvar.
+
+As funções integradas não se modificam; as funções personalizadas portam "Editar" e "Excluir", esta última desativada na sua própria função ("Você não pode excluir a função que ocupa atualmente.").
+
+[IMAGEAMETTREICI 02]
+
+## Excluir uma função ainda atribuída
+
+Uma exclusão recusada porque membros ainda ocupam a função abre um diálogo dedicado: "A função "…" não pode ser excluída enquanto estiver atribuída." Ela lista os ocupantes e oferece duas saídas, sem sair da página: **Reatribuir** cada membro a outra função, ou **Remover o acesso**. Enquanto houver membros ocupando a função, o botão "Excluir a função" permanece bloqueado ("Alguns membros ainda ocupam esta função."); sem nenhum ocupante, ele se abre.
+
+Um membro sem direito de gestão de membros vê a lista de ocupantes, mas não as ações deles, com o aviso que o remete a um gestor de membros.
+
+:::enterprise
+
+Na Enterprise, a lista de membros de uma função e as reatribuições abrangem o seu subárvore de organizações; a função em si permanece própria de cada organização. As permissões `organizations.manage` (árvore de organizações) e `directory.manage` (diretório LDAP) só servem em multiorganizações.
+
+:::

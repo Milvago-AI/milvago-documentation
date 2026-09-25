@@ -1,0 +1,77 @@
+{
+  "Documentation": {
+    "message": "Documentação"
+  },
+  "docs.footer.navigation": {
+    "message": "Navegação da documentação"
+  },
+  "docs.footer.home": {
+    "message": "Início da documentação"
+  },
+  "docs.footer.description": {
+    "message": "Os guias para implantar o Milvago, entender os usos de IA e administrar seu ambiente."
+  },
+  "docs.footer.editions": {
+    "message": "Community & Enterprise"
+  },
+  "docs.footer.website": {
+    "message": "Descobrir o Milvago"
+  },
+  "docs.footer.start": {
+    "message": "Primeiros passos"
+  },
+  "docs.footer.introduction": {
+    "message": "Apresentação"
+  },
+  "docs.footer.installation": {
+    "message": "Instalação"
+  },
+  "docs.footer.architecture": {
+    "message": "Arquitetura"
+  },
+  "docs.footer.security": {
+    "message": "Segurança"
+  },
+  "docs.footer.manage": {
+    "message": "Administrar"
+  },
+  "docs.footer.devices": {
+    "message": "Dispositivos e grupos"
+  },
+  "docs.footer.policies": {
+    "message": "Políticas de Shadow AI"
+  },
+  "docs.footer.observability": {
+    "message": "Observabilidade"
+  },
+  "docs.footer.profile": {
+    "message": "Meu perfil"
+  },
+  "docs.footer.resources": {
+    "message": "Recursos"
+  },
+  "docs.footer.api": {
+    "message": "Chaves de API e servidor MCP"
+  },
+  "docs.footer.configuration": {
+    "message": "Configuração do agente"
+  },
+  "docs.footer.catalog": {
+    "message": "Catálogo de detecção"
+  },
+  "docs.footer.advanced": {
+    "message": "Guias avançados"
+  },
+  "docs.footer.licences": {
+    "message": "Licenças"
+  },
+  "docs.footer.top": {
+    "message": "Voltar ao topo"
+  },
+  "docs.footer.documentation": {
+    "message": "Documentação do produto"
+  },
+  "docs.footer.requirements": {
+    "message": "Requisitos técnicos"
+  }
+}

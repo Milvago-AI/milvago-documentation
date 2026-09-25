@@ -1,0 +1,77 @@
+{
+  "Documentation": {
+    "message": "Documentation"
+  },
+  "docs.footer.navigation": {
+    "message": "Documentation navigation"
+  },
+  "docs.footer.home": {
+    "message": "Documentation home"
+  },
+  "docs.footer.description": {
+    "message": "Guides to deploy Milvago, understand AI usage, and administer your environment."
+  },
+  "docs.footer.editions": {
+    "message": "Community & Enterprise"
+  },
+  "docs.footer.website": {
+    "message": "Discover Milvago"
+  },
+  "docs.footer.start": {
+    "message": "Get started"
+  },
+  "docs.footer.introduction": {
+    "message": "Introduction"
+  },
+  "docs.footer.installation": {
+    "message": "Installation"
+  },
+  "docs.footer.architecture": {
+    "message": "Architecture"
+  },
+  "docs.footer.security": {
+    "message": "Security"
+  },
+  "docs.footer.manage": {
+    "message": "Administration"
+  },
+  "docs.footer.devices": {
+    "message": "Devices and groups"
+  },
+  "docs.footer.policies": {
+    "message": "Shadow AI policies"
+  },
+  "docs.footer.observability": {
+    "message": "Observability"
+  },
+  "docs.footer.profile": {
+    "message": "My profile"
+  },
+  "docs.footer.resources": {
+    "message": "Resources"
+  },
+  "docs.footer.api": {
+    "message": "API keys and MCP server"
+  },
+  "docs.footer.configuration": {
+    "message": "Agent configuration"
+  },
+  "docs.footer.catalog": {
+    "message": "Detection catalog"
+  },
+  "docs.footer.advanced": {
+    "message": "Advanced guides"
+  },
+  "docs.footer.licences": {
+    "message": "Licenses"
+  },
+  "docs.footer.top": {
+    "message": "Back to top"
+  },
+  "docs.footer.documentation": {
+    "message": "Product documentation"
+  },
+  "docs.footer.requirements": {
+    "message": "Hardware Requirements"
+  }
+}
