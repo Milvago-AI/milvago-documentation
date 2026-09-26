@@ -34,6 +34,8 @@ Un banner « Completar la configuración » aparece mientras la URL pública no 
 
 Siempre presente para quien pueda abrir Ajustes: no es un permiso el que la gobierna, sino el rol de propietario de la instancia el que autoriza a modificarla. Su descripción en pantalla: « Estado de la licencia de esta instancia. »
 
+En Community, el panel también indica: «La licencia gratuita solo elimina los límites de Community. No desbloquea Enterprise, que requiere la edición Enterprise y una licencia distinta».
+
 - **Estado** — insignia Ninguna, Válida, Período de gracia o Expirada.
 - **Tipo** — Enterprise, Community, o « — » si la instancia nunca recibió una licencia.
 - **Dispositivos máximos** — un número, o « Ilimitado » si la licencia no fija ninguno (valor 0).

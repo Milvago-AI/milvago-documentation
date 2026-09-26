@@ -34,6 +34,8 @@ A "Complete setup" banner appears as long as the public URL is not confirmed on 
 
 Always present for anyone who can open Settings: no permission governs it — only the instance owner role allows changing it. Its on-screen description: "Status of this instance's license."
 
+On Community, the panel also states: "The free license lifts only Community limits. It does not unlock Enterprise, which requires the Enterprise edition and a separate license."
+
 - **Status** — badge None, Valid, Grace period, or Expired.
 - **Kind** — Enterprise, Community, or "—" if the instance never received a license.
 - **Maximum devices** — a number, or "Unlimited" if the license sets none (value 0).

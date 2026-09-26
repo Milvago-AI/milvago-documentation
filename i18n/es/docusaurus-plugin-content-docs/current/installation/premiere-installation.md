@@ -36,6 +36,8 @@ Campo **Token de instalación** — «El valor de MILVAGO_SETUP_TOKEN proporcion
 
 **Community**: tres opciones, «Continuar sin licencia» seleccionada de forma predeterminada:
 
+El asistente también aclara: «La licencia gratuita solo elimina los límites de Community. No desbloquea Enterprise, que requiere la edición Enterprise y una licencia distinta».
+
 - **Tengo una licencia** — un campo para pegar el texto de la licencia.
 - **Solicitar una licencia gratuita** — una dirección de correo a escribir, luego **Enviar la solicitud**; «Solicitud enviada. Revise el correo de {`dirección`} y pegue a continuación la licencia recibida.», seguido del mismo campo para pegarla.
 - **Continuar sin licencia** — el aviso «Sin licencia»: «Limitado a 5 dispositivos, una sola cuenta de administrador, sin gestión de roles, sin directorio LDAP y sin SSO. Se puede solicitar una licencia más adelante desde [Administración > Ajustes > Licencia](../administration/parametres.md#licencia).»

@@ -36,6 +36,8 @@ Champ **Jeton d'installation** — « La valeur de MILVAGO_SETUP_TOKEN fournie a
 
 **Community** : trois choix, « Continuer sans licence » sélectionné par défaut :
 
+L’assistant précise également : « La licence gratuite lève uniquement les limites de Community. Elle ne débloque pas Enterprise, qui nécessite l’édition Enterprise et une licence distincte. »
+
 - **J'ai une licence** — un champ pour coller le texte de la licence.
 - **Demander une licence gratuite** — une adresse e-mail à saisir, puis **Envoyer la demande** ; « Demande envoyée. Consultez la boîte de réception de {`adresse`} et collez ci-dessous la licence reçue. », suivi du même champ pour la coller.
 - **Continuer sans licence** — l'avis « Aucune licence » : « Limité à 5 postes, un seul compte administrateur, aucune gestion des droits, aucun annuaire LDAP et aucun SSO. Une licence peut être demandée plus tard depuis [Administration > Paramètres > Licence](../administration/parametres.md#licence). »

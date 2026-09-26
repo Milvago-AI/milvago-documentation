@@ -34,6 +34,8 @@ Um banner "Concluir a configuração" aparece enquanto a URL pública não estiv
 
 Sempre presente para quem puder abrir Configurações: não é uma permissão que a governa, e sim o papel de proprietário da instância que autoriza a alterá-la. Sua descrição na tela: "Status da licença desta instância."
 
+Na Community, o painel também informa: “A licença gratuita remove apenas os limites da Community. Ela não desbloqueia a Enterprise, que exige a edição Enterprise e uma licença separada.”
+
 - **Status** — selo Nenhuma, Válida, Período de carência ou Expirada.
 - **Tipo** — Enterprise, Community, ou "—" se a instância nunca recebeu uma licença.
 - **Dispositivos máximos** — um número, ou "Ilimitado" se a licença não define nenhum (valor 0).

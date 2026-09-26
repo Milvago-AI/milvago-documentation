@@ -34,6 +34,8 @@ Un bandeau « Terminer l'installation » apparaît tant que l'URL publique n'est
 
 Toujours présente pour quiconque peut ouvrir Paramètres : ce n'est pas une permission qui la gouverne, mais le rôle de propriétaire de l'instance qui autorise à la modifier. Sa description à l'écran : « État de la licence de cette instance. »
 
+En Community, le panneau précise aussi : « La licence gratuite lève uniquement les limites de Community. Elle ne débloque pas Enterprise, qui nécessite l’édition Enterprise et une licence distincte. »
+
 - **Statut** — badge Aucune, Valide, Période de grâce ou Expirée.
 - **Type** — Enterprise, Community, ou « — » si l'instance n'a jamais reçu de licence.
 - **Postes maximum** — un nombre, ou « Illimité » si la licence n'en fixe aucun (valeur 0).

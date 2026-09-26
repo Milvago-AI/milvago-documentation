@@ -36,6 +36,8 @@ Field **Setup token** — "The value of MILVAGO_SETUP_TOKEN given to the server.
 
 **Community**: three choices, "Continue without a license" selected by default:
 
+The wizard also explains: "The free license lifts only Community limits. It does not unlock Enterprise, which requires the Enterprise edition and a separate license."
+
 - **I have a license** — a field to paste the license text.
 - **Request a free license** — an e-mail address to type in, then **Send the request**; "Request sent. Check the mailbox for {`address`} and paste the license you receive below.", followed by the same field to paste it.
 - **Continue without a license** — the notice "No license": "Limited to 5 devices, a single administrator account, no rights management, no LDAP directory and no SSO. A license can be requested later from [Administration > Settings > License](../administration/parametres.md#license)."
