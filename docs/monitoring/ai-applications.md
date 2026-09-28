@@ -1,4 +1,4 @@
-﻿---
+---
 sidebar_position: 4
 title: AI applications
 tags: [Enterprise]
@@ -6,50 +6,50 @@ tags: [Enterprise]
 
 # AI applications
 
+## Access this screen
+
+In the sidebar, click **Monitoring**, then **AI applications**. It requires Milvago Enterprise, `events.read`, and an organisation that is not aggregate-only.
+
+1. Choose **Per page** to browse the list.
+2. Click a value in **Found on** to open every affected device, then click a device name to open its record.
+3. Close the dialog when finished. It makes no change and the screen has no filters.
+
 :::enterprise
 
-Cette page ne concerne que l'édition Enterprise : elle n'apparaît dans la navigation qu'avec le rôle d'analyse. Community se limite au navigateur — le code et les dépendances d'inventaire sont absents du binaire livré.
+This page only concerns the Enterprise edition: it appears in the navigation only with the analyst role. Community is limited to the browser — the inventory code and dependencies are absent from the shipped binary.
 
 :::
 
-La page liste les **applications IA** détectées sur les postes : logiciels natifs, assistants intégrés, applications d'IA locales, relevés par l'inventaire de l'agent et décrits par le **catalogue signé**. Elle complète les usages navigateur de Monitoring par le parc logiciel.
+The page lists the **AI applications** detected on the devices: native software, embedded assistants, local AI applications, read by the agent inventory and described by the **signed catalog**. It complements the browser usage of Monitoring with the software fleet.
 
-La phrase d'en-tête fixe la règle de lecture : **une présence détectée n'établit ni un usage, ni un envoi.** Les requêtes se lisent dans Shadow AI ; un outil installé mais jamais sollicité n'est pas un événement Shadow AI.
+The header sentence sets the reading rule: **A detected presence establishes neither a use nor a submission.** Requests are read under Shadow AI; a tool installed but never called upon is not a Shadow AI event.
 
-## Accéder à l’écran
+![Milvago - Access this screen](/img/docs/en/monitoring-ai-applications-01.png)
 
-Dans la barre latérale, cliquez sur **Supervision**, puis sur **Applications IA**. Cet écran exige Milvago Enterprise, `events.read` et une organisation qui n’est pas en consultation agrégée seule.
+## The table of observed applications
 
-1. Choisissez la valeur **Par page** souhaitée pour parcourir les applications.
-2. Cliquez sur un nom dans **Sur quels postes** pour ouvrir la liste complète des postes concernés.
-3. Cliquez sur le nom d’un poste dans ce dialogue pour ouvrir sa fiche. Le dialogue ne modifie aucune donnée et la page ne propose aucun filtre.
+One row per detected **tool** (all observations are grouped by tool, not by device), ranked from the most widespread to the rarest, then alphabetically:
 
-![Milvago - AI applications](/img/docs/fr/monitoring-ai-applications-01.png)
+The **Per page** selector offers 10, 20, 50, 100 or 200 tools. A tool and all its observations stay on the same page; the numbered controls provide access to the first, last and neighbouring pages.
 
-## Le tableau des applications observées
-
-Une ligne par **outil** détecté (toutes les observations sont regroupées par outil, pas par poste), classées du plus répandu au plus rare, puis par ordre alphabétique :
-
-Le sélecteur **Par page** propose 10, 20, 50, 100 ou 200 outils. Un outil et toutes ses observations restent sur la même page ; les boutons numérotés donnent accès à la première, à la dernière et aux pages voisines.
-
-| Colonne | Contenu |
+| Column | Content |
 | --- | --- |
-| **Application** | le nom du catalogue (ou l'identifiant brut si l'outil est inconnu du catalogue) |
-| **Éditeur** | le nom de l'éditeur, « — » si le catalogue ne le connaît pas |
-| **Risque** | badge de tonalité selon le niveau du catalogue |
-| **Postes** | nombre de postes où l'outil a été trouvé |
-| **Sur quels postes** | les trois premiers noms de machines, puis « et N autres » ; la cellule est un **bouton** (voir ci-dessous) |
-| **Reconnu par** | comment l'outil a été identifié (extension navigateur, application locale…) |
-| **Première observation** | la plus ancienne date de détection de l'outil |
+| **Application** | the catalog name (or the raw identifier if the tool is unknown to the catalog) |
+| **Vendor** | the vendor name, "—" if the catalog does not know it |
+| **Risk** | tone badge according to the catalog level |
+| **Devices** | number of devices where the tool was found |
+| **Found on** | the first three machine names, then "and N more"; the cell is a **button** (see below) |
+| **Recognised by** | how the tool was identified (browser extension, local application…) |
+| **First observation** | the earliest detection date of the tool |
 
-![Milvago - Le tableau des applications observées](/img/docs/fr/monitoring-ai-applications-02.png)
+![Milvago - The table of observed applications](/img/docs/en/monitoring-ai-applications-02.png)
 
-À zéro détection, l'écran l'assume : « Aucune application IA observée — les postes Enterprise remontent les applications décrites par le catalogue signé. Une présence n'est pas un usage. »
+At zero detections, the screen owns it: "No AI application observed — Enterprise devices report the applications described by the signed catalog. A presence is not a use."
 
-## Sur quels postes ?
+## Found on
 
-Un compte seul obligeait à rouvrir chaque machine pour savoir laquelle intervenir. La cellule ouvre donc un dialogue qui liste **tous** les postes portant l'outil — sans seconde requête, la liste complète est déjà dans la charge de la page : poste (lien vers sa fiche), façon d'être reconnu, première observation. Ce dialogue reprend la liste large et à hauteur bornée de Découverte : son en-tête reste visible et la table défile dans la fenêtre. Le poste y apparaît sous son nom réel pour qui porte `devices.read` hors consultation agrégée seule ; les autres lecteurs voient l'alias du poste. En consultation agrégée seule, l'API et le serveur MCP ne renvoient que des comptes : nombre de postes par outil et par façon d'être reconnu, première et dernière observation de l'outil ; aucun poste n'est désigné, et la liste des outils d'un poste précis est refusée.
+A count alone would force reopening every machine to know which one to act on. The cell therefore opens a dialog listing **all** the devices carrying the tool — without a second request, the complete list is already in the page load: device (link to its page), way of being recognized, first observation. This dialog uses the same wide, height-limited list layout as Discovery: its header stays visible while the table scrolls within the window. The device appears there under its real name for a reader holding `devices.read` outside aggregate-only reporting; other readers see the device alias. In aggregate-only reporting, the API and the MCP server return counts only: number of devices per tool and per way of being recognized, first and last observation of the tool; no device is named, and the list of tools for one specific device is refused.
 
-![Milvago - Sur quels postes ?](/img/docs/fr/monitoring-ai-applications-03.png)
+![Milvago - Found on](/img/docs/en/monitoring-ai-applications-03.png)
 
-Ce que cette page ne dit pas : elle ne déduit pas d'usage d'une présence. Un outil signalé, puis supprimé du poste, disparaît de la liste au signalement suivant — son historique reste dans les conversations.
+What this page does not say: it does not infer usage from a presence. A tool reported, then removed from the device, disappears from the list at the next report — its history remains in the conversations.

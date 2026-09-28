@@ -1,68 +1,66 @@
-﻿---
+---
 sidebar_position: 2
-title: Clés API et serveur MCP
+title: API keys and MCP server
 ---
 
-# Clés API et serveur MCP
+# API keys and MCP server
 
-## Accéder à l’écran
+## Open the page
 
-Dans la barre latérale, cliquez sur votre bloc utilisateur en bas à gauche, puis sur **Mon profil**. La carte **Clés API** apparaît après la carte **Sécurité et accès** ; elle n’est pas contenue dans cette dernière. Elle utilise vos droits courants et est disponible dans les deux éditions.
+Click your user block at the bottom left, then **My profile**. **API keys** is a separate card after **Security and access**.
 
-Pour créer une clé :
+1. Click **New API key**.
+2. Enter its name, duration, and permissions, then create it.
+3. Copy the secret shown only once.
 
-1. Cliquez sur **Nouvelle clé API**.
-2. Saisissez le nom, choisissez la durée et les permissions, puis activez éventuellement la lecture du contenu si elle est proposée.
-3. Créez la clé, copiez immédiatement sa valeur secrète affichée une seule fois et vérifiez son apparition dans le tableau.
+API keys are found on the **My profile** page, under the "Security and access" block. They answer the question "**how does a script or an external tool call the API**": "So a script or an external tool can call the API with your rights, without sharing your password."
 
-Les clés API se trouvent sur la page **Mon profil**, sous le bloc « Sécurité et accès ». Elles répondent à la question « **comment un script ou un outil externe appelle-t-il l'API** » : « Pour qu'un script ou un outil externe appelle l'API avec vos droits, sans partager votre mot de passe. »
+## Creating a key
 
-## Créer une clé
+The "New API key" button opens the creation dialog, capped at 5 active keys per account ("Limit of 5 active keys reached: revoke one to continue."). Four settings:
 
-Le bouton « Nouvelle clé API » ouvre le dialogue de création, plafonné à 5 clés actives par compte (« Limite de 5 clés actives atteinte »). Quatre réglages :
+- **Key name** — a human phrase, for example "SIEM export".
+- **Validity** — 30, 90 or 365 days; beyond that, the key expires and the screen marks it "Expired".
+- **Permissions** — the list of rights that **you** carry, nothing pre-checked, and nothing the server would not grant you: "Limited to your own rights, and recomputed on every call: the key loses a right as soon as you do."
+- **Allow reading prompt content** — a separate switch, offered only if your instance provides it: "Enable only if the tool needs it: without this box the key sees metadata only."
 
-- **Nom de la clé** — une phrase humaine, par exemple « Export SIEM ».
-- **Durée de validité** — 30, 90 ou 365 jours ; au-delà, la clé expire et l'écran la marque « Expirée ».
-- **Permissions** — la liste des droits que **vous** portez, rien de précoché, et rien que le serveur ne vous accorderait : « Limitées à vos propres droits, et recalculées à chaque appel : la clé perd un droit dès que vous le perdez. »
-- **Autoriser la lecture du contenu des prompts** — une case à part, qui ne se présente que si votre instance la propose : « À n'activer que si l'outil en a besoin : sans cette case, la clé ne voit que les métadonnées. »
+![Milvago - Creating a key](/img/docs/en/mon-profil-cles-api-01.png)
 
-![Milvago - Créer une clé](/img/docs/fr/mon-profil-cles-api-01.png)
+Two warnings appear when the decision is made, not after:
 
-Deux avertissements se présentent au moment où la décision se prend, pas après :
+- Selecting `installers.manage` ("Manage installers") reads "This permission outlives the key": "A key that can download the installer can read the organization's deployment key, which does not expire. The ability to enrol devices will therefore outlive this key: to take it away, rotate the deployment key in Settings."
+- In Enterprise, enabling content reading reads "Prompt text will be able to leave for an external LLM": "This key also opens the MCP server. A model connected with it will be able to read the text your users submitted, and that text will be sent to that model's provider. Without this box, the same tool sees metadata only."
 
-- Cocher `installers.manage` (« Gérer les installeurs ») lit « Cette permission dépasse la durée de vie de la clé » : « Une clé qui peut télécharger l'installateur peut lire la clé de déploiement de l'organisation, qui n'expire pas. La capacité d'enrôler des postes survivra donc à l'expiration de cette clé : pour la retirer, faites tourner la clé de déploiement dans Paramètres. »
-- En Enterprise, activer la lecture du contenu lit « Le texte des prompts pourra sortir vers un LLM externe » : « Cette clé ouvre aussi le serveur MCP. Un modèle branché avec elle pourra lire le texte que vos utilisateurs ont soumis, et ce texte sera transmis au fournisseur de ce modèle. »
+The secret key is displayed **once**, in a dialog that survives reloading the list: "Copy this key now: it will never be shown again, to anyone." If you lose it, revoke the key and create another one.
 
-La clé secrète s'affiche **une seule fois**, dans un dialogue qui survit au rechargement de la liste : « Copiez cette clé maintenant : elle ne sera plus jamais affichée, à personne. » Si vous la perdez, révoquez la clé et créez-en une autre.
+## The keys table
 
-## Le tableau des clés
+Columns: **Name** (with the amber "Content" badge if the key reads contents), **Permissions** (up to two spelled out, beyond that a "N permissions" badge with the detail on hover), **Created**, **Expires** ("Expires in N days", "Expires tomorrow", or "Expired"), **Last used** ("Never used" otherwise). **Revoke** asks for confirmation and takes effect immediately: "Any tool using “…” will immediately stop authenticating. This is final."
 
-Colonnes : **Nom** (avec le badge ambre « Contenu » si la clé lit les contenus), **Permissions** (jusqu'à deux en toutes lettres, au-delà un badge « N permissions » avec le détail au survol), **Créée le**, **Expiration** (« Expire dans N jours », « Expire demain », ou « Expirée »), **Dernière utilisation** (« Jamais utilisée » sinon). **Révoquer** demande confirmation et prend effet immédiatement : « Tout outil utilisant « … » cessera immédiatement de s'authentifier. C'est définitif. »
-
-![Milvago - Le tableau des clés](/img/docs/fr/mon-profil-cles-api-02.png)
+![Milvago - The keys table](/img/docs/en/mon-profil-cles-api-02.png)
 
 :::enterprise
 
-## Serveur MCP
+## MCP server
 
-Sous le tableau des clés, la carte « Serveur MCP » n'apparaît qu'en Enterprise : « Pour brancher un modèle de langage sur Milvago. Il lit le même périmètre que la console — avec les droits de la personne qui se connecte, ou ceux d'une des clés ci-dessus. » Elle donne les trois éléments de configuration :
+Under the keys table, the "MCP server" card appears in Enterprise only: "To connect a language model to Milvago. It reads the same surface as the console — with the rights of whoever signs in, or those of one of the keys above." It gives the three configuration elements:
 
-- **Point d'entrée** — `<URL de votre console>/mcp`, à déclarer comme serveur MCP distant en HTTP ; « Le point d'entrée n'accepte que POST. »
-- **Se connecter avec votre compte** — l'identifiant client public `milvago-mcp-client`, pour un client qui en réclame un ; « La plupart des clients n'ont besoin que de l'adresse ci-dessus : ils ouvrent une page de connexion, vous demandent votre accord, et le modèle lit ensuite avec vos propres droits, dans votre propre organisation. » L'échange est protégé par PKCE.
-- **En-tête d'authentification** — `Authorization: Bearer <clé API>` : « Obligatoire sur toutes les méthodes, découverte comprise : sans credential, le serveur ne répond rien. Un cookie de session est refusé, jamais accepté à la place. »
+- **Endpoint** — `<your console URL>/mcp`, to declare as a remote MCP server over HTTP; "The endpoint accepts POST only."
+- **Sign in with your account** — the public client identifier `milvago-mcp-client`, for a client that asks for one; "Most clients need nothing but the address above: they open a sign-in page, ask you to consent, and the model then reads with your own rights, in your own organization." The exchange is protected by PKCE.
+- **Authentication header** — `Authorization: Bearer <API key>`: "Required on every method, discovery included: without a credential the server answers nothing. A session cookie is refused, never accepted instead."
 
-Deux révisions du protocole sont servies — celle du produit et la révision publiée — et l'avis le dit pour qu'un client qui ouvre par « initialize » sache laquelle il reçoit.
+Two revisions of the protocol are served — the product's own and the published one — and the notice says so, so that a client that opens with "initialize" knows which one it receives.
 
-Une connexion par votre compte n'est pas permanente : un connecteur resté inutilisé sept jours, et tout connecteur au bout de trente jours, vous redemande de vous connecter. Le serveur refuse aussi un jeton émis pour la console elle-même, et un connecteur qui s'inscrit seul doit demander nommément l'accès `milvago:mcp` au moment de la connexion — ce que font les connecteurs courants. Il en va de même pour toute autre application déclarée sur le fournisseur d'identité : au démarrage, Milvago retire l'accès `milvago:mcp` des accès accordés par défaut à ces applications, y compris celles créées avant cette règle.
+Signing in with your account is not permanent: a connector left unused for seven days, and every connector after thirty days, will ask you to sign in again. The server also refuses a token issued for the console itself, and a connector that registers itself must explicitly request the `milvago:mcp` access at sign-in time — which is what common connectors do. The same applies to every other application declared on the identity provider: at startup, Milvago removes `milvago:mcp` from the access granted by default to those applications, including ones created before this rule.
 
-### Lecture seule, et données non fiables
+### Read-only, and untrusted data
 
-« Aucun outil ne modifie une politique, un poste, un membre ni un réglage. En revanche les réponses contiennent des données écrites par vos utilisateurs — noms de postes, libellés, et le texte des prompts si la clé y a accès : elles partent vers le fournisseur du modèle. » Le serveur MCP n'est pas un contournement : il traverse le même RBAC et la même isolation par organisation, et une clé MCP ne peut jamais écrire. Une clé API ou un jeton de connecteur MCP ne liste jamais que les membres de sa propre organisation, jamais ceux d'une organisation fille, même quand votre propre rôle porte sur un sous-arbre plus large en Enterprise.
+"No tool changes a policy, a device, a member or a setting. The answers do contain data written by your users, though — hostnames, labels, and prompt text when the key has access to it: they leave for the model provider." The MCP server is not a bypass: it goes through the same RBAC and the same per-organization isolation, and an MCP key can never write. An API key or an MCP connector token only ever lists the members of its own organization, never those of a child organization, even when your own role spans a wider subtree in Enterprise.
 
-### L'inscription automatique des connecteurs
+### Connector self-registration
 
-Quand un connecteur doit obtenir ses propres identifiants plutôt qu'une clé personnelle, l'inscription se règle dans [Paramètres](../administration/parametres.md), chez le fournisseur d'identité, avec ses hôtes autorisés et son plafond de clients.
+When a connector must obtain credentials of its own rather than a personal key, the registration is set in [Settings](../administration/parametres.md), at the identity provider, with its allowed hosts and its client ceiling.
 
-« Dans une organisation qui exige l'authentification multifacteur, un connecteur inscrit de lui-même n'est accepté que si son jeton atteste un second facteur par sa liste de méthodes d'authentification (`amr`) ; son niveau déclaré (`acr`) n'est cru que pour le connecteur fourni par Milvago. Un jeton valable plus d'une heure est refusé, de même qu'un client qui s'est donné des mappeurs, un compte de service, ou un flux autre que le code d'autorisation avec consentement. »
+"In an organization that requires multi-factor authentication, a self-registered connector is accepted only if its token attests a second factor through its authentication methods list (`amr`); its declared level (`acr`) is trusted only for the connector supplied by Milvago. A token valid for more than one hour is refused, as is a client that has given itself mappers, a service account, or a flow other than authorization code with consent."
 
 :::

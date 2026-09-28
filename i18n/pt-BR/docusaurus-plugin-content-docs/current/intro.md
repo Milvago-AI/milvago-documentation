@@ -73,11 +73,11 @@ description: Controle dos usos de IA · Shadow AI · Documentação do produto
 
 <li><a href="/pt-BR/docs/installation/composants">Componentes</a></li>
 
-<li><a href="/pt-BR/docs/installation/docker">Docker</a> (em breve)</li>
+<li><a href="/pt-BR/docs/installation/docker">Docker</a></li>
 
 <li><a href="/pt-BR/docs/installation/premiere-installation">Primeira instalação</a></li>
 
-<li><a href="/pt-BR/docs/installation/helm">Implantação Kubernetes</a></li>
+<li><a href="/pt-BR/docs/installation/helm">Chart Helm (em breve)</a></li>
 
 <li><a href="/pt-BR/docs/installation/variables-environnement">Variáveis de ambiente</a></li>
 
@@ -213,7 +213,7 @@ description: Controle dos usos de IA · Shadow AI · Documentação do produto
 
 <h3>Multi-organização e inventário completo</h3>
 
-<p>Nove fornecedores cobertos, aplicativos de IA nativos, organizações isoladas por Row-Level Security, sensibilidade dos usos, controle de modelos, servidor MCP, exportações OTLP e chaves API.</p>
+<p>Nove fornecedores cobertos, aplicativos de IA nativos, organizações isoladas por Row-Level Security, sensibilidade dos usos, controle de modelos, servidor MCP, exportações OTLP.</p>
 
 </div>
 
@@ -227,7 +227,7 @@ Na documentação, os avisos <strong>Enterprise</strong> sinalizam o que não se
 
 Siga este percurso para colocar o Milvago em serviço:
 
-1. Verifique os [requisitos técnicos](introduction/hardware-requirements.md) e escolha Docker ou Kubernetes.
+1. Verifique os [requisitos técnicos](introduction/hardware-requirements.md) antes da instalação.
 2. Instale os [componentes](installation/composants.md) e abra o console.
 3. No console, selecione **Administração → Configurações** para confirmar a URL pública usada pelos agentes.
 4. Abra **Parque → Dispositivos**, baixe o agente e distribua a extensão do navegador pela política empresarial.

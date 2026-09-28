@@ -31,7 +31,7 @@ Uma navegação vertical divide a tela, numerada na ordem da política:
 
 Cada salvamento lê "Configuração salva. As instalações a receberão na próxima sincronização." Enquanto houver campos alterados, um badge "Rascunho" sinaliza o estado não salvo.
 
-[IMAGEAMETTREICI 01]
+![Milvago - As seções](/img/docs/en/administration-shadow-ai-01.png)
 
 ## Inscrição e coleta
 
@@ -59,7 +59,7 @@ Esta seção só existe no nível da organização: nem um grupo, nem um disposi
 
 A descrição da seção carrega o limite da edição: "O Community conecta a extensão à ponte Rust aberta. As conversas de aplicações locais continuam sendo um recurso Enterprise."
 
-[IMAGEAMETTREICI 02]
+![Milvago - Coleta no navegador](/img/docs/en/administration-shadow-ai-02.png)
 
 ## Serviços
 
@@ -84,13 +84,13 @@ O confinamento em nível de sistema (WFP no Windows, SELinux no Linux) cobre ape
 
 :::
 
-[IMAGEAMETTREICI 03]
+![Milvago - Controles de modelos](/img/docs/en/administration-shadow-ai-03.png)
 
 ## Proteções
 
 ### Anexos
 
-**Bloquear o envio de arquivos** lacra as rotas de upload **medidas** do catálogo (`kind:"file"`) — as URL que um envio realmente desencadeia no site, levantadas no local e publicadas no catálogo assinado, jamais adivinhadas. Nenhuma heurística sobre o método, o host ou a forma do corpo: três bloqueios errados valem mais que um envio legítimo interceptado. "A interceptação depende do navegador e das interfaces compatíveis."
+**Bloquear o envio de arquivos** lacra as rotas de upload **medidas** do catálogo (`kind:"file"`) — as URL que um envio realmente desencadeia no site, levantadas no local e publicadas no catálogo assinado, jamais adivinhadas. Nenhuma heurística sobre o método, o host ou a forma do corpo: apenas as rotas de upload medidas são lacradas, para nunca interceptar um envio legítimo. "A interceptação depende do navegador e das interfaces compatíveis."
 
 ### Palavras e frases protegidas
 
@@ -101,11 +101,11 @@ O confinamento em nível de sistema (WFP no Windows, SELinux no Linux) cobre ape
 - **Exceções** — uma por linha; elas reduzem a cobertura de detecção.
 - **Mensagem exibida ao bloquear**.
 
-[IMAGEAMETTREICI 04]
+![Milvago - Palavras e frases protegidas](/img/docs/en/administration-shadow-ai-04.png)
 
 ## Mascaramento local
 
-"Atua sobre o texto capturado, no dispositivo, antes de qualquer envio: cada item detectado é substituído pelo seu rótulo, por exemplo [email]. É independente da sensibilidade dos usos (painéis) e da retenção do texto." Duas chaves: **Ativar o mascaramento**, e **Exigir uma revisão antes do envio**.
+"Atua sobre o texto capturado, no dispositivo, antes de qualquer envio: cada item detectado é substituído pelo seu rótulo, por exemplo [email]. É independente da sensibilidade dos usos (painéis) e da retenção do texto. A detecção é heurística e se limita aos formatos compatíveis; revise os resultados antes de ampliar a implantação." Duas chaves: **Ativar o mascaramento**, e **Exigir uma revisão antes do envio**.
 
 :::enterprise
 
@@ -119,7 +119,7 @@ As duas edições definem regras personalizadas: um **rótulo**, uma **expressã
 
 Na Community, sem categorias integradas, a tela o explicita: "Esta edição não inclui padrões de detecção integrados: defina suas próprias expressões regulares em "Regras de mascaramento personalizadas" abaixo."
 
-[IMAGEAMETTREICI 05]
+![Milvago - Regras de mascaramento personalizadas](/img/docs/en/administration-shadow-ai-05.png)
 
 :::enterprise
 
@@ -145,7 +145,7 @@ Esta seção se configura **no nível da organização**: a Descoberta se lê a�
 
 Uma plataforma que a edição já captura jamais aparece na lista: o servidor envia apenas o que esta edição não captura por inteiro, e uma plataforma capturada não pode alcançar a Descoberta.
 
-[IMAGEAMETTREICI 06]
+![Milvago - Plataformas de IA](/img/docs/en/administration-shadow-ai-06.png)
 
 ## Operações
 

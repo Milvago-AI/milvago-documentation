@@ -18,7 +18,7 @@ La pantalla Privacidad responde a la pregunta « **hasta dónde identifica la pl
 
 Toda modificación exige un **motivo escrito** de al menos 8 caracteres — « Este motivo se conserva en el registro de auditoría. » — y una **autenticación multifacto reciente**: si falta, el servidor la rechaza y la consola redirige a la verificación, luego aplica la modificación al volver sin hacerla reintroducir.
 
-[IMAGEAMETTREICI 01]
+![Milvago - Acceder a la pantalla](/img/docs/en/administration-confidentialite-01.png)
 
 ## Los ajustes
 
@@ -35,7 +35,7 @@ Toda modificación exige un **motivo escrito** de al menos 8 caracteres — « E
 
 :::
 
-[IMAGEAMETTREICI 02]
+![Milvago - Los ajustes](/img/docs/en/administration-confidentialite-02.png)
 
 ## Renovar los alias
 
@@ -53,7 +53,7 @@ Cualquier cuenta con `settings.manage` ve el panel **Datos compartidos con el ed
 
 - **Importar automáticamente el catálogo del editor** — importa el catálogo firmado si hay una conexión configurada. Esta opción solo aparece para la organización raíz y se aplica a toda la instancia. Por sí sola no envía telemetría.
 - **Compartir el estado de los detectores** — consentimiento propio de la organización que comparte el estado agregado de los detectores por proveedor y revisión, sin texto de conversaciones.
-- **Compartir el número de equipos** — consentimiento propio de la organización que comparte solo los recuentos de equipos inscritos y activos durante 30 días, sin nombres de equipos.
+- **Compartir el número de equipos** — consentimiento propio de la organización que comparte dos cifras distintas: los equipos inscritos, y los equipos activos durante los últimos 30 días, sin nombres de equipos.
 
 Las vistas previas y los estados están reservados al propietario de la instancia.
 

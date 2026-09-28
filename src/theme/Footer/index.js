@@ -21,24 +21,24 @@ export default function Footer() {
   const logo = useBaseUrl('/img/milvago-logo-horizontal.svg');
   const logoDark = useBaseUrl('/img/milvago-logo-horizontal-mono-white.svg');
   const columns = [
-    {title: text('start', 'Prendre en main'), links: [
-      [text('introduction', 'Présentation'), 'introduction/milvago'],
-      [text('requirements', 'Prérequis technique'), 'introduction/hardware-requirements'],
+    {title: text('start', 'Get started'), links: [
+      [text('introduction', 'Introduction'), 'introduction/milvago'],
+      [text('requirements', 'Hardware Requirements'), 'introduction/hardware-requirements'],
       [text('installation', 'Installation'), 'installation/composants'],
       [text('architecture', 'Architecture'), 'introduction/architecture'],
-      [text('security', 'Sécurité'), 'introduction/securite'],
+      [text('security', 'Security'), 'introduction/securite'],
     ]},
-    {title: text('manage', 'Administrer'), links: [
-      [text('devices', 'Postes et groupes'), 'fleet/postes'],
-      [text('policies', 'Politiques Shadow AI'), 'administration/shadow-ai'],
-      [text('observability', 'Observabilité'), 'administration/observabilite'],
-      [text('profile', 'Mon profil'), 'mon-profil/profil'],
+    {title: text('manage', 'Administration'), links: [
+      [text('devices', 'Devices and groups'), 'fleet/postes'],
+      [text('policies', 'Shadow AI policies'), 'administration/shadow-ai'],
+      [text('observability', 'Observability'), 'administration/observabilite'],
+      [text('profile', 'My profile'), 'mon-profil/profil'],
     ]},
-    {title: text('resources', 'Ressources'), links: [
-      [text('api', 'Clés API et serveur MCP'), 'mon-profil/cles-api'],
-      [text('configuration', 'Configuration de l’agent'), 'avance/agent-configuration'],
-      [text('catalog', 'Catalogue de détection'), 'avance/catalogue-editeur'],
-      [text('advanced', 'Guides avancés'), 'avance/'],
+    {title: text('resources', 'Resources'), links: [
+      [text('api', 'API keys and MCP server'), 'mon-profil/cles-api'],
+      [text('configuration', 'Agent configuration'), 'avance/agent-configuration'],
+      [text('catalog', 'Detection catalog'), 'avance/catalogue-editeur'],
+      [text('advanced', 'Advanced guides'), 'avance/'],
     ]},
   ];
 
@@ -46,15 +46,15 @@ export default function Footer() {
     <div className={styles.inner}>
       <div className={styles.main}>
         <div className={styles.brand}>
-          <Link to={docs} className={styles.logo} aria-label={`Milvago — ${text('home', 'Accueil de la documentation')}`}>
+          <Link to={docs} className={styles.logo} aria-label={`Milvago — ${text('home', 'Documentation home')}`}>
             <ThemedImage alt="Milvago" sources={{light: logo, dark: logoDark}} height={32} width={156} />
           </Link>
-          <span className={styles.eyebrow}>{text('documentation', 'Documentation produit')}</span>
-          <p className={styles.description}>{text('description', 'Les guides pour déployer Milvago, comprendre les usages IA et administrer votre environnement.')}</p>
+          <span className={styles.eyebrow}>{text('documentation', 'Product documentation')}</span>
+          <p className={styles.description}>{text('description', 'Guides to deploy Milvago, understand AI usage, and administer your environment.')}</p>
           <span className={styles.editions}>{text('editions', 'Community & Enterprise')}</span>
-          <a className={styles.website} href="https://www.milvago.ai/">{text('website', 'Découvrir Milvago')}<Arrow /></a>
+          <a className={styles.website} href="https://www.milvago.ai/">{text('website', 'Discover Milvago')}<Arrow /></a>
         </div>
-        <nav className={styles.navigation} aria-label={text('navigation', 'Navigation de la documentation')}>
+        <nav className={styles.navigation} aria-label={text('navigation', 'Documentation navigation')}>
           {columns.map((column, index) => <div key={index}>
             <h2 className={styles.heading}>{column.title}</h2>
             <ul className={styles.links}>
@@ -66,13 +66,13 @@ export default function Footer() {
       <div className={styles.bottom}>
         <small>© {new Date().getFullYear()} Milvago</small>
         <div className={styles.utilities}>
-          <Link to={`${docs}#${licenceAnchor}`}>{text('licences', 'Licences')}</Link>
+          <Link to={`${docs}#${licenceAnchor}`}>{text('licences', 'Licenses')}</Link>
           <button type="button" onClick={() => {
             window.scrollTo({top: 0, behavior: 'instant'});
             const main = document.querySelector('main');
             if (main) { main.setAttribute('tabindex', '-1'); main.focus({preventScroll: true}); }
           }}>
-            {text('top', 'Retour en haut')}<Arrow up />
+            {text('top', 'Back to top')}<Arrow up />
           </button>
         </div>
       </div>

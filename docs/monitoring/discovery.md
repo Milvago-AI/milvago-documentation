@@ -1,69 +1,68 @@
-﻿---
+---
 sidebar_position: 5
 title: Discovery
 ---
 
 # Discovery
 
-Discovery répond à la question que pose un RSSI dès le premier jour : **quelles IA mes gens utilisent-ils, que je ne regarde pas ?** L'écran liste ce que la flotte a atteint **au-delà de ce que le catalogue couvre** : les plateformes IA connues visitées, et les domaines candidats observés par les détecteurs.
+## Access this screen
 
-Il exige la gestion de la politique (`policy.manage`) — c'est un écran de décision, pas une consultation passive.
+In the sidebar, click **Monitoring**, then **Discovery**. `policy.manage` is required.
 
-## Accéder à l’écran
+To collect candidate domains, go to **Administration > Shadow AI > AI platforms**, enable **Discover candidate domains**, enter a reason of at least eight characters, then save after the requested fresh MFA. `settings.manage` is also required and only future observations can appear.
 
-Dans la barre latérale, cliquez sur **Supervision**, puis sur **Découverte**. Le droit `policy.manage` est requis.
+1. For a candidate, click **Promote** only when it is offered by a published catalogue, or click **Ignore** / **Reconsider**; the list reloads with the new status.
+2. In Enterprise, click a service or domain to list devices, search by name or identifier and open a device record. Community has neither that dialog nor OS accounts; a read-only demo shows no action buttons.
 
-Pour activer la remontée des domaines candidats, allez dans **Administration > Shadow AI > Plateformes IA**, cochez **Découvrir les domaines candidats**, saisissez un motif d’au moins huit caractères, puis enregistrez après la MFA fraîche demandée. Il faut aussi `settings.manage`. Seules les observations futures peuvent alors apparaître.
+Discovery answers the question a CISO asks on day one: **which AIs are my people using that I am not looking at?** The screen lists what the fleet reached **beyond what the catalog covers**: the known AI platforms visited, and the candidate domains observed by the detectors.
 
-1. Dans une ligne de domaine candidat, cliquez sur **Promouvoir** seulement si le bouton est proposé (catalogue publié), ou sur **Ignorer** / **Réconsidérer**. La liste se recharge avec le nouveau statut.
-2. En Enterprise, cliquez sur le service ou le domaine pour voir les postes, recherchez par nom ou identifiant, choisissez **Par page**, puis cliquez sur un poste pour sa fiche.
-3. En instance de démonstration en lecture seule, les boutons d’action sont absents. En Community, les noms restent du texte : la liste des postes et les comptes OS ne sont pas disponibles.
+It requires policy management (`policy.manage`) — it is a decision screen, not a passive consultation.
 
-![Milvago - Discovery](/img/docs/fr/monitoring-discovery-01.png)
+![Milvago - Access this screen](/img/docs/en/monitoring-discovery-01.png)
 
-## Plateformes connues
+## Known platforms reached
 
-La première carte porte les **plateformes IA connues** que les postes ont atteintes. La notice d'en-tête fixe la frontière, en toutes lettres : **présence seule** — l'hôte a été atteint ; aucun prompt, aucune réponse, aucune adresse ni conversation n'est collecté sur ces plateformes.
+The first card carries the **known AI platforms** that the devices reached. The header notice sets the boundary, in full: **presence only** — the host was reached; no prompt, no response, no address or conversation is collected on these platforms.
 
-| Colonne | Contenu |
+| Column | Content |
 | --- | --- |
-| **Service** | la plateforme (bouton « atteint par les postes » en Enterprise) |
-| **Visites** | le nombre de visites enregistrées |
-| **Postes** | le nombre de postes distincts |
-| **Comptes OS** | Enterprise uniquement : les comptes OS connectés au moment des visites |
-| **Dernier signalement** | la date la plus récente |
+| **Service** | the platform (a button in Enterprise, tooltip "Show the devices that reached this") |
+| **Visits** | the number of recorded visits |
+| **Devices** | the number of distinct devices |
+| **OS accounts** | Enterprise only: the OS accounts logged in at the time of the visits |
+| **Last seen** | the most recent date |
 
-![Milvago - Plateformes connues](/img/docs/fr/monitoring-discovery-02.png)
+![Milvago - Known platforms reached](/img/docs/en/monitoring-discovery-02.png)
 
-Les deux tables sont bornées côté serveur (500 domaines candidats au plus, plateformes du catalogue signé) : la pagination est une aide à la lecture, pas un moyen d'aller chercher moins. Une liste réduite sous la page affichée retombe sur la dernière page au lieu de présenter une table vide.
+Both tables are bounded server-side (at most 500 candidate domains, platforms from the signed catalog): pagination is a reading aid, not a way to fetch less. A shortened list under the displayed page falls back to the last page instead of presenting an empty table.
 
-## Domaines candidats
+## Candidate domains
 
-La deuxième carte liste les **domaines d'IA** que les postes signalent et que le catalogue ne couvre pas, avec leur nombre d'observations et deux actions par ligne :
+The second card lists the **AI domains** that the devices report and that the catalog does not cover, with their number of observations and two actions per row:
 
-- **Marquer le candidat publié comme promu** — offerte seulement pour un domaine que le catalogue publié porte réellement ; le serveur reste l'autorité et répond 409 si la publication manque.
-- **Ignorer / Réconsidérer** — retirer un domaine du signal, ou le remettre.
+- **Mark published candidate as promoted** — offered only for a domain the published catalog actually carries; the server remains the authority and answers 409 if the publication is missing.
+- **Ignore / Reconsider** — remove a domain from the signal, or put it back.
 
-![Milvago - Domaines candidats](/img/docs/fr/monitoring-discovery-03.png)
+![Milvago - Candidate domains](/img/docs/en/monitoring-discovery-03.png)
 
-Sur une instance en lecture seule, les actions n'apparaissent pas plutôt que de promettre des boutons refusés.
+On a read-only instance, the actions do not appear rather than promising buttons that would be refused.
 
-À **zéro candidat, l'écran est un état normal, pas un échec** : la découverte des domaines candidats est désactivée par défaut, et l'écran le dit avec le lien qui la réactive — « Activez-la dans Shadow AI, Plateformes IA, pour que les postes signalent les domaines d'IA qu'ils atteignent et que ce catalogue ne couvre pas. » L'interrupteur traverse la route de confidentialité, avec son motif écrit et sa MFA fraîche.
+At **zero candidates, the screen is a normal state, not a failure**: the screen shows "No candidate domain observed", with a link that re-enables discovery — "Candidate discovery is off by default. Turn it on under Shadow AI, AI platforms, for devices to report the AI domains they reach that this catalogue does not cover." The switch goes through the privacy route, with its written reason and its fresh MFA.
 
-![Milvago - Domaines candidats](/img/docs/fr/monitoring-discovery-04.png)
+![Milvago - Candidate domains](/img/docs/en/monitoring-discovery-04.png)
 
-## Qui a atteint ce domaine ?
+## Who reached this domain?
 
-Chaque ligne s'ouvre sur un dialogue **« Postes ayant atteint ce domaine sur les N derniers jours »**, avec une recherche (nom de machine ou identifiant de poste, ce que porte un lecteur venu d'une fiche de poste), le nombre d'observations par poste et la dernière date. Les relevés du détecteur sont purgés au-delà de la fenêtre : une visite plus ancienne n'est plus comptée ici.
+Each row opens a dialog titled with the platform or domain name itself; a notice inside reads **"Machines that reached this domain over the last N days. Detector reports are purged after that, so an older visit is no longer counted here."**, alongside a search (machine name or device identifier, what a reader coming from a device page carries), the number of observations per device and the latest date.
 
-Un seul dialogue répond à la même question depuis les deux tables, parce qu'un lecteur demandant « qui y est allé » ne se soucie pas de savoir quelle table porte la réponse.
+A single dialog answers the same question from both tables, because a reader asking "who went there" does not care which table carries the answer.
 
-![Milvago - Qui a atteint ce domaine ?](/img/docs/fr/monitoring-discovery-05.png)
+![Milvago - Who reached this domain?](/img/docs/en/monitoring-discovery-05.png)
 
 :::enterprise
 
-Le dialogue « atteint par les postes » et la colonne Comptes OS n'existent qu'en Enterprise : en Community, les lignes restent en texte plein plutôt que de porter un contrôle qui répondrait 404. Le catalogue porte aussi la règle d'hygiène de la découverte : les domaines des fournisseurs couverts — après réduction à l'édition servie — n'apparaissent jamais dans Discovery, et une plateforme masquée par l'organisation en sort tout en gardant ses visites enregistrées.
+The "reached by devices" dialog and the OS accounts column only exist in Enterprise: in Community, the rows remain plain text rather than carrying a control that would answer 404. The catalog also carries the discovery hygiene rule: the domains of the covered providers — after narrowing to the served edition — never appear in Discovery, and a platform masked by the organization leaves it while keeping its visits recorded.
 
 :::
 
-![Milvago - Qui a atteint ce domaine ?](/img/docs/fr/monitoring-discovery-06.png)
+![Milvago - Who reached this domain?](/img/docs/en/monitoring-discovery-06.png)

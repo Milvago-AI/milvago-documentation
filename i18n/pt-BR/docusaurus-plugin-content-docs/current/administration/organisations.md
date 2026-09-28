@@ -26,7 +26,7 @@ A tela Organizações responde à pergunta "**quais organizações eu vejo, e qu
 
 A barra lateral porta, acima da navegação, o seletor de organização: a organização atual como botão, e um painel lateral "Escolher uma organização" que desenha a árvore — "As organizações filhas são agrupadas sob a organização principal." Cada entrada porta o nome dela e a sua função na organização; a organização atual é marcada com um visto. As organizações acessíveis cuja principal não é acessível são listadas na raiz do painel.
 
-[IMAGEAMETTREICI 01]
+![Milvago - O seletor de organização](/img/docs/en/administration-organisations-01.png)
 
 ## A lista de organizações
 
@@ -38,9 +38,9 @@ Com a permissão `organizations.manage` ("Gerenciar as organizações"), a tela 
 - **Renomear** — qualquer organização acessível.
 - **Excluir** — sozinha, ou "Excluir a seleção" para um lote. O servidor recusa a exclusão da organização atual, da raiz, e de uma organização que ainda tem filhas ("Exclua primeiro as organizações filhas (ou selecione-as em conjunto)."). Uma exclusão em lote ordena os alvos das mais profundas às menos profundas, para esvaziar cada principal das filhas selecionadas dela antes de removê-la. A confirmação nomeia o irreversível: "Isto exclui permanentemente as organizações a seguir e todos os seus dados (membros, funções, dispositivos, eventos). As contas de usuário não são excluídas." Excluir exige um segundo fator verificado há instantes; o console redireciona para a verificação e reaplica a exclusão ao retornar. Enquanto a organização ainda tiver texto de solicitações e respostas retido, excluí-la também exige o direito de purgar conteúdos (`content.purge`, reservado ao proprietário por padrão); caso contrário, o servidor recusa com "Esta organização ainda tem texto de prompt retido: excluí-la exige o direito de purgar conteúdos."
 
-Agir sobre outra organização a partir desta lista — renomeá-la, excluí-la, ou girar a chave de implantação dela — exige que o seu login carregue autenticação multifator sempre que essa organização a exigir dos membros dela: a mesma regra que para mudar para ela. As entradas de auditoria de criação e exclusão de uma organização são escritas no log da organização principal; a de uma renomeação é escrita no log da organização renomeada.
+Agir sobre outra organização a partir desta lista — renomeá-la, excluí-la, ou girar a chave de implantação dela — exige que o seu login carregue autenticação multifator sempre que essa organização a exigir dos membros dela: a mesma regra que para mudar para ela. Criar uma organização grava uma entrada de auditoria no log da organização principal **e** outra no log próprio da nova organização; a exclusão é registrada apenas no log da principal; uma renomeação é registrada no log da organização renomeada.
 
-[IMAGEAMETTREICI 02]
+![Milvago - A lista de organizações](/img/docs/en/administration-organisations-02.png)
 
 ## A página de uma organização
 
@@ -49,4 +49,4 @@ Cada linha abre a página própria da organização: "A identidade da organizaç
 - **Detalhes** — identificador, organização principal ("Nenhuma — organização raiz" para a raiz, link para a principal caso contrário) e a sua função nela.
 - **Chave de implantação** — com `installers.manage`, o painel da chave própria desta organização. Ele existe para que um administrador de uma principal possa girar ou revogar a chave de uma filha **sem mudar para o contexto dela**. Veja [Implantação](deploiement.md).
 
-[IMAGEAMETTREICI 03]
+![Milvago - A página de uma organização](/img/docs/en/administration-organisations-03.png)

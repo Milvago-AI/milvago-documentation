@@ -26,8 +26,8 @@ const LABELS = {
 };
 
 function getLabels() {
-  const locale = document.documentElement.lang || 'fr';
-  return LABELS[locale] || LABELS[locale.split('-')[0]] || LABELS.fr;
+  const locale = document.documentElement.lang || 'en';
+  return LABELS[locale] || LABELS[locale.split('-')[0]] || LABELS.en;
 }
 
 function getZoomableImage(target) {

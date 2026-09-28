@@ -5,7 +5,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Milvago',
-  tagline: 'Documentation Community et Enterprise',
+  tagline: 'Community and Enterprise documentation',
   favicon: 'img/favicon.ico',
   future: {
     v4: true,
@@ -17,11 +17,11 @@ const config = {
   onBrokenLinks: 'throw',
 
   i18n: {
-    defaultLocale: 'fr',
-    locales: ['fr', 'en', 'es', 'pt-BR'],
+    defaultLocale: 'en',
+    locales: ['en', 'fr', 'es', 'pt-BR'],
     localeConfigs: {
-      fr: { label: 'Français' },
       en: { label: 'English' },
+      fr: { label: 'Français' },
       es: { label: 'Español' },
       'pt-BR': { label: 'Português (Brasil)' },
     },
@@ -82,7 +82,7 @@ const config = {
             position: 'right',
           },
           {
-            href: 'https://github.com/Milvago-AI/milvago-documentation',
+            href: 'https://github.com/Milvago-AI',
             label: 'GitHub',
             position: 'right',
           },

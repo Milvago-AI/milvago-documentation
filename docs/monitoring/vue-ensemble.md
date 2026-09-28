@@ -1,93 +1,91 @@
-﻿---
+---
 sidebar_position: 1
-title: Vue d'ensemble
+title: Overview
 ---
 
-# Vue d'ensemble
+# Overview
 
-La vue d'ensemble est le premier écran de la console, celui qui s'affiche à la connexion (`#overview`). Elle répond à une seule question, en une fenêtre de 24 heures : **que se passe-t-il, en ce moment, dans les usages d'IA de l'organisation ?**
+## Access this screen
 
-## Accéder à l’écran
+In the sidebar, click **Monitoring**, then **Overview**. `overview.read` and `events.read` are required, except that aggregate-only organizations, a profile without `events.read`, or a profile with `reports.aggregate` but without `devices.read`, see Reports instead when they have `reports.aggregate`.
 
-Dans la barre latérale, cliquez sur **Supervision**, puis sur **Vue d’ensemble**. Les droits `overview.read` et `events.read` donnent accès à cet écran. Une organisation en consultation agrégée seule, ou un profil sans `events.read`, voit **Rapports** à la place s’il a `reports.aggregate` ; sinon l’accès est refusé.
+1. Use **View devices** to open **Fleet > Devices** and approve a pending device when you have `members.manage`.
+2. Use **Open conversations** or **Open cartography** to investigate. These shortcuts open the destination without applying a filter.
+3. Click **Refresh** to reload the indicators and pending-device state.
 
-Pour agir depuis cette page :
+The overview is the first screen of the console, the one displayed at login (`#overview`). It answers a single question, over a 24-hour window: **what is happening, right now, in the organization's AI usage?**
 
-1. Cliquez sur **Voir les postes** dans le bandeau, puis approuvez le poste en attente dans **Parc > Postes** si votre rôle possède `members.manage`.
-2. Cliquez sur **Ouvrir Conversations** pour examiner les événements, ou sur **Voir la cartographie** pour analyser les flux. Ces raccourcis ouvrent l’écran concerné; ils n’appliquent pas de filtre.
-3. Cliquez sur **Actualiser** pour recharger les indicateurs et l’état des postes en attente.
+It is neither the detail (Conversations), nor the geography of flows (Map), nor the management (Fleet, Administration). Its role is to enable the decision of the day: is there an anomaly to dig into, a device to approve, a policy to adjust?
 
-Elle ne remplace ni le détail (Conversations), ni la géographie des flux (Cartographie), ni la gestion (Parc, Administration). Son rôle est de permettre la décision du jour : y a-t-il une anomalie à creuser, un poste à approuver, une politique à ajuster ?
+![Milvago - Access this screen](/img/docs/en/monitoring-vue-ensemble-01.png)
 
-![Milvago - Vue d'ensemble](/img/docs/fr/monitoring-vue-ensemble-01.png)
+## The reading principle
 
-## Le principe de lecture
+Two rules guide the whole screen, and the whole platform:
 
-Deux règles guident tout l'écran, et toute la plateforme :
+1. **The numbers are observed facts.** The page projects, estimates and extrapolates nothing. What a browser cannot capture is not guessed — and the information line under the title restates it in full: a browser event is not a software inventory. Seeing "12 providers" does not mean "12 installed applications".
+2. **Two families of events, counted separately.** A **navigation** (a device visits an AI site) is not a **request** (a prompt was sent). The "Requests" tile carries the number of requests and names the navigations apart, in its caption.
 
-1. **Les chiffres sont des faits observés.** La page ne projette, n'estime ni n'extrapole rien. Ce qu'un navigateur ne peut pas capter n'est pas deviné — et la ligne d'information sous le titre le rappelle en toutes lettres : un événement navigateur n'est pas un inventaire logiciel. Voir « 12 fournisseurs » ne signifie pas « 12 logiciels installés ».
-2. **Deux familles d'événements, comptées séparément.** Une **navigation** (un poste visite un site d'IA) n'est pas une **requête** (un prompt est parti). La tuile « Requêtes » porte le nombre de requêtes et nomme les navigations à part, dans son indice.
+Numbers are formatted according to the console language (separators, spaces) and remain tabular.
 
-Les nombres sont formatés selon la langue de la console (séparateurs, espaces) et restent tabulaires.
+## The path of the page
 
-## Le parcours de la page
+The screen reads in code order, from the most urgent to the most analytical. Each block only appears if its condition is true.
 
-L'écran se lit dans l'ordre du code, du plus urgent au plus analytique. Chaque bloc n'apparaît que si sa condition est vraie.
+### 1. The "To do" banner
 
-### 1. Le bandeau « À faire »
+If devices await approval **and** you have the right to approve them, an alert banner appears at the top: "N devices are waiting for your approval.", with a button to Devices. While a device is pending, nothing is reported from it: this is the only blockage worth a permanent banner.
 
-Si des postes attendent l'approbation **et** que vous avez le droit de les approuver, un bandeau d'alerte s'affiche en tête : « N postes attendent votre approbation », avec un bouton vers Postes. Tant qu'un poste est en attente, rien ne remonte de lui : c'est le seul blocage qui vaut un bandeau permanent.
+![Milvago - 1. The To do banner](/img/docs/en/monitoring-vue-ensemble-02.png)
 
-![Milvago - 1. Le bandeau « À faire »](/img/docs/fr/monitoring-vue-ensemble-02.png)
+### 2. The onboarding card
 
-### 2. La carte de démarrage
+If **no device** is registered, the page shows the three steps of the first journey, with a shortcut link to each screen:
 
-Si **aucun poste** n'est enregistré, la page montre les trois étapes du premier parcours, avec un lien de raccourci vers chaque écran :
+1. **Download the agent** — the package (MSI or RPM) is served by the server.
+2. **Approve the first device** — a device appears as pending after its installation, according to the organization's approval policy.
+3. **Configure services** — in Shadow AI, choose the AI services observed, blocked or redirected.
 
-1. **Télécharger l'agent** — le paquet (MSI ou RPM) est servi par le serveur.
-2. **Approuver le premier poste** — un poste apparaît en attente après son installation, selon la politique d'approbation de l'organisation.
-3. **Configurer les services** — dans Shadow AI, choisir les services d'IA observés, bloqués ou redirigés.
+This card disappears as soon as the fleet exists. In place of the empty page, the screen then shows the indicators below, possibly at zero — a zero is displayed, not hidden.
 
-Cette carte disparaît dès que la flotte existe. À la place de la page vide, l'écran montre alors les indicateurs ci-dessous, éventuellement à zéro — un zéro est affiché, pas masqué.
+![Milvago - 2. The onboarding card](/img/docs/en/monitoring-vue-ensemble-03.png)
 
-![Milvago - 2. La carte de démarrage](/img/docs/fr/monitoring-vue-ensemble-03.png)
+### 3. The four indicators (KPI)
 
-### 3. Les quatre indicateurs (KPI)
-
-| Tuile | Valeur | Indice | Lecture |
+| Tile | Value | Caption | Reading |
 | --- | --- | --- | --- |
-| **Requêtes** | nombre de requêtes reçues sur la période | « Dernières 24 h · N navigations » | le volume d'usage réel, navigations décomptées à part |
-| **Bloqués** | nombre d'événements bloqués | « N % des requêtes » ou « Selon les règles appliquées » si zéro requête | prend une tonalité danger dès que la valeur est > 0 |
-| **Postes actifs** | actifs / total | « N inactifs, en attente ou révoqués » | le rapport de couverture : un poste inactif est une fenêtre de mesure fermée |
-| **Fournisseurs observés** | nombre de fournisseurs distincts | « Sur la période » | l'étendue du périmètre effectivement sollicité |
+| **Requests** | number of requests received over the period | "Last 24 hours · N navigations" | the volume of actual usage, navigations counted apart |
+| **Blocked** | number of blocked events | "N% of requests" or "According to applied rules" if zero requests | takes a danger tone as soon as the value is > 0 |
+| **Active devices** | active / total | "N inactive, pending or revoked" | the coverage ratio: an inactive device is a closed measurement window |
+| **Observed providers** | number of distinct providers | "Over the period" | the extent of the perimeter actually called upon |
 
-Le pourcentage de blocage est calculé sur la même fenêtre de 24 h ; le décompte des inactifs est la différence entre le parc total et les postes actifs.
+The blocking percentage is computed over the same 24-hour window; the inactive count is the difference between the total fleet and the active devices.
 
-![Milvago - 3. Les quatre indicateurs (KPI)](/img/docs/fr/monitoring-vue-ensemble-04.png)
+![Milvago - 3. The four indicators (KPI)](/img/docs/en/monitoring-vue-ensemble-04.png)
 
-### 4. « Rythme d'utilisation » (colonne gauche)
+### 4. "Usage rhythm" (left column)
 
-Un histogramme horaire sur la fenêtre d'observation : chaque barre porte le volume de l'heure, empilement **observé** (gris) et **bloqué** (rouge). Une infobulle par barre détaille « heure · événements / bloqués ». Deux lectures s'y font :
+An hourly histogram over the observation window: each bar carries the volume of the hour, stacking **observed** (grey) and **blocked** (red). A tooltip per bar details "hour · events / blocked". Two readings are possible:
 
-- la **forme** (crêtes, creux, plages mortes) raconte quand l'organisation sollicite l'IA ;
-- la part rouge, en proportion, raconte si la politique freine ou laisse passer.
+- the **shape** (peaks, troughs, dead ranges) tells when the organization calls upon AI;
+- the red share, in proportion, tells whether the policy slows things down or lets them through.
 
-Le pied de carte rappelle la fenêtre exacte et propose le bouton vers **Conversations** pour passer du « combien » au « quoi ». À zéro événement, la carte affiche l'état vide « Aucun événement reçu » et dit quand les événements apparaîtront.
+The card footer restates the exact window and offers the button to **Conversations** to move from the "how much" to the "what". At zero events, the card displays the empty state "No events received" and says when events will appear.
 
-![Milvago - 4. « Rythme d'utilisation » (colonne gauche)](/img/docs/fr/monitoring-vue-ensemble-05.png)
+![Milvago - 4. Usage rhythm (left column)](/img/docs/en/monitoring-vue-ensemble-05.png)
 
-### 5. « Fournisseurs observés » (colonne droite)
+### 5. "Observed providers" (right column)
 
-Une liste classée : un barème par fournisseur, où la part **observée** (requêtes non bloquées) et la part **bloquée** se lisent côte à côte, avec le décompte à droite. C'est la distribution réelle des usages sur la période.
+A ranked list: one row per provider, where the **observed** share (non-blocked requests) and the **blocked** share read side by side, with the count on the right. It is the real distribution of usage over the period.
 
-- Si vous disposez du rôle d'analyse, le pied de carte rappelle la portée (« personnes, outils, services, modèles ») et ouvre la **Cartographie**, qui détaille chaque flux poste par poste.
-- Si la liste est vide, l'écran l'assume : « Cette liste ne reflète que les événements réellement observés » — l'absence de fournisseur n'est pas un échec de mesure, c'est une absence de trafic.
+- If you hold the analyst role, the card footer restates the scope ("People → tools → services → models") and opens the **Map**, which details each flow device by device.
+- If the list is empty, the screen owns it: "This list reflects only events actually received." — the absence of a provider is not a measurement failure, it is an absence of traffic.
 
-![Milvago - 5. « Fournisseurs observés » (colonne droite)](/img/docs/fr/monitoring-vue-ensemble-06.png)
+![Milvago - 5. Observed providers (right column)](/img/docs/en/monitoring-vue-ensemble-06.png)
 
-## Qui voit quoi
+## Who sees what
 
-- L'écran exige les permissions `overview.read` et `events.read` ; il est masqué de la navigation sans `overview.read`, et sans `events.read` il laisse place aux Rapports ou à un accès restreint.
-- Le bandeau d'approbation exige en plus la gestion des postes.
-- En Community, le périmètre observé se limite à ChatGPT et Claude ; en Enterprise, il s'étend aux neuf fournisseurs couverts et aux applications IA locales — la page fonctionne à l'identique, seule la donnée qui l'alimente change.
-- Le bouton **Actualiser** recharge les indicateurs et la liste des postes ; la page ne se rafraîchit pas toute seule.
+- The screen requires the `overview.read` and `events.read` permissions; it is hidden from the navigation without `overview.read`, and without `events.read` it gives way to Reports or restricted access.
+- The approval banner additionally requires device management.
+- In Community, the observed perimeter is limited to ChatGPT and Claude; in Enterprise, it extends to the nine covered providers and to local AI applications — the page works identically, only the data feeding it changes.
+- The **Refresh** button reloads the indicators and the device list; the page does not refresh by itself.

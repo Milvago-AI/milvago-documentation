@@ -14,7 +14,7 @@ Esta página solo concierne a la edición Enterprise, que permite varias organiz
 
 Milvago Enterprise aloja varias organizaciones en una misma instancia: una **organización raíz**, y debajo de ella un árbol de organizaciones hijas — la raíz no tiene padre, toda otra organización tiene uno. Cada organización conserva sus propios dispositivos, eventos, políticas y miembros; el árbol organiza el acceso y la herencia.
 
-[IMAGEAMETTREICI 01]
+![Milvago - Organizaciones padre e hija](/img/docs/en/introduction-organisations-mere-fille-01.png)
 
 ## Recorrido de creación
 
@@ -30,7 +30,7 @@ La pantalla **Organizaciones** lista las organizaciones accesibles, la raíz en 
 
 - el **nombre** (obligatorio);
 - la **organización padre**, elegida entre las organizaciones donde el creador es propietario — en su defecto, la raíz;
-- la opción « **Exigir la autenticación multifactor a todos los miembros** ».
+- la opción « **Exigir autenticación de doble factor a todos los miembros** ».
 
 El creador se convierte en **propietario** de la nueva organización. El vínculo de filiación se fija en la creación y ya no se modifica; una organización se mueve recreándola, no cambiándole de padre.
 
@@ -50,7 +50,7 @@ La consola lista las organizaciones accesibles con el rol efectivo en cada una, 
 Una clave API está **fijada a la organización donde fue creada**: sea cual sea la pertenencia de su creador, nunca actúa fuera de esa organización, incluso en las rutas que nombran otra organización en la URL.
 :::
 
-[IMAGEAMETTREICI 02]
+![Milvago - El acceso desciende por el árbol](/img/docs/en/introduction-organisations-mere-fille-02.png)
 
 ## El aislamiento de los datos
 
@@ -72,13 +72,13 @@ Una organización hija puede marcar secciones « **Heredar** » y recibirlas de 
 El bloqueo parental solo impone ajustes **protectores**: seudonimización por defecto, informes agregados únicamente, k-anonimato, duración de vinculación de identidad. Una organización padre nunca puede dar su consentimiento a una recolección en nombre de una hija.
 :::
 
-Cuando el padre activa « **Imponer a las organizaciones hijas** », la configuración bloqueada se muestra tal cual en las hijas con la mención « La configuración está bloqueada. » y su origen — la organización padre; los campos correspondientes se vuelven inertes.
+Cuando el padre activa « **Aplicar a las organizaciones filiales** », la configuración bloqueada se muestra tal cual en las hijas con la mención « La configuración está bloqueada. » y su origen — la organización padre; los campos correspondientes se vuelven inertes.
 
 ### Las exportaciones de observabilidad
 
 Una organización puede « **Imponer esta configuración a las organizaciones hijas** » para sus destinos de exportación. La hija que sufre la imposición lee « Configuración impuesta por » seguido del nombre de la organización padre — no puede ni personalizarla ni desactivar la exportación, y su personalización anterior queda **conservada pero inactiva** mientras la restricción se aplique. En ausencia de imposición, la hija puede heredar voluntariamente o conservar su configuración propia; los secretos del padre nunca se copian en la hija.
 
-[IMAGEAMETTREICI 03]
+![Milvago - Las exportaciones de observabilidad](/img/docs/en/introduction-organisations-mere-fille-03.png)
 
 ## Los ajustes reservados a la raíz
 

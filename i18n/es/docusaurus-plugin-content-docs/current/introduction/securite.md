@@ -7,7 +7,7 @@ title: Mecanismos de seguridad
 
 Las salvaguardas de Milvago se reparten en cuatro capas: **la integridad de las políticas**, **el endurecimiento local**, **el aislamiento del lado del servidor** y **el control de accesos**. Ninguna capa se apoya en la confianza en otra.
 
-[IMAGEAMETTREICI 01]
+![Milvago - Mecanismos de seguridad](/img/docs/en/introduction-securite-01.png)
 
 ## Políticas firmadas y efímeras
 
@@ -21,7 +21,7 @@ Todo lo que pilota un dispositivo está **firmado del lado del servidor y verifi
 
 - **Fallo cerrándose en todas partes**: sin política válida, la extensión sella la superficie de IA cubierta; el relevo rechaza un canal IPC ocupado por un proceso de usuario (verificación sobre el **propietario del objeto**, no sobre un identificador de proceso falsificable).
 - **Canal IPC endurecido**: descriptor restringido, anti-ocupación (`FIRST_PIPE_INSTANCE`, propietario SYSTEM), anti-suplantación (impersonación del cliente para leer su token, campos de autoridad reemplazados por el servicio), techo de conexiones **por llamador** — un proceso local no puede privar a todo el dispositivo de decisión.
-- **El servicio no divulga su política**: la proyección `policy_v3` retira palabras clave, excepciones, expresiones de enmascaramiento personalizadas y mensaje de bloqueo del canal visible por cualquier usuario local.
+- **El servicio no divulga su política**: la proyección `/v3/policy` retira palabras clave, excepciones, expresiones de enmascaramiento personalizadas y mensaje de bloqueo del canal visible por cualquier usuario local.
 - **El colector no confía en nada del agente**: estado y ancla separados, canal reservado a los servicios, y lectura de archivos validada **sobre el descriptor abierto**, no sobre la ruta — una unión sustituida produce un error, no una lectura.
 - **Actualizaciones privilegiadas sin primitiva de retrogradación**: el servicio aplicador ignora los argumentos del llamador, relee el `binPath` establecido en SYSTEM, y rechaza toda instalación cuyo alcance exceda el suyo.
 
@@ -37,7 +37,7 @@ Todo lo que pilota un dispositivo está **firmado del lado del servidor y verifi
 
 ## La postura
 
-[IMAGEAMETTREICI 02]
+![Milvago - La postura](/img/docs/en/introduction-securite-02.png)
 
 Tres principios atraviesan todos estos mecanismos:
 

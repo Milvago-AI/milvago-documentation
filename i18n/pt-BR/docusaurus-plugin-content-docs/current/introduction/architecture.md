@@ -21,7 +21,7 @@ As setas do diagrama indicam **quem abre a conexão**. As respostas usam o mesmo
 | --- | --- | --- |
 | Agente → ponto de entrada da instância | HTTPS, geralmente TCP **443** | Políticas assinadas, eventos, heartbeat, catálogo e atualizações. A porta vem da URL de provisionamento. |
 | Navegador do console → ponto de entrada da instância | HTTPS, geralmente TCP **443** | Console React e API na mesma origem; sem servidor Node.js separado. |
-| Proxy reverso / Ingress / Gateway API → servidor Go | HTTP, TCP **4020** por padrão | Escuta em `LISTEN_ADDR=:4020`. A terminação TLS deve ser configurada upstream; o binário chama `ListenAndServe`, não um servidor TLS integrado. |
+| Proxy reverso / Ingress / Gateway API → servidor Go | HTTP, TCP **4020** por padrão | Escuta em `LISTEN_ADDR=:4020`. A terminação TLS deve ser configurada upstream; o binário constrói um `http.Server` e chama `Serve` sobre uma escuta `net.Listen`, não um servidor TLS integrado. |
 | Servidor Go → PostgreSQL | PostgreSQL, TCP **5432** no Compose | Conexões `DATABASE_URL` e `MIGRATION_DATABASE_URL`, em rede privada. |
 | Navegador do console → Keycloak | HTTPS, geralmente TCP **443** em produção | Login, MFA e redirecionamentos OIDC pela URL pública do emissor. O acesso apenas do servidor ao Keycloak não é suficiente. |
 | Servidor Go → Keycloak | HTTP **8080** no Compose; caso contrário, porta da URL escolhida | Descoberta OIDC, chaves públicas, troca de código e administração de identidade. `OIDC_INTERNAL_URL` pode encaminhar essas chamadas pela rede privada mantendo o emissor público. |
@@ -30,7 +30,7 @@ As setas do diagrama indicam **quem abre a conexão**. As respostas usam o mesmo
 | Servidor → coletor OTLP externo | OTLP/HTTP JSON, porta da URL configurada | Enterprise: `/v1/logs` e `/v1/metrics`. **4318** é a porta do coletor de exemplo, não uma escuta Milvago nem uma porta obrigatória. HTTP interno exige a autorização `MILVAGO_OTEL_HTTP_HOSTS`. |
 | Ferramenta de supervisão → servidor | HTTP(S), mesma porta da instância | `/metrics` quando há um token de supervisão configurado; as sondas `/health/live` e `/health` também usam a porta da aplicação. |
 
-Os manifestos Kubernetes separam a API, a manutenção e as exportações Enterprise. A API e as exportações têm HPAs independentes; o **Service ClusterIP 4020 → 4020** da API permanece interno. Provisione separadamente a entrada HTTPS por Ingress ou Gateway API, os certificados, PostgreSQL e Keycloak. Não publique as portas privadas acima na Internet. Consulte [Implantação Kubernetes](../installation/helm.md) e [Dimensionar PostgreSQL e o autoscaling](../avance/dimensionnement-postgresql-hpa.md).
+Para Kubernetes, planeje papéis separados para a API, a manutenção e as exportações Enterprise. A API e as exportações podem usar HPAs independentes; mantenha o **Service ClusterIP 4020 → 4020** da API na rede interna. Provisione separadamente a entrada HTTPS por Ingress ou Gateway API, os certificados, PostgreSQL e Keycloak. Não publique as portas privadas acima na Internet. Consulte [Dimensionar PostgreSQL e o autoscaling](../avance/dimensionnement-postgresql-hpa.md).
 
 ### Comunicações locais na estação
 
@@ -64,12 +64,14 @@ O escopo do produto inclui seis navegadores: Google Chrome, Microsoft Edge, Brav
 
 | Navegador | Família | Windows | Linux |
 | --- | --- | --- | --- |
-| Google Chrome | Chromium | Política MSI e CRX local. Um CRX fora da Chrome Web Store depende das condições de gerenciamento Active Directory do computador. | Integração Native Messaging pelo script de sistema; a extensão e o perfil precisam ser administrados. |
+| Google Chrome | Chromium | Política MSI e CRX privado. Sua instalação exige que o computador esteja associado a um domínio do Active Directory ou ao Microsoft Entra ID. | Integração Native Messaging pelo script de sistema; a extensão e o perfil precisam ser administrados. |
 | Microsoft Edge | Chromium | Política MSI e CRX local. | Integração Native Messaging pelo script de sistema; a extensão e o perfil precisam ser administrados. |
 | Brave | Chromium | Política MSI e CRX local. | Integração Native Messaging pelo script de sistema; a extensão e o perfil precisam ser administrados. |
 | Vivaldi | Chromium | Política MSI, CRX local e host Native Messaging. | Não há caminho automatizado dedicado para Vivaldi; a extensão e o perfil precisam ser administrados. |
 | Mozilla Firefox | Gecko | Política MSI, XPI assinado e host Native Messaging. | Integração Native Messaging pelo script de sistema; a extensão e o perfil precisam ser administrados. |
 | Arc | Chromium | Compatível: política Arc e CRX local. A instalação por MSI e o controle de conteúdo ainda precisam de qualificação separada. | Não declarado. |
+
+A extensão do Chrome é privada e não é publicada na Chrome Web Store. Para a implantação no Windows descrita acima, sua instalação só funciona em computadores associados a um domínio do Active Directory ou ao Microsoft Entra ID; instalar apenas o agente ou o host Native Messaging não é suficiente.
 
 Firefox 140.0 ou posterior é obrigatório em todos os sistemas operacionais; Firefox Release e Beta exigem um XPI assinado. Os navegadores Chromium não têm uma versão mínima fixada no manifesto; as versões estáveis alvo ainda precisam de qualificação. O bundle Linux não configura perfis de navegador por si só: `deploy/install-browser.sh` instala o serviço de sistema e os manifestos Native Messaging. O RPM distribuído pela plataforma instala o mesmo serviço systemd de sistema, sob o usuário `milvago-agent`, e os mesmos manifestos Native Messaging de máquina que `deploy/install-browser.sh`.
 
@@ -95,7 +97,7 @@ Um backend **Go** que serve:
 - a **ingestão** dos agentes: eventos, heartbeats (usuário do SO da sessão ativa, puramente informativo), inventário, com limites de taxa por dispositivo;
 - o **catálogo de detecção** assinado e sua publicação versionada;
 - o **console** e a **API REST** com RBAC por permissões;
-- as **atualizações**: MSI assinado e manifesto de atualização assinado, congelados na imagem;
+- as **atualizações**: MSI imutável e manifesto de atualização assinado, congelados na imagem;
 - o armazenamento: **PostgreSQL**, com isolamento por **Row-Level Security** na Enterprise.
 
 O console (React) é servido pelo mesmo binário; **nenhum recurso externo** é carregado em tempo de execução — bundle, fontes e tema são embarcados. A autenticação passa pelo Keycloak (OIDC Authorization Code + PKCE); o tema de conexão segue os mesmos tokens.
@@ -108,12 +110,12 @@ O console (React) é servido pelo mesmo binário; **nenhum recurso externo** é 
 
 ## Os canais, em resumo
 
-Para `event_v2`, o agente primeiro grava o evento em seu armazenamento local criptografado. O servidor só devolve o identificador em `accepted_ids` depois de validar o dispositivo e confirmar a transação no PostgreSQL. Se o PostgreSQL estiver indisponível, a API responde temporariamente `503`: o agente mantém o mesmo identificador e tenta novamente. A repetição é esperada e continua idempotente; uma confirmação recebida significa que o PostgreSQL assumiu a guarda do evento.
+Para `/v2/events`, o agente primeiro grava o evento em seu armazenamento local criptografado. O servidor só devolve o identificador em `accepted_ids` depois de validar o dispositivo e confirmar a transação no PostgreSQL. Se o PostgreSQL estiver indisponível, a API responde temporariamente `503`: o agente mantém o mesmo identificador e tenta novamente. A repetição é esperada e continua idempotente; uma confirmação recebida significa que o PostgreSQL assumiu a guarda do evento.
 
 | Canal | Sentido | Conteúdo |
 | --- | --- | --- |
-| `policy_v3` | extensão → agente → servidor | política **projetada**: serviços, coleta, controle de modelos; as palavras-chave e exceções não saem dela |
-| `event_v2` | agente → servidor | eventos Shadow AI, em lotes, confirmados |
+| `/v3/policy` | extensão → agente → servidor | política **projetada**: serviços, coleta, controle de modelos; as palavras-chave e exceções não saem dela |
+| `/v2/events` | agente → servidor | eventos Shadow AI, em lotes, confirmados |
 | `/v2/heartbeat` | agente → servidor | usuário do SO da sessão ativa (informação, jamais uma autoridade), extensões vistas |
 | `/v1/inventory` | agente → servidor | aplicações de IA detectadas (Enterprise) |
 

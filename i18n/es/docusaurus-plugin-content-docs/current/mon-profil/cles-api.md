@@ -17,19 +17,19 @@ Las claves de API se encuentran en la página **Mi perfil**, bajo el bloque « S
 
 ## Crear una clave
 
-El botón « Nueva clave de API » abre el diálogo de creación, limitado a 5 claves activas por cuenta (« Límite de 5 claves activas alcanzado »). Cuatro ajustes:
+El botón « Nueva clave de API » abre el diálogo de creación, limitado a 5 claves activas por cuenta (« Límite de 5 claves activas alcanzado: revoque una para continuar. »). Cuatro ajustes:
 
 - **Nombre de la clave** — una frase humana, por ejemplo « Exportación SIEM ».
 - **Periodo de validez** — 30, 90 o 365 días; más allá, la clave caduca y la pantalla la marca « Caducada ».
 - **Permisos** — la lista de derechos que **usted** porta, nada premarcado, y nada que el servidor no le concedería: « Limitados a sus propios permisos y recalculados en cada llamada: la clave pierde un permiso en cuanto usted lo pierde. »
 - **Permitir la lectura del contenido de los prompts** — una casilla aparte, que solo se presenta si su instancia la propone: « Actívelo solo si la herramienta lo necesita: sin esta casilla, la clave solo ve metadatos. »
 
-[IMAGEAMETTREICI 01]
+![Milvago - Crear una clave](/img/docs/en/mon-profil-cles-api-01.png)
 
 Dos advertencias se presentan en el momento en que se toma la decisión, no después:
 
 - Al marcar `installers.manage` (« Gestionar los instaladores ») se lee « Este permiso sobrevive a la clave »: « Una clave que puede descargar el instalador puede leer la clave de despliegue de la organización, que no caduca. La capacidad de inscribir dispositivos sobrevivirá por tanto a esta clave: para retirarla, rote la clave de despliegue en Ajustes. »
-- En Enterprise, activar la lectura del contenido lee « El texto de los prompts podrá salir hacia un LLM externo »: « Esta clave también abre el servidor MCP. Un modelo conectado con ella podrá leer el texto que enviaron sus usuarios, y ese texto se transmitirá al proveedor de ese modelo. »
+- En Enterprise, activar la lectura del contenido lee « El texto de los prompts podrá salir hacia un LLM externo »: « Esta clave también abre el servidor MCP. Un modelo conectado con ella podrá leer el texto que enviaron sus usuarios, y ese texto se transmitirá al proveedor de ese modelo. Sin esta casilla, la misma herramienta solo ve metadatos. »
 
 La clave secreta se muestra **una sola vez**, en un diálogo que sobrevive a la recarga de la lista: « Copie esta clave ahora: no volverá a mostrarse, a nadie. » Si la pierde, revoque la clave y cree otra.
 
@@ -37,7 +37,7 @@ La clave secreta se muestra **una sola vez**, en un diálogo que sobrevive a la 
 
 Columnas: **Nombre** (con el badge ámbar « Contenido » si la clave lee los contenidos), **Permisos** (hasta dos en letras, más allá un badge « N permisos » con el detalle al pasar el ratón), **Creada**, **Caducidad** (« Caduca en N días », « Caduca mañana », o « Caducada »), **Último uso** (« Nunca utilizada » en caso contrario). **Revocar** pide confirmación y surte efecto de inmediato: « Cualquier herramienta que use « … » dejará de autenticarse de inmediato. Esto es definitivo. »
 
-[IMAGEAMETTREICI 02]
+![Milvago - La tabla de claves](/img/docs/en/mon-profil-cles-api-02.png)
 
 :::enterprise
 

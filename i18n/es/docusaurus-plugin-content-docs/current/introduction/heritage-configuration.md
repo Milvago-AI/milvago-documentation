@@ -7,7 +7,7 @@ title: Herencia de la configuración
 
 La configuración Shadow AI de Milvago se lee en tres niveles: **organización → grupo de dispositivos → dispositivo**. Cada nivel solo define lo que quiere cambiar; una sección ausente se hereda del nivel superior, y la excepción más cercana al dispositivo gana.
 
-[IMAGEAMETTREICI 01]
+![Milvago - Herencia de la configuración](/img/docs/en/introduction-heritage-configuration-01.png)
 
 ## El principio: secciones, no bloques
 
@@ -24,7 +24,7 @@ Un grupo que solo quiere cambiar « Protecciones » define únicamente esa secci
 | Nivel | Secciones posibles | Pantalla de edición |
 | --- | --- | --- |
 | **Organización** | todas, incluidas Registro (enrollment) y Explotación | Administration → Shadow AI |
-| **Grupo de dispositivos** | recolección, servicios, protecciones, enmascaramiento local, sensibilidad de los usos, control de modelos | Parque → Grupos de dispositivos |
+| **Grupo de dispositivos** | recolección, servicios, protecciones, enmascaramiento local, sensibilidad de los usos, control de modelos | Parque → Grupos |
 | **Dispositivo** | las mismas seis secciones que el grupo | ficha del dispositivo → Política del dispositivo |
 
 Dos secciones quedan por naturaleza en la organización: **Registro (enrollment)** (quién puede unirse, según qué red) y **Explotación** (actualizaciones del agente). Un grupo o un dispositivo no puede ni sobrescribirlas ni debilitarlas — son decisiones de parque, no de uso.
@@ -35,7 +35,7 @@ Un dispositivo pertenece a un solo grupo a la vez: no hay prioridad que arbitrar
 
 El editor muestra el alcance actual (« Política de la organización », « Excepción del grupo », « Excepción del dispositivo ») y, para cada sección heredada, una casilla « **Heredar · nombre de la sección** » que nombra la pantalla de la que proviene la sección — el grupo en la ficha de un dispositivo, la organización en la ficha de un grupo. La procedencia sigue al **último escritor**: una sección heredada de la organización padre y luego recubierta por el grupo se atribuye al grupo.
 
-[IMAGEAMETTREICI 02]
+![Milvago - Quién ve la procedencia](/img/docs/en/introduction-heritage-configuration-02.png)
 
 ## Las revisiones, en orden
 

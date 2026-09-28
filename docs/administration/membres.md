@@ -1,73 +1,75 @@
-﻿---
+---
 sidebar_position: 1
-title: Membres
+title: Members
 ---
 
-# Membres
+# Members
 
-## Accéder à l’écran
+## Open the page
 
-Dans la barre latérale, cliquez sur **Administration**, puis sur **Membres**. Vous devez disposer de `members.read` ; pour inviter, importer ou modifier un membre, vous devez aussi disposer de `members.manage`.
+In the sidebar, click **Administration**, then **Members**. You need `members.read`; inviting, importing, or changing a member also requires `members.manage`.
 
-Pour inviter une personne :
+1. Click **Invite member**.
+2. Enter their email address, then choose their role and console language.
+3. Send the invitation. The identity provider completes the process and the member appears once affiliated.
 
-1. Cliquez sur **Inviter un membre**.
-2. Saisissez l’adresse e-mail, choisissez le rôle et la langue de console.
-3. Envoyez l’invitation ; le fournisseur d’identité prend ensuite le relais et le membre apparaît après son affiliation.
+The Members screen answers the question "**who can enter** this organization, and with which role". It lists the members visible from your organization — including, in Enterprise, those of the child organizations of your subtree — and carries the affiliation actions: invitation, role change, language change, access removal.
 
-L'écran Membres répond à la question « **qui peut entrer** dans cette organisation, et avec quel rôle ». Il liste les membres accessibles depuis votre organisation — y compris, en Enterprise, ceux des organisations filles de votre sous-arbre — et porte les actions d'affiliation : invitation, changement de rôle, changement de langue, retrait d'accès.
+Access requires the `members.read` permission; without it, the navigation entry does not exist and the screen shows "Access restricted".
 
-L'accès exige la permission `members.read` ; sans elle, l'entrée de navigation n'existe pas et l'écran affiche « Accès réservé ».
+![Milvago - Open the page](/img/docs/en/administration-membres-01.png)
 
-![Milvago - Membres](/img/docs/fr/administration-membres-01.png)
+## The members table
 
-## Le tableau des membres
+Each row is a member, with its columns:
 
-Chaque ligne est un membre, avec ses colonnes :
+The **Per page** selector offers 10, 20, 50, 100 or 200 members. The counter covers all visible members, and the numbered controls provide access to the first, last and neighbouring pages.
 
-Le sélecteur **Par page** propose 10, 20, 50, 100 ou 200 membres. Le compteur porte sur tous les membres visibles et les boutons numérotés donnent accès à la première, à la dernière et aux pages voisines.
-
-| Colonne | Contenu |
+| Column | Content |
 | --- | --- |
-| **Membre** | nom affiché, ou « — » quand il n'en a pas |
-| **Adresse e-mail** | l'adresse du compte |
-| **Rôle** | badge du rôle courant (`owner`, `admin`, `viewer` ou un rôle personnalisé) |
-| **Type** | provenance de l'identité : « Local », « SSO » ou « LDAP » |
-| **Langue** | langue de console du membre, ou « Par défaut » |
-| **Organisation** | nom de l'organisation d'affiliation, ou « — » |
-| **Actions** | voir ci-dessous |
+| **Member** | displayed name, or "—" when there is none |
+| **Email address** | the account address |
+| **Role** | badge of the current role (`owner`, `admin`, `viewer`, `reporter` or a custom role) |
+| **Type** | provenance of the identity: "Local", "SSO" or "LDAP" |
+| **Language** | the member's console language, or "Default" |
+| **Organization** | name of the affiliation organization, or "—" |
+| **Actions** | see below |
 
-![Milvago - Le tableau des membres](/img/docs/fr/administration-membres-02.png)
+![Milvago - The members table](/img/docs/en/administration-membres-02.png)
 
-À vide, l'écran lit « Aucun membre visible » : cela décrit ce que vos droits laissent voir, pas une organisation sans utilisateur.
+When empty, the screen reads "No visible members": this describes what your rights let you see, not an organization without users.
 
-## Les actions par membre
+## The per-member actions
 
-Les trois actions n'apparaissent que si vous portez `members.manage` (`members.manage` : « Gérer les membres »), que le membre appartient à l'organisation courante, que ce n'est pas votre propre compte, et — pour un propriétaire — que vous êtes vous-même propriétaire de l'organisation. Sinon la cellule montre un verrou avec, au survol, la raison exacte : « C'est vous : vous ne pouvez pas modifier votre propre accès. », « Propriétaire : seul un propriétaire peut le modifier. », ou « Basculez sur cette organisation pour gérer ce membre. » Ces mêmes actions exigent aussi que vos propres permissions couvrent chacune de celles du rôle actuel du membre — la même règle que pour accorder un rôle ; une clé API est liée de la même façon par ses propres permissions.
+The three actions appear only if you carry `members.manage` ("Manage members"), the member belongs to the current organization, it is not your own account, and — for an owner — you are yourself an owner of the organization. Otherwise the cell shows a lock with, on hover, the exact reason: "This is you: you cannot change your own access.", "Owner: only an owner can change this member.", or "Switch to this organization to manage this member." These same actions also require that your own permissions cover every permission of the member's current role — the same rule as granting a role; an API key is bound the same way by its own permissions.
 
-- **Modifier le rôle** : le nouveau rôle s'applique après une nouvelle connexion, et les sessions actuelles du membre sont invalidées. La liste des rôles proposés omet « Propriétaire » si vous n'êtes pas propriétaire.
-- **Modifier la langue** : la langue s'applique à la prochaine ouverture de la console par ce membre ; « Par défaut » suit la langue de son navigateur, ou l'anglais si elle n'est pas servie. Ses sessions restent ouvertes.
-- **Retirer l'accès** : le membre perd l'accès à cette organisation et ses sessions sont invalidées ; son identité chez le fournisseur de connexion est conservée. Sur votre propre compte, un avertissement précède la confirmation.
+- **Change role**: the new role applies after a new sign-in, and the member's current sessions are invalidated. The list of proposed roles omits "Owner" if you are not an owner.
+- **Change language**: the language applies the next time this member opens the console; "Default" follows their browser language, or English when it is not served. Their sessions stay open.
+- **Remove access**: the member loses access to this organization and their sessions are invalidated; their identity at the sign-in provider is retained. On your own account, a warning precedes the confirmation.
+
+The last owner of an organization can be neither demoted nor removed: whether through **Change role** or **Remove access**, the server refuses with "Assign another owner before removing or demoting the last owner." Assign a second owner first.
 
 :::enterprise
 
-Une personne qui atteint cette organisation par son organisation parente (accès hérité) ne peut être invitée, importée, réattribuée ou retirée ici que par quelqu'un qui gère les membres de l'organisation parente ; sinon le serveur refuse avec « L'accès de cette personne vient de l'organisation parente : gérez-le depuis là. »
+A person who reaches this organization through its parent organization (inherited access) can be invited, imported, re-assigned or removed here only by someone who manages the members of the parent organization; otherwise the server refuses with "This person's access comes from the parent organization; manage it there."
 
-En Enterprise, un compte qui appartient déjà à une autre organisation — une organisation que la vôtre ne contient pas et qui ne la contient pas, comme une organisation sœur — ne peut être ni invité ni importé ici : le serveur refuse avec « Ce compte appartient à une autre organisation. Invitez-le depuis une organisation qui contient les deux. » Pour une telle personne, la langue de console ne peut être changée que par elle-même, depuis son profil.
+In Enterprise, an account that already belongs to another organization — one that yours does not contain and that does not contain yours, such as a sibling organization — cannot be invited or imported here: the server refuses with "This account belongs to another organization. Invite it from an organization that contains both." For such a person, the console language can only be changed by the person themselves, from their profile.
 
 :::
 
-![Milvago - Les actions par membre](/img/docs/fr/administration-membres-03.png)
+![Milvago - The per-member actions](/img/docs/en/administration-membres-03.png)
 
-## Inviter un membre
+## Inviting a member
 
-Le bouton « Inviter un membre » ouvre un dialogue à trois champs : adresse e-mail, rôle (même règle d'omission du rôle Propriétaire) et langue de console. L'invitation est envoyée par le fournisseur d'identité ; la mention de pied de page le dit et rappelle ses conditions :
+The "Invite a member" button opens a dialog with three fields: email address, role (same omission rule for the Owner role) and console language. The invitation is sent by the identity provider; the footer note says so and recalls its conditions:
 
-- Les identités et invitations sont gérées par Keycloak. L'envoi d'une invitation exige une configuration SMTP opérationnelle.
-- Les comptes SSO et LDAP invités par e-mail n'en reçoivent pas ; leur accès s'active à la première connexion.
+- Identities and invitations are managed by Keycloak. Sending an invitation requires working SMTP configuration.
+- SSO and LDAP accounts invited by email receive none; access activates at their first sign-in.
 
-## Importer depuis l'annuaire
+A new local account receives "Your invitation to Milvago", in the console language chosen for it. Its **Activate my account** link confirms the address, then asks for a password. The last page, "Your account is ready", offers **Sign in**, which opens the console sign-in directly. The link is valid for one day. When single sign-on is offered and the address belongs to the organization's domain, the invitation has no password to create: after the link, the person signs in with Google or Microsoft (see [SSO](../avance/sso.md)).
 
-Quand un annuaire LDAP est configuré pour l'organisation, un second bouton apparaît : « Importer depuis l'annuaire ». Il ouvre une recherche sur l'annuaire, et l'import crée le membre avec le rôle choisi. L'import exige `members.manage` et un annuaire joignable en LDAPS ou StartTLS vérifié ; un compte d'annuaire sans adresse e-mail est refusé.
+## Importing from the directory
 
-L'annuaire lui-même se configure dans [Paramètres](parametres.md).
+When an LDAP directory is configured for the organization, a second button appears: "Import from directory". It opens a search over the directory, and the import creates the member with the chosen role. The import requires `members.manage` and a directory reachable over LDAPS or verified StartTLS; a directory account without an email address is refused.
+
+The directory itself is configured in [Settings](parametres.md).

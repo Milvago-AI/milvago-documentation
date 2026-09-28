@@ -32,7 +32,8 @@ work under that license — the [Developer Certificate of Origin](https://develo
 
 ## Languages
 
-French (`docs/`) is the source tree; English, Spanish and Brazilian Portuguese live under
+English (`docs/`) is the default language and the source tree; French, Spanish and Brazilian
+Portuguese live under
 `i18n/<locale>/docusaurus-plugin-content-docs/current/` with the same paths. A change of facts
 lands in all four languages in the same pull request. If you can only write one language, say
 so in the pull request: a maintainer will complete the others before merging.

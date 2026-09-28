@@ -16,7 +16,7 @@ El HPA adapta el número de pods a la carga observada. PostgreSQL, los nodos Kub
 | Mantenimiento | 1 en régimen estable | Sin HPA; tareas periódicas y observación global de las exportaciones |
 | Migración | Job antes de las cargas de trabajo | Esperar a que termine correctamente antes de iniciar la versión correspondiente |
 
-Los roles dedicados evitan ejecutar las migraciones y el mantenimiento en cada pod de API. Compose conserva el rol combinado `all`. El procedimiento, los secretos por rol y el orden de inicio se describen en [Despliegue Kubernetes](../installation/helm.md).
+Los roles dedicados evitan ejecutar las migraciones y el mantenimiento en cada pod de API. Compose conserva el rol combinado `all`.
 
 ## Comprender las dos señales HPA
 

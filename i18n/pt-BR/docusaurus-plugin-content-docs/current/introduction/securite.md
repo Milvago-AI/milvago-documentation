@@ -7,7 +7,7 @@ title: Mecanismos de segurança
 
 As salvaguardas do Milvago distribuem-se em quatro camadas: **a integridade das políticas**, **o endurecimento local**, **o isolamento no lado do servidor** e **o controle de acessos**. Nenhuma camada depende da confiança em outra.
 
-[IMAGEAMETTREICI 01]
+![Milvago - Mecanismos de segurança](/img/docs/en/introduction-securite-01.png)
 
 ## Políticas assinadas e efêmeras
 
@@ -21,7 +21,7 @@ Tudo o que controla um dispositivo é **assinado no lado do servidor e verificad
 
 - **Falha em modo fechado em toda parte**: sem política válida, a extensão lacra a superfície de IA coberta; o relé recusa um canal IPC ocupado por um processo de usuário (verificação sobre o **proprietário do objeto**, não sobre um identificador de processo falsificável).
 - **Canal IPC endurecido**: descritor restrito, anti-ocupação (`FIRST_PIPE_INSTANCE`, proprietário SYSTEM), anti-usurpação (impersonação do cliente para ler seu token, campos de autoridade substituídos pelo serviço), teto de conexões **por chamador** — um processo local não pode privar todo o dispositivo de decisão.
-- **O serviço não divulga sua política**: a projeção `policy_v3` retira palavras-chave, exceções, expressões de mascaramento personalizadas e mensagem de bloqueio do canal visível por qualquer usuário local.
+- **O serviço não divulga sua política**: a projeção `/v3/policy` retira palavras-chave, exceções, expressões de mascaramento personalizadas e mensagem de bloqueio do canal visível por qualquer usuário local.
 - **O coletor não confia em nada do agente**: estado e âncora separados, canal reservado aos serviços, e leitura de arquivos validada **sobre o descritor aberto**, não sobre o caminho — uma junção substituída dá um erro, não uma leitura.
 - **Atualizações privilegiadas sem primitiva de retrogradação**: o serviço aplicador ignora os argumentos do chamador, relê o `binPath` posto em SYSTEM, e recusa qualquer instalação cujo alcance ultrapasse seu alcance.
 
@@ -37,7 +37,7 @@ Tudo o que controla um dispositivo é **assinado no lado do servidor e verificad
 
 ## A postura
 
-[IMAGEAMETTREICI 02]
+![Milvago - A postura](/img/docs/en/introduction-securite-02.png)
 
 Três princípios atravessam todos esses mecanismos:
 

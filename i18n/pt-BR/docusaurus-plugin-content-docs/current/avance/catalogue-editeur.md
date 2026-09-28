@@ -12,9 +12,9 @@ Para abrir a tela de edição, selecione **Administração → Catálogo de dete
 - a variável `MILVAGO_DEBUG` está posta na instância (veja [Variáveis de ambiente](../installation/variables-environnement.md));
 - você porta `policy.manage` e o console de administração não está ocultado.
 
-É um ajuste de **ruído**, não uma fronteira de segurança: a publicação do catálogo exige de toda forma o Proprietário da organização raiz e uma MFA recente. Nada lê esse sinalizador em uma requisição; apenas o ambiente o define.
+`MILVAGO_DEBUG` é mais que um interruptor de visibilidade no console: o servidor a verifica primeiro em cada importação manual e em cada requisição de publicação, antes mesmo da checagem de propriedade, e recusa a requisição de imediato — a mesma recusa genérica que quem não é proprietário já recebe, de modo que sondar uma instância nunca revela se o sinalizador está ativo. A publicação em si exige ainda o Proprietário da organização raiz e uma MFA recente. A importação automática do editor segue outra rota e permanece aberta seja qual for esse sinalizador: ela precisa poder corrigir os detectores em uma instância em funcionamento.
 
-[IMAGEAMETTREICI 01]
+![Milvago - Catálogo de detecção](/img/docs/en/avance-catalogue-editeur-01.png)
 
 ## Importar e publicar
 
@@ -27,7 +27,7 @@ Para abrir a tela de edição, selecione **Administração → Catálogo de dete
 ## Importar e publicar
 
 - A **importação manual** passa pela rota do console, fechada sem `MILVAGO_DEBUG`: um catálogo medido (levantamento no site, jamais adivinhado) é carregado, validado e depois publicado.
-- A publicação produz uma **revisão monotônica**: um catálogo que muda de entradas deve mudar de revisão, senão é recusado. Essa regra fecha o caso de um catálogo mais antigo, com menos entradas, intercambiável dentro de sua janela de validade.
+- A publicação produz uma **revisão monotônica**: uma importação é recusada a menos que sua revisão seja estritamente maior que a revisão atual da instância, sejam quais forem as entradas que ela porte. Essa regra fecha o caso de um catálogo mais antigo ou inalterado, com menos entradas, reproduzido dentro de sua janela de validade.
 - Um catálogo **publicado guarda seus bytes assinados**: a reedição não os reescreve.
 - O servidor permanece a autoridade: promover ou publicar algo que ele não porta responde um erro explícito, não um sucesso silencioso.
 
@@ -37,13 +37,13 @@ A tela exibe o veredito do servidor por provedor **e por revisão**: serviço, e
 
 | Estado | Leitura |
 | --- | --- |
-| Sadio | regra e DOM coincidem |
-| Apenas DOM | as requisições não são mais vistas, o DOM sim |
-| Transporte ausente / parcial | os dispositivos não reportam mais a cobertura |
-| Degradado / suspeito | o afastamento rede–DOM ultrapassa os limiares |
-| Dados insuficientes | serviço não visitado na janela — **não medido, não em pane**; esse estado e "sadio" nunca disparam uma faixa |
+| **Sinais disponíveis coerentes** | regra e DOM coincidem |
+| **Somente DOM: captura de rede indisponível** | as requisições não são mais vistas, o DOM sim |
+| **Sem transporte de detecção** / **Transporte de detecção parcial** | os dispositivos não reportam mais a cobertura, total ou parcialmente |
+| **Detecção DOM degradada** / **Cobertura a verificar** | o afastamento rede–DOM ultrapassa os limiares |
+| **Dados insuficientes para publicar** | serviço não visitado na janela — **não medido, não em pane**; esse estado e "Sinais disponíveis coerentes" nunca disparam uma faixa |
 
-[IMAGEAMETTREICI 02]
+![Milvago - A saúde dos detectores](/img/docs/en/avance-catalogue-editeur-02.png)
 
 ## A faixa de cobertura
 

@@ -5,81 +5,106 @@ title: SSO (Google / Microsoft Entra ID)
 
 # SSO (Google / Microsoft Entra ID)
 
-Comment brancher Milvago sur la connexion unique (SSO) de l'organisation, avec Google ou Microsoft Entra ID comme fournisseur d'identité ?
+How do you let members sign in with their Google Workspace or Microsoft Entra ID account?
 
-Le SSO de Milvago est du **courtage d'identité Keycloak** (*identity brokering*) : le fournisseur externe se configure dans la console d'administration Keycloak du realm `milvago`, jamais dans la console Milvago. Cette page suppose un déploiement `compose` local ou de démonstration, avec le compte d'amorçage `bootstrap-admin` (mot de passe `IDENTITY_ADMIN_PASSWORD` de `.env`) pour se connecter à Keycloak.
+Single sign-on is configured entirely from the Milvago console, in **Administration** > **Settings** > **SSO**. Nobody needs to open the identity service behind Milvago: its administration is not reachable from the network, and the console writes the provider for you.
 
-:::warning Hypothèse de confiance
-Le rattachement automatique (`idp-auto-link`) n'est pas réservé aux comptes invités jamais encore connectés : toute identité d'un fournisseur fédéré qui présente le même e-mail se rattache à **n'importe quel** compte Keycloak local portant cet e-mail — y compris un compte déjà actif, y compris le compte administrateur ou propriétaire. C'est pourquoi la restriction de domaine ou de tenant, et **Trust Email** activé seulement une fois cette restriction posée, sont vitales : sans elles, un fournisseur non restreint permettrait à un tiers de s'approprier le compte propriétaire en présentant simplement son e-mail. Ne fédérez que des fournisseurs dont l'e-mail est fiable.
+## Open the screen
+
+1. In the sidebar, open **Administration**, then click **Settings**.
+2. In the vertical navigation, click **SSO**.
+
+The section shows one block per provider — **Google Workspace** and **Microsoft Entra ID** — each with its **Redirect URI**, its fields and a **Save** button.
+
+![SSO settings for Google Workspace and Microsoft Entra ID](/img/docs/en/avance-sso-01.png)
+
+## Who can configure it
+
+- The **SSO** section appears with the `directory.manage` permission ("Manage LDAP directory and SSO") and a license outside restricted mode: a Community instance without a license shows neither the section nor SSO sign-in.
+- Saving or removing a provider requires a second factor verified moments ago, and neither action is available to an API key.
+- The client secret is never shown again once saved: the field stays empty, and leaving it empty keeps the stored secret.
+
+:::enterprise
+
+A provider is offered on the sign-in page of every organization of the instance. Only an owner of the root organization can configure it; anyone else who opens the section reads "Single sign-on applies to every organization of this instance: only an owner of the root organization can configure it."
+
 :::
 
-## Principe : rattachement au premier login
+## Principle: invite first, link at first sign-in
 
-Milvago définit son propre flux de première connexion via un fournisseur externe, `milvago-v1-first-broker-login` : s'il n'existe aucun compte Keycloak avec le même e-mail, il en crée un ; si un compte Keycloak local existe déjà avec cet e-mail — un compte **invité** dans Milvago (Administration > Membres) est l'usage prévu, mais le rattachement s'applique à **tout** compte local portant cet e-mail, quel que soit son état — il le rattache automatiquement au fournisseur externe. Après ce rattachement, la personne se connecte toujours via le fournisseur externe ; le type de compte affiché dans Membres passe à **SSO**.
+**A person must be invited in Milvago before their first SSO sign-in** (Administration > Members). Without a prior invitation, sign-in is refused (`membership_required`). An invited SSO account receives no activation e-mail: its first action is signing in through the provider.
 
-Conséquence directe : **une personne doit être invitée dans Milvago avant sa première connexion SSO**. Sans invitation préalable, la connexion est refusée (`membership_required`), et un compte SSO invité ne reçoit aucun e-mail d'activation — son premier geste est de se connecter par le fournisseur.
+At that first sign-in, if a Milvago account already exists with the same e-mail — the invited account, or any other one, the owner's included — it is never linked on the e-mail match alone. The person is asked to confirm the link, then to prove they control that existing account: by signing in with its current credentials, or by confirming a link sent to its e-mail address. Only then does the account become an SSO identity; its type switches to **SSO** in Members, and the person signs in through the provider from then on.
 
-Les identités SSO sont exemptées de l'obligation Milvago de second facteur : leur MFA relève du fournisseur (l'activer dans Google Workspace ou dans les stratégies d'accès conditionnel de Microsoft Entra). Dans la page de profil Milvago, les actions de libre-service — modification du mot de passe, de l'e-mail, du profil, enrôlement MFA — restent verrouillées pour un compte SSO : elles se gèrent chez le fournisseur.
+Linking is only possible this way. A signed-in user cannot attach an external account to their own from their account security page: that option is turned off when a provider is saved.
 
-## Préparer Keycloak
+The organization's multi-factor requirement applies to SSO sign-ins too: Milvago reads MFA from the evidence the provider attests on the sign-in, never from the account type. When the organization requires MFA, enforce it on the provider's side (Google Workspace 2-Step Verification, or a Microsoft Entra Conditional Access policy requiring MFA). On the Milvago profile page, password, e-mail, profile and second-factor actions stay locked for an SSO account: they are managed at the provider.
 
-Dans la console d'administration Keycloak (realm `milvago`), ouvrez **Identity providers** dans le menu de gauche, puis **Add provider**. Choisissez Google ou OpenID Connect v1.0 selon le fournisseur (détails ci-dessous). Chaque fournisseur ajouté affiche une **Redirect URI** au format :
+### Invitations of the organization's domain
 
-```
-https://<hôte-keycloak>/realms/milvago/broker/<alias>/endpoint
-```
+When a provider is offered, a new member invited with an address of its domain — the **Google Workspace domain**, or the Microsoft **Invitation domain** — receives an invitation without a password to create. The e-mail link confirms the address; the "Your account is ready" page then offers **Sign in**, and the first sign-in through the provider button links the provider account directly, without the proof above: the invitation link has already proved the mailbox, and the provider answers for the same address.
 
-C'est cette valeur qu'il faut coller dans la configuration du fournisseur externe (Google Cloud Console ou Microsoft Entra admin center) — jamais l'inverse.
+This applies once, to an account created by the invitation that has never signed in. From its first sign-in on, and for every other account, the proof above is required again. A member invited with another address receives the usual invitation, with a password to choose.
 
-## Google
+For Microsoft, the invitation domain is optional and must be a domain your tenant owns: Microsoft Entra does not guarantee that the e-mail address of a sign-in was verified, so without this domain Microsoft invitations keep the proof. A provider saved before this option existed must be saved once more for it to apply.
 
-Sources officielles consultées : [Google Cloud — Using OAuth 2.0 for Web Server Applications](https://developers.google.com/identity/protocols/oauth2/web-server), [Google Cloud — Setting up OAuth 2.0](https://support.google.com/cloud/answer/6158849), documentation du fournisseur Google de Keycloak.
+## Google Workspace
 
-### 1. Créer les identifiants OAuth côté Google
+Official sources: [Google Cloud — Using OAuth 2.0 for Web Server Applications](https://developers.google.com/identity/protocols/oauth2/web-server), [Google Cloud — Setting up OAuth 2.0](https://support.google.com/cloud/answer/6158849).
 
-1. Dans [Google Cloud Console](https://console.cloud.google.com/), ouvrez **APIs & Services > OAuth consent screen** et complétez l'écran de consentement.
-2. Ouvrez **APIs & Services > Credentials**, puis **Create Credentials > OAuth client ID**.
-3. Sélectionnez le type d'application **Web application**.
-4. Dans **Authorized redirect URIs**, collez la **Redirect URI** affichée par Keycloak pour ce fournisseur.
-5. Créez le client : Google affiche le **Client ID** et le **Client secret** (le secret n'est montré qu'une fois).
+### 1. Create the OAuth client at Google
 
-### 2. Ajouter le fournisseur dans Keycloak
+1. In the [Google Cloud Console](https://console.cloud.google.com/), open **APIs & Services > OAuth consent screen** and complete the consent screen.
+2. Open **APIs & Services > Credentials**, then **Create Credentials > OAuth client ID**.
+3. Select the **Web application** type.
+4. Under **Authorized redirect URIs**, paste the **Redirect URI** shown in the **Google Workspace** block of Milvago.
+5. Create the client: Google displays the **Client ID** and the **Client secret**.
 
-Dans **Identity providers > Add provider**, choisissez **Google**, puis renseignez :
+### 2. Save it in Milvago
 
-- **Client ID** et **Client Secret** obtenus à l'étape précédente ;
-- **Hosted Domain** — le domaine Google Workspace de l'entreprise. C'est ce champ qui **restreint l'accès aux membres de l'organisation** ; sans lui, tout compte Google peut se présenter au courtier.
-- **Trust Email** — à activer uniquement une fois le domaine renseigné : sans la restriction de domaine, faire confiance à l'e-mail Google reviendrait à laisser n'importe quel compte Google revendiquer un compte Milvago invité au même e-mail.
+1. In the **Google Workspace** block, enter the **OAuth client ID** and the **Client secret**.
+2. Enter the **Google Workspace domain** of the company, for example `example.com`. It is required: only accounts of this domain can sign in. Members invited with an address of this domain sign in with Google directly, without creating a password.
+3. Leave **Offer this provider on the sign-in page** checked.
+4. Click **Save**, then verify the second factor if asked. "Provider saved." confirms it; a **Google** button now appears on the sign-in page.
 
 ## Microsoft Entra ID
 
-Sources officielles consultées : [Microsoft Learn — Register an application with the Microsoft identity platform](https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app), [Microsoft Learn — Add and manage app credentials](https://learn.microsoft.com/en-us/entra/identity-platform/how-to-add-credentials), documentation du fournisseur OpenID Connect v1.0 de Keycloak.
+Official sources: [Microsoft Learn — Register an application with the Microsoft identity platform](https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app), [Microsoft Learn — Add and manage app credentials](https://learn.microsoft.com/en-us/entra/identity-platform/how-to-add-credentials), [Microsoft Learn — Provide optional claims](https://learn.microsoft.com/en-us/entra/identity-platform/optional-claims).
 
-### 1. Enregistrer l'application côté Microsoft Entra
+### 1. Register the application at Microsoft
 
-1. Dans le [Microsoft Entra admin center](https://entra.microsoft.com), ouvrez **Entra ID > App registrations > New registration**.
-2. Donnez un nom à l'application.
-3. Sous **Supported account types**, choisissez **Single tenant only — &lt;votre tenant&gt;** — c'est cette option qui limite l'inscription au tenant de l'entreprise ; les autres options (multi-tenant, comptes personnels) l'ouvrent à des tenants ou des comptes hors de l'entreprise.
-4. Cliquez sur **Register**, puis relevez l'**Application (client) ID** affiché sur la page **Overview**.
-5. Ouvrez **Authentication > Add a platform > Web**, et collez la **Redirect URI** affichée par Keycloak.
-6. Ouvrez **Certificates & secrets > Client secrets > New client secret**, ajoutez une description, choisissez une durée d'expiration (24 mois au maximum — préférez une durée plus courte et notez l'échéance pour la renouveler), puis **Add**. La **Value** du secret ne s'affiche qu'une fois : conservez-la immédiatement.
+1. In the [Microsoft Entra admin center](https://entra.microsoft.com), open **Entra ID > App registrations > New registration**.
+2. Give the application a name.
+3. Under **Supported account types**, choose the single-tenant option (accounts in your organizational directory only).
+4. Under **Redirect URI**, choose **Web** and paste the **Redirect URI** shown in the **Microsoft Entra ID** block of Milvago, then click **Register**.
+5. On the **Overview** page, record the **Application (client) ID** and the **Directory (tenant) ID**.
+6. Open **Certificates & secrets > Client secrets > New client secret**, choose an expiration — note it, the secret must be renewed before then — and click **Add**. The secret's **Value** is shown only once: record it immediately.
+7. Open **Token configuration > Add optional claim**, choose the **ID** token type, check **email** and click **Add**, so that each sign-in carries the person's e-mail address.
 
-### 2. Ajouter le fournisseur dans Keycloak — préférer OpenID Connect v1.0 avec le point de découverte propre au tenant
+### 2. Save it in Milvago
 
-Le fournisseur social **Microsoft** intégré à Keycloak ne propose pas de champ limitant l'inscription à un tenant Entra particulier : il faudrait alors compter uniquement sur la restriction posée côté Entra (compte à tenant unique). Pour ne pas dépendre d'un seul verrou, préférez un fournisseur générique **OpenID Connect v1.0**, avec le point de découverte spécifique au tenant :
+1. In the **Microsoft Entra ID** block, enter the **Application (client) ID** and the **Client secret**.
+2. Enter the **Directory (tenant) ID**, a value of the form `00000000-0000-0000-0000-000000000000`. Only accounts of this tenant can sign in; shared values such as `common` or `organizations` are refused, since they would accept other tenants.
+3. Optionally, enter the **Invitation domain (optional)**, for example `example.com`: members invited with an address of this domain sign in with Microsoft directly. Enter only a domain your tenant owns, or leave it empty.
+4. Leave **Offer this provider on the sign-in page** checked.
+5. Click **Save**, then verify the second factor if asked. "Provider saved." confirms it; a **Microsoft** button now appears on the sign-in page.
 
-```
-https://login.microsoftonline.com/<tenant-id>/v2.0/.well-known/openid-configuration
-```
+Milvago derives every Microsoft address from the tenant ID and checks that each sign-in was issued by that tenant.
 
-**Jamais** `common` ou `organizations` à la place de `<tenant-id>` : ces alias visent les applications multi-tenant, leur émetteur n'est pas propre à votre tenant, et Keycloak ne peut alors pas vérifier que le jeton provient bien de votre tenant — utilisez toujours l'URL de découverte propre au tenant.
 
-Dans **Identity providers > Add provider > OpenID Connect v1.0**, importez la configuration depuis cette URL de découverte (Keycloak remplit alors Authorization URL, Token URL et les autres points de terminaison), puis renseignez le **Client ID** et le **Client Secret** obtenus à l'étape précédente.
+## Change, suspend or remove a provider
 
-## Vérifier
+- **Renew the secret**: enter the new value in **Client secret**, then click **Save**. Changing the client ID always requires its secret.
+- **Suspend**: uncheck **Offer this provider on the sign-in page**, then click **Save**. The configuration is kept.
+- **Remove**: click **Remove provider**, read the warning "Accounts that sign in through this provider will no longer be able to sign in with it.", then click **Confirm removal**. "Provider removed." confirms it.
+- **Provider created outside the console**: if the identity provider already holds a provider of the same name that was not configured here (another type, a post-sign-in flow or mappers), **Save** is refused instead of taking it over. Click **Remove provider**, then save again.
 
-1. Invitez un compte du domaine ou du tenant de l'entreprise (Administration > Membres), sans qu'il se soit encore connecté.
-2. Connectez-vous avec ce compte via le fournisseur SSO : la connexion doit aboutir, et son type de membre passe à **SSO** dans Membres.
-3. Tentez une connexion avec un compte Google ou Microsoft **hors** du domaine ou du tenant restreint : le fournisseur (Google) ou Keycloak (Microsoft, via le point de découverte propre au tenant) doit la refuser.
+Every save and removal is recorded in the [audit log](../administration/audit.md) (`sso.update`, `sso.remove`).
 
-Ces vérifications valident la configuration du fournisseur ; elles ne remplacent pas un test complet des politiques MFA du fournisseur, qui restent sous sa responsabilité.
+## Verify
+
+1. Invite an account of the company's domain or tenant (Administration > Members), without it having signed in yet.
+2. Sign in with that account through the provider button: the sign-in must succeed, and its member type switches to **SSO** in Members.
+3. Attempt a sign-in with a Google or Microsoft account **outside** the domain or tenant: it must be refused.
+
+These checks validate the provider configuration; they do not replace a test of the provider's MFA policies, which remain its responsibility.

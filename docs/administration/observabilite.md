@@ -1,89 +1,87 @@
-﻿---
+---
 sidebar_position: 8
-title: Observabilité
+title: Observability
 tags: [Enterprise]
 ---
 
-# Observabilité
+# Observability
 
-Administration → Observabilité configure, pour chaque organisation, l'envoi des métriques et journaux vers vos outils d'analyse.
+## Open the page
 
-## Accéder à l’écran
+Click **Administration** > **Observability** in the sidebar. This Enterprise-only page requires `observability.manage`.
 
-Dans la barre latérale, cliquez sur **Administration**, puis sur **Observabilité**. Cette page est réservée à Milvago Enterprise et exige `observability.manage`.
+1. Enable a destination, then enter its URL and optional **Authorization** header.
+2. Select streams and save the configuration.
+3. Test the saved configuration.
 
-Pour configurer une destination :
-
-1. Activez-la, renseignez l’URL et, si nécessaire, l’en-tête **Authorization**.
-2. Choisissez les flux à envoyer puis cliquez sur **Enregistrer l’observabilité**.
-3. Cliquez sur **Tester la configuration enregistrée** pour envoyer des données synthétiques et contrôlez le tableau **État des livraisons**.
+Administration → Observability configures metrics and log delivery to your analysis tools for each organization.
 
 :::enterprise
-Cette page concerne uniquement Milvago Enterprise.
+This page applies only to Milvago Enterprise.
 :::
 
-![Milvago - Observabilité](/img/docs/fr/administration-observabilite-01.png)
+![Milvago - Open the page](/img/docs/en/administration-observabilite-01.png)
 
-## Export OTLP et tableau de bord Grafana
+## OTLP export and Grafana dashboard
 
-Le bouton **Télécharger le tableau de bord** fournit un fichier à importer dans Grafana ; les sources de données restent à configurer dans Grafana.
+**Download dashboard** provides a file to import into Grafana; data sources still need to be configured there.
 
-**Export OTLP pour Grafana** configure l'URL de base d'un collecteur compatible OTLP/HTTP JSON. Milvago lui envoie les données ; le collecteur les transmet ensuite aux services utilisés par Grafana.
+**OTLP export for Grafana** configures the base URL of an OTLP/HTTP JSON compatible collector. Milvago sends data to that collector, which forwards it to the services used by Grafana.
 
-### Journaux dans Loki, métriques dans le tableau de bord
+### Logs in Loki, metrics in the dashboard
 
-Pour explorer les journaux dans Grafana, configurez le collecteur qui reçoit les données de Milvago pour transmettre son flux de journaux au [point d'ingestion OTLP natif de Loki](https://grafana.com/docs/loki/latest/send-data/otel/otel-collector-getting-started/). Ajoutez ensuite la [source de données Loki intégrée à Grafana](https://grafana.com/docs/grafana/latest/datasources/loki/). Milvago ne fournit ni export Loki distinct ni plugin Grafana.
+To explore logs in Grafana, configure the collector receiving Milvago data to forward its log stream to [Loki's native OTLP endpoint](https://grafana.com/docs/loki/latest/send-data/otel/otel-collector-getting-started/). Then add Grafana's [built-in Loki data source](https://grafana.com/docs/grafana/latest/datasources/loki/). Milvago has no separate Loki export or Grafana plugin.
 
-Le **tableau de bord téléchargeable** utilise, lui, une source de données de type **Prometheus**. Configurez séparément la sortie des métriques du collecteur vers un système compatible Prometheus, puis sélectionnez cette source lors de l'import du tableau de bord. Un branchement de Loki seul n'alimente pas ses graphiques.
+The **downloadable dashboard** uses a **Prometheus** data source. Configure the collector's metrics output separately for a Prometheus-compatible system, then select that data source when importing the dashboard. Connecting Loki alone does not populate its charts.
 
-## Destination personnalisée pour le SIEM
+## Custom SIEM destination
 
-Le second encart est un emplacement OTLP personnalisé, identifié « SIEM ». Il n'implémente aucune API propre à un éditeur de SIEM, ni syslog. Il faut un récepteur OTLP/HTTP JSON compatible, par exemple un collecteur configuré pour transformer et transmettre les données au SIEM choisi. Le flux final, ses identifiants et son schéma dépendent de cette configuration externe.
+The second card, titled **Custom destination (SIEM)**, is a custom OTLP slot. It implements neither a vendor-specific SIEM API nor syslog. It needs a compatible OTLP/HTTP JSON receiver, such as a collector configured to transform and forward the data to your SIEM. The final protocol, credentials and schema depend on that external configuration.
 
-Si votre SIEM exige Syslog/TLS ou une API spécifique, configurez cette conversion et l'authentification correspondante dans le collecteur. Le champ **Authorization** de Milvago authentifie uniquement son envoi au récepteur OTLP indiqué.
+If your SIEM requires Syslog over TLS or a specific API, configure that conversion and its authentication in the collector. Milvago's **Authorization** field authenticates only its request to the specified OTLP receiver.
 
-Quand cette destination est activée, les **audits sensibles de confidentialité** y sont aussi envoyés par une file dédiée, même si la case **Journal d'audit** est désactivée. L'état de cette file apparaît en bas de page.
+When enabled, this destination also receives **sensitive privacy audits** through a dedicated queue, even when the **Audit log** stream is off. The queue status appears at the bottom of the page.
 
-## Protocole et authentification
+## Protocol and authentication
 
-Milvago envoie des requêtes HTTP POST avec `Content-Type: application/json` vers l'URL de base complétée par `/v1/metrics` ou `/v1/logs`. Il s'agit d'**OTLP/HTTP JSON** : ni OTLP/gRPC ni OTLP/HTTP Protobuf binaire. L'en-tête `Authorization`, s'il est nécessaire pour le récepteur, doit être saisi en entier sous la forme `Bearer …` ou `Basic …`. Le secret est scellé côté serveur et n'est jamais renvoyé par l'API. Changer l'URL du récepteur efface son secret enregistré.
+Milvago sends HTTP POST requests with `Content-Type: application/json` to the base URL followed by `/v1/metrics` or `/v1/logs`. This is **OTLP/HTTP JSON**, not OTLP/gRPC or binary OTLP/HTTP Protobuf. If the receiver requires an `Authorization` header, enter its full value as `Bearer …` or `Basic …`. The secret is sealed on the server and never returned by the API. Changing the receiver URL clears its saved secret.
 
-Pour une connexion **directe au point d'ingestion OTLP Grafana Cloud**, Grafana demande `Basic` avec l'ID d'instance **OTLP** comme utilisateur et un jeton de politique d'accès comme mot de passe, encodés en Base64. Un jeton Bearer de l'API de gestion Grafana répond à une autre API. [Grafana Cloud précise](https://grafana.com/docs/grafana-cloud/observe-and-act/send-data/otlp/otlp-format-considerations/) que l'ingestion JSON convient surtout aux essais ou aux faibles volumes ; pour un déploiement de production, configurez un collecteur qui accepte le JSON de Milvago et exporte vers Grafana Cloud dans le format et avec l'authentification adaptés.
+For a **direct connection to the Grafana Cloud OTLP ingestion endpoint**, Grafana requires `Basic` with the **OTLP** instance ID as username and an access policy token as password, encoded in Base64. A Grafana management API Bearer token serves a different API. [Grafana Cloud says](https://grafana.com/docs/grafana-cloud/observe-and-act/send-data/otlp/otlp-format-considerations/) JSON ingestion is best suited to testing or low traffic; for production, configure a collector to accept Milvago's JSON and export to Grafana Cloud with the appropriate format and authentication.
 
-Les URL d'export utilisent HTTPS, sauf hôte HTTP explicitement autorisé par l'exploitant ; les destinations réseau interdites sont contrôlées à l'enregistrement et à la connexion. Le bouton **Tester la configuration enregistrée** envoie uniquement des données synthétiques sur les flux sélectionnés. Une acceptation par le récepteur ne prouve pas l'arrivée dans Grafana ou le SIEM.
+Export URLs use HTTPS unless the operator explicitly allows an HTTP host; prohibited network destinations are checked when saving and connecting. **Test saved configuration** sends synthetic data only for the selected streams. Receiver acceptance does not prove delivery to Grafana or the SIEM.
 
-![Milvago - Protocole et authentification](/img/docs/fr/administration-observabilite-02.png)
+![Milvago - Protocol and authentication](/img/docs/en/administration-observabilite-02.png)
 
-## Reprise après une panne du destinataire
+## Recovery after a destination outage
 
-Milvago conserve dans PostgreSQL les événements que le récepteur OTLP n'a pas acceptés. Après une erreur temporaire ou une coupure, il réessaie automatiquement le même travail ; une interruption autour de l'acquittement peut donc produire un doublon chez le destinataire.
+Milvago retains in PostgreSQL events that the OTLP receiver has not accepted. After a temporary error or interruption, it automatically retries the same work; an interruption around acknowledgement can therefore produce a duplicate at the destination.
 
-Si l'URL configurée désigne un OpenTelemetry Collector qui relaie ensuite les données, activez une [file persistante](https://github.com/open-telemetry/opentelemetry-collector/blob/main/exporter/exporterhelper/README.md#persistent-queue) pour ses exporteurs et placez-la sur un volume chiffré qui survit à son redémarrage. Une réponse positive du Collector transfère la garde au Collector ; elle ne prouve toujours pas que le backend final a accepté les données. Le Collector doit refuser l'entrée lorsque sa file est pleine afin que Milvago conserve les événements et les réessaie depuis PostgreSQL.
+If the configured URL points to an OpenTelemetry Collector that subsequently relays the data, enable a [persistent queue](https://github.com/open-telemetry/opentelemetry-collector/blob/main/exporter/exporterhelper/README.md#persistent-queue) for its exporters and place it on an encrypted volume that survives its restart. A positive response from the Collector transfers custody to the Collector; it still does not prove that the final backend accepted the data. The Collector must reject input when its queue is full so Milvago retains events and retries them from PostgreSQL.
 
-Surveillez la taille et la capacité de la file, les échecs d'enqueue, les échecs d'envoi et l'espace libre du volume. Définissez sa capacité à partir du débit réel et de la durée de panne que vous souhaitez absorber, puis alertez avant 70 %. Configurez aussi dans les systèmes externes la rétention, les effacements, les sauvegardes et les contrôles d'accès applicables après ce transfert de garde.
+Monitor queue size and capacity, enqueue failures, send failures, and free space on the volume. Set its capacity from actual throughput and the outage duration you want to absorb, then alert before 70%. Also configure retention, deletions, backups, and access controls that apply in external systems after this transfer of custody.
 
-## Données et suivi
+## Data and delivery status
 
-- **Métriques** : jauges d'activité sur 24 heures, état du parc et inventaire local ; elles décrivent l'état actuel et sont envoyées périodiquement.
-- **Événements Shadow AI** : métadonnées d'usage sélectionnées par le filtre du destinataire, à partir de l'activation. Le filtre ne touche ni les métriques ni l'audit.
-- **Journal d'audit** : actions administratives et identifiants techniques. Les audits sensibles de confidentialité suivent en plus la file dédiée au SIEM.
+- **Metrics**: gauges for activity over 24 hours, fleet status and local inventory; they describe the current state and are sent periodically.
+- **Shadow AI events**: usage metadata selected by the destination's filter, from activation onward. The filter does not affect metrics or audits.
+- **Audit log**: administrative actions and technical identifiers. Sensitive privacy audits additionally use the dedicated SIEM queue.
 
-L'export OTLP ne lit pas les prompts, réponses, contenus de conversation, URL, noms de postes ni adresses e-mail. Les identifiants techniques exportés restent à protéger chez le destinataire. La route `GET /api/shadow/metrics` est une API de consultation séparée, protégée par session et permission ; elle n'est pas l'URL de collecte OTLP.
+The OTLP export does not read prompts, responses, conversation content, URLs, device names or email addresses. Technical identifiers still need protection at the destination. `GET /api/shadow/metrics` is a separate session- and permission-protected read API; it is not the OTLP ingestion URL.
 
-Le tableau **État des livraisons** montre tentatives, acceptations, erreurs, rejets et prochain essai. Une réponse OTLP partielle compte les enregistrements rejetés et ne rejoue pas le lot ; les nouveaux lots continuent. Dans le déploiement Kubernetes dédié aux exports, les journaux en attente sont envoyés automatiquement par lots limités en nombre d’événements et en taille, sans attendre leur remplissage ; les lots restants s’enchaînent sans attente volontaire après un succès. Les métriques suivent une cadence distincte. Les erreurs temporaires, notamment `429` et `503`, sont réessayées automatiquement en respectant `Retry-After` lorsque le destinataire le fournit. Une erreur permanente, notamment d'identifiants, exige une correction de configuration.
+**Delivery status** shows attempts, acceptances, errors, rejected records and the next attempt. An OTLP partial response counts rejected records and does not replay the batch; later batches continue. For dedicated exports, pending logs are sent automatically in batches limited by event count and size, without waiting for a batch to fill; remaining batches continue without an intentional wait after a success. Metrics follow a separate cadence. Temporary errors, including `429` and `503`, are retried automatically while honoring `Retry-After` when the destination provides it. A permanent error, including invalid credentials, requires a configuration fix.
 
-## Exports et mise à l'échelle Kubernetes
+## Exports and Kubernetes scaling
 
-Dans un déploiement Kubernetes Enterprise, les exports s'exécutent dans des pods dédiés. Pour réduire le délai d'export sous forte charge, ce déploiement traite les lots en continu. PostgreSQL coordonne les livraisons : augmenter le nombre de pods n'autorise pas deux envois de la même partition au même moment.
+When Enterprise exports run in dedicated pods, they process batches continuously to reduce export delay under heavy load. PostgreSQL coordinates deliveries: increasing the number of pods does not allow two deliveries of the same partition at the same time.
 
-La métrique `milvago_export_runnable_partitions` compte globalement les partitions exécutables. Elle sert au HPA du déploiement d'exports et n'inclut ni identifiant d'organisation ni donnée de conversation. Elle est absente si son observation complète a plus de 45 secondes ; son absence n'est pas un compteur à zéro. L'exploitant doit alors vérifier le chemin Prometheus et l'adaptateur de métriques avant d'interpréter l'état du HPA.
+The `milvago_export_runnable_partitions` metric is the global count of runnable partitions. It serves the exports Deployment HPA and contains neither an organization identifier nor conversation data. It is absent when its complete observation is more than 45 seconds old; absence is not a zero count. The operator should then check the Prometheus path and metrics adapter before interpreting HPA state.
 
-Pour installer la chaîne de métriques et ajuster les réplicas, consultez [Déploiement Kubernetes](../installation/helm.md) et [Dimensionner PostgreSQL et l’autoscaling](../avance/dimensionnement-postgresql-hpa.md).
+For metrics and replica sizing, see [Sizing PostgreSQL and autoscaling](../avance/dimensionnement-postgresql-hpa.md).
 
-## Organisations filles
+## Child organizations
 
-Une fille hérite par défaut des deux destinations et de leurs filtres. Elle peut personnaliser toute la configuration sans copier les secrets de sa mère, ou désactiver les deux exports. L'option **Imposer cette configuration aux organisations filles** applique la configuration de l'ancêtre aux descendantes ; les configurations locales déjà enregistrées restent inactives jusqu'au retrait du verrou. Chaque organisation exporte seulement ses propres données, identifiées par `organization.id`. Pour une destination héritée, la fille voit l'hôte de l'adresse d'export, jamais son chemin ni ses paramètres, qui peuvent porter un secret de l'ancêtre.
+A child inherits both destinations and their filters by default. It may customize the full configuration without copying the parent's secrets, or disable both exports. **Enforce this configuration on child organizations** applies the ancestor's configuration to descendants; saved local configurations stay inactive until the lock is removed. Each organization exports only its own data, identified by `organization.id`. For an inherited destination, the child sees the host of the export address, never its path or parameters, which may carry a secret belonging to the ancestor.
 
-Les accès aux données dans le collecteur, Loki, Prometheus et Grafana doivent être isolés par leurs propres règles. Un filtre sur `organization.id` dans un tableau de bord ne constitue pas un contrôle d'accès.
+Access to data in the collector, Loki, Prometheus and Grafana must be isolated using those systems' own controls. A dashboard filter on `organization.id` is not an access control.
 
-![Milvago - Organisations filles](/img/docs/fr/administration-observabilite-03.png)
+![Milvago - Child organizations](/img/docs/en/administration-observabilite-03.png)

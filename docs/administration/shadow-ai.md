@@ -1,160 +1,158 @@
-﻿---
+---
 sidebar_position: 3
 title: Shadow AI
 ---
 
 # Shadow AI
 
-## Accéder à l’écran
+## Open the page
 
-Dans la barre latérale, cliquez sur **Administration**, puis sur **Shadow AI**. Vous devez disposer de `policy.manage` (« Gérer la politique (Shadow AI) »).
+In the sidebar, click **Administration**, then **Shadow AI**. You need `policy.manage`.
 
-Pour modifier une règle :
+1. Select the rule section in the vertical navigation.
+2. Change the relevant fields.
+3. Click **Save changes**. The Draft badge disappears and the confirmation states that installations receive the new revision at their next synchronization.
 
-1. Sélectionnez sa section dans la navigation verticale.
-2. Modifiez les champs concernés.
-3. Cliquez sur **Enregistrer les modifications**. Le badge Brouillon disparaît et la confirmation indique que les installations recevront la nouvelle révision à leur prochaine synchronisation.
+The "Shadow AI administration" screen carries the **policy applied to AI usage**: what is collected, which services are observed, blocked or redirected, what is masked on the way out of the device, what Discovery is allowed to name. It answers the question "**which rules do my devices apply**". Access requires the `policy.manage` permission ("Manage policy (Shadow AI)").
 
-L'écran « Administration Shadow AI » porte la **politique appliquée aux usages d'IA** : ce qui est collecté, quels services sont observés, bloqués ou redirigés, ce qui est masqué au départ du poste, ce que Découverte a le droit de nommer. Il répond à la question « **quelles règles mes postes appliquent-ils** ». L'accès exige la permission `policy.manage` (« Gérer la politique (Shadow AI) »).
+The line under the title sets the frame: "Collection, protection and operations in one consistent policy." The policy is **signed and revised** — every save produces a new revision, distributed to the installations at their next synchronization; a device never applies a revision older than its own.
 
-La ligne sous le titre fixe le cadre : « Collecte, protection et exploitation, dans une politique cohérente. » La politique est **signée et révisée** — chaque enregistrement produit une nouvelle révision, distribuée aux installations à leur prochaine synchronisation ; un poste n'applique jamais une révision plus ancienne que la sienne.
+## The sections
 
-## Les sections
+A vertical navigation splits the screen, numbered in the order of the policy:
 
-Une navigation verticale découpe l'écran, numérotée dans l'ordre de la politique :
+1. **Enrollment & collection** — how a device obtains the right to report, and what collection keeps.
+2. **Services** — the covered services and their behavior; in Enterprise, model controls.
+3. **Protections** — blocking of attachments and protected words.
+4. **Local masking** — replacement of detected data before anything is sent.
+5. **Usage sensitivity** — Enterprise only; the section does not exist elsewhere.
+6. **AI platforms** — what Discovery reports, at the organization level.
+7. **Operations** — signed updates and pilot fleet, under the diagnostic flag.
 
-1. **Enrôlement & collecte** — comment un poste obtient le droit de transmettre, et ce que la collecte conserve.
-2. **Services** — les services couverts et leur comportement ; en Enterprise, le contrôle des modèles.
-3. **Protections** — blocage des pièces jointes et mots protégés.
-4. **Masquage local** — remplacement des données détectées avant tout envoi.
-5. **Sensibilité des usages** — Enterprise uniquement ; la section n'existe pas dans le reste.
-6. **Plateformes IA** — ce que Découverte signale, au niveau de l'organisation.
-7. **Exploitation** — mises à jour signées et parc pilote, sous drapeau de diagnostic.
+Every save reads "Configuration saved. Installations will receive it at their next synchronization." As long as fields change, a "Draft" badge signals the unsaved state.
 
-Chaque enregistrement lit « Configuration enregistrée. Les installations la recevront à leur prochaine synchronisation. » Tant que des champs changent, un badge « Brouillon » signale l'état non enregistré.
+![Milvago - The sections](/img/docs/en/administration-shadow-ai-01.png)
 
-![Milvago - Les sections](/img/docs/fr/administration-shadow-ai-01.png)
+## Enrollment & collection
 
-## Enrôlement & collecte
+### Device approval
 
-### Approbation des postes
+"Choose how a new installation receives permission to report." Three modes:
 
-« Choisissez comment une nouvelle installation obtient le droit de transmettre. » Trois modes :
+- **Manual approval** — every installed device appears as pending and reports nothing until approved in Devices.
+- **Automatic approval** — the device reports as soon as it enrolls.
+- **Allowed networks and domains** — a list of rules, up to 50 (**Add rule** / **Delete rule**). Each rule carries a required **Network (CIDR)** and an optional **Machine domain (optional)**. A device is approved automatically when its connecting address, as seen by the server, is inside a rule's network and, when the rule names a domain, the machine declared that domain at enrollment.
 
-- **Approbation manuelle** — chaque poste installé apparaît en attente et ne transmet rien avant approbation dans Postes.
-- **Approbation automatique** — le poste transmet dès son inscription.
-- **Selon le réseau et le domaine** — une liste de règles, jusqu'à 50 (**Ajouter une règle** / **Supprimer la règle**). Chaque règle porte un **Réseau (CIDR)** obligatoire et un **Domaine de la machine (facultatif)**. Un poste est approuvé automatiquement quand son adresse de connexion, telle que le serveur la constate, se trouve dans le réseau d'une règle et, si la règle nomme un domaine, que la machine a déclaré ce domaine à l'inscription.
+  A request received behind a reverse proxy, an Ingress or a Gateway — carrying a `Forwarded`, `X-Forwarded-For` or `X-Real-IP` header — is never approved by network: the device waits for manual approval in Devices. Behind such an intermediary, use manual or automatic approval instead.
 
-  Une requête reçue derrière un mandataire inverse, une Ingress ou une Gateway — reconnaissable à un en-tête `Forwarded`, `X-Forwarded-For` ou `X-Real-IP` — n'est jamais approuvée par le réseau : le poste attend une approbation manuelle dans Postes. Derrière un tel intermédiaire, utilisez plutôt l'approbation manuelle ou l'approbation automatique.
+  Declared domains: an Active Directory DNS domain (Windows joined to an AD), an Entra ID tenant ID (Windows joined to Entra), or a Linux Kerberos realm (`realm join`, `default_realm` from `/etc/krb5.conf`). Matching is case-insensitive and exact, with no partial or suffix match.
 
-  Les domaines déclarés : domaine DNS Active Directory (Windows joint à un AD), identifiant de tenant Entra ID (Windows joint à Entra) et royaume Kerberos Linux (`realm join`, `default_realm` de `/etc/krb5.conf`). La comparaison est exacte et insensible à la casse, sans correspondance partielle ni de suffixe.
+  A domain never approves on its own: a rule always requires a CIDR, since the domain is declared by the machine itself and the server cannot verify it — someone holding the organization's installer on a machine outside the fleet could declare any domain. Rules written before this version (a plain network list) keep working as rules without a domain. Agents older than version 0.5.45 declare no domain: only domainless rules can approve them.
 
-  Un domaine n'approuve jamais seul : une règle exige toujours un CIDR, car le domaine est déclaré par la machine elle-même et le serveur ne peut pas le vérifier — quelqu'un disposant de l'installateur de l'organisation sur une machine hors du parc pourrait déclarer n'importe quel domaine. Les règles écrites avant cette version (simple liste de réseaux) continuent de fonctionner comme des règles sans domaine. Les agents antérieurs à la version 0.5.45 ne déclarent aucun domaine : seules les règles sans domaine peuvent les approuver.
+This section exists only at the organization level: neither a group nor a device redefines enrollment.
 
-Cette section n'existe qu'au niveau de l'organisation : ni un groupe, ni un poste ne redéfinit l'enrôlement.
+### Browser collection
 
-### Collecte navigateur
+- **Enable collection** — the usage in the browser. Turning it off stops new collection.
+- **Retain request and response text** — "Off by default. Enabling requires a second factor verified moments ago, never an API key. Reading requires a separate permission." The console then redirects to the second-factor verification and replays the change on return. Text retention is bounded by "Text retention (days)", from 1 to 30. Turning content off stops new collection and removes queued text at the next policy refresh; it does not delete the metadata already received.
+- **Retain submitted file names** — "Names only, never contents." They are collected where a file actually enters the composer — selection, drop, paste; a file added through a path the page does not expose stays invisible.
 
-- **Activer la collecte** — les usages dans le navigateur. La désactivation arrête les nouvelles collectes.
-- **Conserver le texte des requêtes et réponses** — « Désactivé par défaut. L'activation exige un second facteur vérifié à l'instant, jamais une clé d'API. La lecture nécessite une autorisation distincte. » La console redirige alors vers la vérification du second facteur et rejoue le changement au retour. La conservation des textes est bornée par « Conservation des textes (jours) », de 1 à 30. Désactiver le contenu arrête les nouvelles collectes et retire les textes en attente au prochain rafraîchissement de politique ; il ne supprime pas les métadonnées déjà reçues.
-- **Conserver les noms des fichiers transmis** — « Les noms seuls, jamais le contenu. » Ils sont relevés là où un fichier entre réellement dans le composeur — sélection, dépôt, collage ; un fichier ajouté par un chemin que la page n'expose pas reste invisible.
+The section description carries the edition limit: "Community connects the extension to the open Rust bridge. Local application conversations remain an Enterprise capability."
 
-La description de section porte la limite d'édition : « Community associe l'extension au pont Rust ouvert. Les conversations d'applications locales restent une capacité Enterprise. »
-
-![Milvago - Collecte navigateur](/img/docs/fr/administration-shadow-ai-02.png)
+![Milvago - Browser collection](/img/docs/en/administration-shadow-ai-02.png)
 
 ## Services
 
-« Le catalogue et les domaines autorisés viennent du serveur. Un service activé n'implique pas une couverture exhaustive de son interface. » Chaque service couvert porte :
+"The catalog and allowed domains come from the server. An enabled service does not imply exhaustive interface coverage." Each covered service carries:
 
-- une case d'activation ;
-- ses domaines, affichés tels que le catalogue les déclare ;
-- un **comportement** : Observer, Bloquer, Rediriger ;
-- en redirection, une **destination de redirection** obligatoire.
+- an activation switch;
+- its domains, displayed as the catalog declares them;
+- a **behavior**: Observe, Block, Redirect;
+- when redirecting, a mandatory **redirect destination**.
 
 :::enterprise
 
-Le paquet Community ne construit que les adaptateurs ChatGPT et Claude : son catalogue d'usine et son exécution ne nomment jamais les autres services. Enterprise couvre neuf fournisseurs — ChatGPT, Claude, Le Chat, Copilot, Gemini, NotebookLM, DeepSeek, Perplexity, Grok.
+The Community package builds only the ChatGPT and Claude adapters: its factory catalog and its execution never name the other services. Enterprise covers nine providers — ChatGPT, Claude, Le Chat, Copilot, Gemini, NotebookLM, DeepSeek, Perplexity, Grok.
 
-### Contrôle des modèles
+### Model controls
 
-Quand l'édition qualifie le contrôle des modèles, la section Services gagne un bloc « Contrôle des modèles » : « Les restrictions de services sont prioritaires. Ces règles précisent les modèles autorisés ou refusés par plateforme. » Chaque plateforme, par canal (Navigateur ou Application locale), porte une règle — « Sans restriction », « Tout autoriser sauf la liste », « Tout interdire sauf la liste » — et, le cas échéant, une liste d'identifiants exacts de modèles : un identifiant par ligne, 100 maximum, non approchés. « Les modèles Unknown ou Auto non vérifiables sont bloqués tant qu'une restriction est active. »
+When the edition qualifies model controls, the Services section gains a "Model controls" block: "Service restrictions take precedence. These rules refine allowed or denied models for each platform." Each platform, per channel (Browser or Local application), carries a rule — "No restriction", "Allow all except listed", "Deny all except listed" — and, where applicable, a list of exact model identifiers: one identifier per line, 100 maximum, never approximated. "Unverifiable Unknown or Auto models are blocked while a restriction is active."
 
-Un tableau « État appliqué par poste » recense, par poste et plateforme, l'état (À mettre à jour, En attente, Appliqué, Indisponible), la révision attendue et la raison éventuelle : « Les règles enregistrées restent distinctes des révisions effectivement appliquées. » Le poste y apparaît sous son nom réel pour qui porte `devices.read` hors consultation agrégée seule ; les autres lecteurs voient l'alias du poste. En consultation agrégée seule, le tableau ne compte que les postes par plateforme, canal et état, sans désigner de poste. L'observation du nom du modèle ayant répondu reste ouverte aux deux éditions ; la décision d'autoriser ou refuser un modèle est Enterprise.
+An "Applied device status" table lists, per device and platform, the state (Needs update, Pending, Applied, Unavailable), the expected revision and any reason: "Saved rules remain distinct from revisions actually applied." The device appears there under its real name for a reader holding `devices.read` outside aggregate-only reporting; other readers see the device alias. In aggregate-only reporting, the table only counts devices per platform, channel and state, without naming a device. Observing the name of the model that answered remains open to both editions; the decision to allow or deny a model is Enterprise.
 
-Le confinement au niveau système (WFP sous Windows, SELinux sous Linux) ne couvre que les exécutables enregistrés, à leur emplacement d'installation. Une copie de l'exécutable placée ailleurs n'est pas confinée.
+System-level confinement (WFP on Windows, SELinux on Linux) only covers registered executables at their installed path. A copy of the executable placed elsewhere is not confined.
 
 :::
 
-![Milvago - Contrôle des modèles](/img/docs/fr/administration-shadow-ai-03.png)
+![Milvago - Model controls](/img/docs/en/administration-shadow-ai-03.png)
 
 ## Protections
 
-### Pièces jointes
+### Attachments
 
-**Bloquer les envois de fichiers** scelle les routes de téléversement **mesurées** du catalogue (`kind:"file"`) — les URL qu'un envoi déclenche réellement sur le site, relevées sur place et publiées dans le catalogue signé, jamais devinées. Aucune heuristique sur la méthode, l'hôte ou la forme du corps : seules les routes de téléversement mesurées sont concernées, afin d’éviter d’intercepter un envoi légitime. « L'interception dépend du navigateur et des interfaces prises en charge. »
+**Block file uploads** seals the **measured** upload routes of the catalog (`kind:"file"`) — the URLs an upload actually triggers on the site, read on the spot and published in the signed catalog, never guessed. No heuristic on the method, the host or the body shape: only measured upload routes are sealed, so a legitimate upload is never intercepted. "Interception depends on the browser and supported interfaces."
 
-### Mots et expressions à protéger
+### Protected words and phrases
 
-« Les détections sont appliquées localement selon la politique signée. » Le bloc porte :
+"Detections are applied locally according to the signed policy." The block carries:
 
-- **Expressions protégées** — une expression par ligne ; ne pas y placer d'identifiants d'accès.
-- Trois paliers de correspondance, réglés séparément : **Correspondance exacte**, **Variantes Unicode**, **Correspondance approchée** (ce dernier peut être Désactivé).
-- **Exceptions** — une par ligne ; elles réduisent le périmètre de détection.
-- **Message présenté lors d'un blocage**.
+- **Protected phrases** — one phrase per line; do not put access credentials in a rule.
+- Three match tiers, set separately: **Exact match**, **Unicode variants**, **Approximate match** (the latter can be Off).
+- **Exceptions** — one per line; they reduce the detection coverage.
+- **Message shown when blocked**.
 
-![Milvago - Mots et expressions à protéger](/img/docs/fr/administration-shadow-ai-04.png)
+![Milvago - Protected words and phrases](/img/docs/en/administration-shadow-ai-04.png)
 
-## Masquage local
+## Local masking
 
-« Agit sur le texte capturé, sur le poste, avant tout envoi : chaque donnée détectée est remplacée par son étiquette, par exemple [email]. Indépendant de la sensibilité des usages (tableaux de bord) et de la conservation des textes. » Deux interrupteurs : **Activer le masquage**, et **Demander une relecture avant envoi**.
-
-:::enterprise
-
-Les **catégories intégrées** — E-mail, Téléphone, IBAN, Carte de paiement, Identifiant social (France), Numéro de sécurité sociale (États-Unis), Adresse IP — sont une capacité Enterprise. La garde réseau ne retient que ce qui porte un prompt : une route de prompt du catalogue, ou un corps ayant la forme d'un prompt — le composeur a déjà arrêté ou masqué le texte à la source. Les marqueurs portent le **libellé de la règle** et un numéro par valeur distincte dès qu'il y en a plusieurs : `[IP]`, ou `[IP1]` et `[IP2]`.
-
-:::
-
-### Règles de masquage personnalisées
-
-Les deux éditions définissent des règles personnalisées : un **libellé**, une **expression régulière** bornée (sans références arrière ni assertions — le serveur refuse les motifs dangereux), **Active**, **Ignorer la casse**. Un libellé que sa propre expression reconnaît est signalé et bloqué à l'enregistrement : le libellé devient le marqueur inséré dans le texte masqué (`[LIBELLE]`, `[LIBELLE1]`…), et une expression qui le capturerait masquerait ses propres marqueurs à chaque passage, sans fin.
-
-En Community, sans catégories intégrées, l'écran l'explicitement : « Cette édition ne fournit pas de motifs de détection intégrés : définissez vos propres expressions régulières dans « Règles de masquage personnalisées » ci-dessous. »
-
-![Milvago - Règles de masquage personnalisées](/img/docs/fr/administration-shadow-ai-05.png)
+"Acts on the captured text, on the device, before anything is sent: each detected item is replaced by its label, for example [email]. Independent from usage sensitivity (dashboards) and from text retention. Detection is heuristic and limited to supported formats; review results before expanding deployment." Two switches: **Enable masking**, and **Require review before sending**.
 
 :::enterprise
 
-## Sensibilité des usages
-
-La section n'existe en Enterprise que si l'édition qualifie la sensibilité — sans quoi elle n'est pas affichée du tout, jamais vide. « Détermine quelles catégories détectées rendent un événement « sensible » dans le journal, la cartographie et les exports. Ne modifie pas le texte capturé : le masquage se règle dans « Masquage local ». Les catégories sont des indices de sensibilité, pas une certification de conformité. »
-
-Trois blocs :
-
-- **Sensibilité des usages navigateur** et **Sensibilité des applications locales** — les catégories qui marquent un événement sensible : les données personnelles, plus Code source, Données médicales et Mots-clés.
-- **Termes médicaux** — « Un texte contenant l'un de ces termes reçoit l'étiquette « Données médicales ». Recherche de sous-chaîne, insensible à la casse, sur le poste. » Un terme par ligne, 100 au maximum, 60 caractères chacun ; liste vide, aucune détection.
-
-Les mots-clés viennent des expressions protégées de « Protections ».
+The **built-in categories** — Email, Phone, IBAN, Payment card, Social identifier (France), Social Security number (United States), IP address — are an Enterprise capability. The network guard only retains what carries a prompt: a prompt route of the catalog, or a body shaped like a prompt — the composer has already stopped or masked the text at the source. The markers carry the **rule label** and a number per distinct value as soon as there are several: `[IP]`, or `[IP1]` and `[IP2]`.
 
 :::
 
-## Plateformes IA
+### Custom masking rules
 
-Cette section se règle **au niveau de l'organisation** : Découverte se lit là, les plateformes qu'elle a le droit de nommer s'y choisissent. Elle porte deux réglages distincts :
+Both editions define custom rules: a **label**, a bounded **regular expression** (without backreferences or lookaround — the server rejects unsafe patterns), **Enabled**, **Ignore case**. A label recognized by its own expression is reported and blocks the save: the label becomes the marker inserted into the masked text (`[LABEL]`, `[LABEL1]`…), and an expression that would capture it would mask its own markers on every pass, endlessly.
 
-- **Découvrir les domaines candidats** — « Une fois activée, la découverte inspecte localement les corps des requêtes en mémoire pour reconnaître leur structure, sans les conserver. » L'interrupteur écrit dans les réglages de confidentialité : il exige `settings.manage`, une MFA fraîche et un motif écrit d'au moins 8 caractères, conservé au journal d'audit. Désactivée par défaut, l'écran Découverte reste vide avec l'avis qui renvoie ici.
-- **La liste des plateformes connues** — regroupées par catégorie (Assistants généralistes, Assistants de programmation, Agrégateurs multi-modèles…), avec recherche et compte « Plateformes : N · masquées de Découverte : N ». Décocher une plateforme la **masque de Découverte** : « Présence seule : ces plateformes sont signalées comme atteintes, rien n'est lu dans leurs pages. Masquer une plateforme continue d'enregistrer ses visites et la retire de Découverte ; l'afficher de nouveau restitue son historique. » Le masquage ne traverse pas le catalogue signé : c'est un choix de lecture, pas un changement de détection, et il ne produit pas de nouvelle révision de politique.
+In Community, without built-in categories, the screen states it explicitly: "This edition ships no built-in detection patterns: define your own regular expressions under \"Custom masking rules\" below."
 
-Une plateforme que l'édition capture déjà n'apparaît jamais dans la liste : le serveur n'envoie que ce que cette édition ne capture pas en entier, et une plateforme capturée ne peut pas atteindre Découverte.
+![Milvago - Custom masking rules](/img/docs/en/administration-shadow-ai-05.png)
 
-![Milvago - Plateformes IA](/img/docs/fr/administration-shadow-ai-06.png)
+:::enterprise
 
-## Exploitation
+## Usage sensitivity
 
-Sous drapeau de diagnostic de l'instance, la section « Mises à jour et parc pilote » règle les **mises à jour signées** : activation, part du parc pilote, identifiants des postes pilotes, versions suspendues. Sans chaîne de livraison signée annoncée, la case est inerte avec l'avis « Aucune chaîne de mise à jour signée n'est annoncée comme opérationnelle. » La désactivation porte son propre avertissement : « Les agents restent sur leur version installée, y compris en cas de correctif de sécurité. »
+The section exists in Enterprise only when the edition qualifies sensitivity — otherwise it is not displayed at all, never empty. "Decides which detected categories mark an event as sensitive in the journal, the cartography and exports. Does not change the captured text: masking is configured under Local masking. Categories indicate sensitivity; they do not certify compliance."
 
-Un bloc « État constaté par le serveur » affiche l'état annoncé et les versions signées disponibles.
+Three blocks:
 
-## Héritage et dérogations
+- **Browser usage sensitivity** and **Local application sensitivity** — the categories that mark an event as sensitive: personal data, plus Source code, Medical data and Keywords.
+- **Medical terms** — "A text containing one of these terms receives the \"Medical data\" label. Case-insensitive substring search, on the device." One term per line, 100 at most, 60 characters each; an empty list means no detection.
 
-La politique se lit en cascade : **organisation → groupe de postes → poste**. Au niveau organisation, chaque section peut être **imposée** aux descendants qui héritent ; un groupe ou un poste peut déroger section par section, la dérogation la plus proche du poste gagnant. Voir [Héritage de la configuration](../introduction/heritage-configuration.md), [Groupes de postes](../fleet/groupes.md) et [Postes](../fleet/postes.md).
+Keywords come from the protected phrases of Protections.
+
+:::
+
+## AI platforms
+
+This section is set **at the organization level**: Discovery is read there, and the platforms it is allowed to name are chosen there. It carries two distinct settings:
+
+- **Discover candidate domains** — "When enabled, request bodies are inspected locally in memory to detect structural signals. They are not retained by discovery." The switch writes to the privacy settings: it requires `settings.manage`, a fresh MFA and a written reason of at least 8 characters, kept in the audit log. Off by default, the Discovery screen stays empty with the notice that refers here.
+- **The list of known platforms** — grouped by category (General assistants, Coding assistants, Multi-model aggregators…), with search and the count "Platforms: N · hidden from Discovery: N". Unchecking a platform **hides it from Discovery**: "Presence only: these platforms are reported as reached, and nothing is read from their pages. Hiding one keeps recording the visits and removes it from Discovery, so showing it again brings its history back." Hiding does not traverse the signed catalog: it is a reading choice, not a detection change, and it produces no new policy revision.
+
+A platform the edition already captures never appears in the list: the server only sends what this edition does not capture fully, and a captured platform cannot reach Discovery.
+
+![Milvago - AI platforms](/img/docs/en/administration-shadow-ai-06.png)
+
+## Operations
+
+Under the diagnostic flag of the instance, the "Updates and pilot devices" section configures **signed updates**: activation, share of the pilot fleet, identifiers of pilot devices, paused versions. Without an announced signed delivery chain, the switch is inert with the notice "No signed update delivery chain is reported as operational." Turning it off carries its own warning: "Signed updates are off: agents stay on their installed version, including when a security fix is published."
+
+A "Server-reported status" block shows the announced state and the signed versions available.
+
+## Inheritance and derogations
+
+The policy is read in cascade: **organization → device group → device**. At the organization level, every section can be **enforced** on the descendants that inherit; a group or a device can derogate section by section, the derogation closest to the device winning. See [Configuration inheritance](../introduction/heritage-configuration.md), [Device groups](../fleet/groupes.md) and [Devices](../fleet/postes.md).

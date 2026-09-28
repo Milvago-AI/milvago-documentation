@@ -17,22 +17,24 @@ Haga clic en **Administración** > **Ajustes**. Las secciones dependen de sus pe
 
 La pantalla Ajustes responde a la pregunta « **cómo se configuran esta organización y esta instancia** ». Su línea bajo el título lo anuncia: « Ajustes de la organización y de la instancia. » Una navegación vertical divide las secciones, y **cada sección solo aparece con el permiso que la gobierna**: lo que usted no puede configurar no se muestra.
 
-[IMAGEAMETTREICI 01]
+![Milvago - Acceder a la pantalla](/img/docs/en/administration-parametres-01.png)
 
 ## Organización
 
 Siempre presente. Cuatro campos, guardados juntos:
 
 - **Nombre de la organización** — modificable por el propietario de la organización.
-- **URL HTTPS pública (agente)** — « URL anunciada a los agentes y a la extensión del navegador (inscripción, instaladores, update.xml). Cambiarla tras el despliegue no afecta a los dispositivos ya inscritos: conservan su URL y deben volver a inscribirse para cambiarla. » Solo el propietario de la organización raíz puede modificarla; para los demás, el campo porta el aviso « Solo el propietario de la organización raíz puede cambiar esta URL. » Su confirmación condiciona la descarga de los instaladores.
-- **Idioma predeterminado de la instancia** — « Se aplica a la página de inicio de sesión a la que se llega sin idioma. Los usuarios sin preferencia personal siguen su navegador y luego el inglés. » Solo el propietario raíz lo modifica.
-- **Conservación de eventos (días)** — de 1 a 3650; « El servidor valida y aplica el periodo de conservación. » Acortar esta duración exige un segundo factor verificado hace un momento y nunca está disponible para una clave API: la siguiente purga horaria elimina de inmediato el historial que quede más antiguo que la nueva duración, textos conservados incluidos. Alargarla no cambia.
+- **URL pública de Milvago** — La consola del navegador, el inicio de sesión de Keycloak, los agentes y la extensión usan este origen. Solo el propietario de la organización raíz puede cambiarlo. Milvago actualiza el realm y la redirección de la consola mediante la API privada de Keycloak; los nuevos inicios de sesión usan la URL nueva. Los dispositivos ya inscritos conservan la URL anterior y deben volver a inscribirse para cambiar. Confirmar la URL también habilita las descargas de instaladores.
+- **Idioma predeterminado de la instancia** — « Se aplica a la página de inicio de sesión a la que se llega sin idioma. Los usuarios sin preferencia personal siguen su navegador y luego el inglés. Solo el propietario de la organización raíz puede cambiarlo. »
+- **Conservación de eventos (días)** — de 1 a 365; « El servidor valida y aplica el periodo de conservación. » Acortar esta duración exige un segundo factor verificado hace un momento y nunca está disponible para una clave API: la siguiente purga horaria elimina de inmediato el historial que quede más antiguo que la nueva duración, textos conservados incluidos. Alargarla no cambia.
 
 Un banner « Completar la configuración » aparece mientras la URL pública no esté confirmada en una instancia instalada en modo automático (`BOOTSTRAP_EMAIL`) — el asistente de [primera instalación](../installation/premiere-installation.md) fija directamente estos valores y nunca deja este banner detrás. Abre un asistente en dos pasos: idioma predeterminado de la instancia, luego nombre de la organización y URL HTTPS pública. El mismo banner lo recuerda de otro modo: « Los agentes y la extensión del navegador se conectarán a esta URL. Confírmela en Administración antes de desplegar. »
 
 ## Licencia
 
 Siempre presente para quien pueda abrir Ajustes: no es un permiso el que la gobierna, sino el rol de propietario de la instancia el que autoriza a modificarla. Su descripción en pantalla: « Estado de la licencia de esta instancia. »
+
+En Community, el panel también indica: «La licencia gratuita solo elimina los límites de Community. No desbloquea Enterprise, que requiere la edición Enterprise y una licencia distinta».
 
 - **Estado** — insignia Ninguna, Válida, Período de gracia o Expirada.
 - **Tipo** — Enterprise, Community, o « — » si la instancia nunca recibió una licencia.
@@ -45,11 +47,11 @@ Bajo esta información, el propietario de la instancia ve un campo para pegar el
 
 En **Community**, el propietario de la instancia ve también, bajo ese campo, una zona **Solicitar una licencia gratuita**: una dirección de correo (precargada con la suya) y el botón **Enviar la solicitud**; « Solicitud enviada. Revise el correo de {`dirección`} y pegue a continuación la licencia recibida. » confirma el envío. La solicitud va a Milvago AI, que responde por correo con el texto a pegar aquí. Esta licencia gratuita es perpetua y levanta todos los límites del modo restringido descritos a continuación.
 
-[IMAGEAMETTREICI 02]
+![Configuración de la licencia Community](/img/docs/es/administration-parametres-02.png)
 
 ### Modo restringido (Community sin licencia)
 
-Mientras no se acepte ninguna licencia, una instancia Community funciona en **modo restringido**: 5 dispositivos como máximo (los revocados no cuentan), la única cuenta de administrador creada en la instalación, ninguna gestión de roles ni de miembros — la entrada **Roles** desaparece de la navegación de Administración —, ningún directorio LDAP — la sección **Directorio LDAP** de más abajo desaparece de esta misma página — y ninguna conexión SSO. Un banner de advertencia « Sin licencia » aparece entonces en cada página de la consola, con un enlace para abrir los ajustes. Inscribir un dispositivo por encima del límite falla con « Esta instancia alcanzó su límite de dispositivos para su licencia actual. »
+Mientras no se acepte ninguna licencia, una instancia Community funciona en **modo restringido**: 5 dispositivos como máximo (los revocados no cuentan), la única cuenta de administrador creada en la instalación, ninguna gestión de roles ni de miembros — la entrada **Roles** desaparece de la navegación de Administración —, ningún directorio LDAP — la sección **Directorio LDAP** de más abajo desaparece de esta misma página —, y ningún SSO — la sección **SSO** también desaparece, y el inicio de sesión SSO se rechaza. Un banner de advertencia « Sin licencia » aparece entonces en cada página de la consola, con un enlace para abrir los ajustes. Inscribir un dispositivo por encima del límite falla con « Esta instancia alcanzó su límite de dispositivos para su licencia actual. »
 
 ### Enterprise: expiración y bloqueo
 
@@ -61,7 +63,7 @@ Una licencia está vinculada al identificador de esta instancia (mostrado arriba
 
 ## Directorio LDAP
 
-Presente con el permiso `directory.manage` (« Gestionar el directorio LDAP ») y una licencia fuera del modo restringido: en una instancia Community sin licencia, esta sección no se muestra. Un directorio LDAP propio de la organización, materializado en el proveedor de identidad: tipo de directorio (Active Directory, y las convenciones prellenadas para los demás, editables), URL de conexión `ldap://` o `ldaps://`, DN de conexión, DN de usuarios, atributos, filtro, ámbito, tiempos de espera, paginación. La pantalla impone un transporte verificado — LDAPS o StartTLS — antes de toda transmisión de credenciales: « LDAP requires LDAPS or StartTLS », la validación lo rechaza si no.
+Presente con el permiso `directory.manage` (« Gestionar el directorio LDAP y el SSO ») y una licencia fuera del modo restringido: en una instancia Community sin licencia, esta sección no se muestra. Un directorio LDAP propio de la organización, materializado en el proveedor de identidad: tipo de directorio (Active Directory, y las convenciones prellenadas para los demás, editables), URL de conexión `ldap://` o `ldaps://`, DN de conexión, DN de usuarios, atributos, filtro, ámbito, tiempos de espera, paginación. La pantalla impone un transporte verificado — LDAPS o StartTLS — antes de toda transmisión de credenciales: « LDAP requires LDAPS or StartTLS before any directory credentials are transmitted. », la validación lo rechaza si no.
 
 El botón **Probar la conexión** repite las dos etapas (« La conexión y la autenticación funcionaron. » o la etapa en fallo); **Guardar el directorio** activa la conexión LDAP; **Eliminar el directorio** advierte: « Los usuarios de este directorio ya no podrán iniciar sesión. » Probar, guardar y eliminar el directorio exigen cada uno un segundo factor verificado hace un momento; ninguna de estas tres acciones está disponible para una clave API.
 
@@ -70,6 +72,16 @@ Las cuentas de directorio se importan luego en [Miembros](membres.md).
 :::enterprise
 
 Crear, probar, modificar o eliminar un directorio está reservado a un propietario de la organización raíz, para la organización raíz o, tras cambiar a ella, para una organización hija — el inicio de sesión de toda organización consulta cada directorio del proveedor de identidad compartido. En una organización hija, las demás personas ven en su lugar el aviso « Solo un propietario de la organización raíz puede configurar un directorio, porque el inicio de sesión de todas las organizaciones lo consulta. » o, cuando ya hay uno configurado, « El directorio de esta organización lo configura un propietario de la organización raíz, porque el inicio de sesión de todas las organizaciones lo consulta. Sus usuarios se importan en Miembros. »
+
+:::
+
+## SSO
+
+Presente bajo las mismas condiciones que **Directorio LDAP**: el permiso `directory.manage` y una licencia fuera del modo restringido. Configura el inicio de sesión con **Google Workspace** y **Microsoft Entra ID**: para cada proveedor, la **URI de redirección** que hay que registrar en el proveedor, el ID de cliente, el secreto de cliente — nunca vuelve a mostrarse, se deja en blanco para conservarlo — y el dominio de Google Workspace o el tenant de Microsoft Entra que restringe quién puede iniciar sesión. **Guardar** y **Eliminar el proveedor** exigen cada uno un segundo factor verificado hace un momento, y ninguno está disponible para una clave API. El procedimiento completo está en [SSO (Google / Microsoft Entra ID)](../avance/sso.md).
+
+:::enterprise
+
+Los proveedores se ofrecen en la página de inicio de sesión de todas las organizaciones: solo un propietario de la organización raíz puede configurarlos. Cualquier otra persona lee « El inicio de sesión único se aplica a todas las organizaciones de esta instancia: solo un propietario de la organización raíz puede configurarlo. »
 
 :::
 
@@ -89,6 +101,6 @@ Configura la manera en que un conector MCP obtiene sus propias credenciales: « 
 - **Hosts autorizados a recibir un inicio de sesión** — « Un host por línea, sin esquema, puerto ni ruta: claude.ai, o *.ejemplo.com. Un registro se rechaza si alguna dirección solicitada no está en estos hosts, de modo que un código nunca puede entregarse en otro sitio. » Un host genérico conserva al menos dos etiquetas después de `*.` — `*.ejemplo.com` se acepta, `*.com` se rechaza. Un estado « abierto a todos los hosts » puesto a mano en el proveedor de identidad se señala como tal, y no puede ser producido por esta pantalla.
 - **Límite de clientes registrados** — « Un registro que superara este número se rechaza. Acota el desorden, no el riesgo. »
 
-Lo que no se negocia: « Una persona siempre ve una pantalla de consentimiento antes de que un modelo alcance nada, un cliente registrado está limitado a sus derechos declarados, y nunca lee más que los derechos de quien inicia sesión. » Todo cliente público del proveedor de identidad debe usar PKCE, conectores registrados incluidos, y Milvago limita al arrancar la duración de las conexiones largas de los conectores — siete días sin uso, treinta días como máximo — sin alargar nunca una duración ya más corta. Véase [Claves de API y servidor MCP](../mon-profil/cles-api.md).
+Lo que no se negocia: « Una persona siempre ve una pantalla de consentimiento antes de que un modelo alcance nada, un cliente registrado está limitado a sus derechos declarados, y nunca lee más que los derechos de quien inicia sesión. El cliente declarado sigue sirviendo para un conector que exija un identificador. » Todo cliente público del proveedor de identidad debe usar PKCE, conectores registrados incluidos, y Milvago limita al arrancar la duración de las conexiones largas de los conectores — siete días sin uso, treinta días como máximo — sin alargar nunca una duración ya más corta. Véase [Claves de API y servidor MCP](../mon-profil/cles-api.md).
 
 :::

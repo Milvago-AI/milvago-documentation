@@ -9,7 +9,7 @@ Milvago da a una organización una vista exacta de los usos de IA: qué servicio
 
 La consola, la página de inicio de sesión y la documentación comparten una paleta más suave: fondos azul pizarra en modo oscuro, fondos gris azulado claro y tarjetas blancas en modo claro. El azul identifica las acciones; el verde, el ámbar y el rojo acompañan las etiquetas de estado.
 
-[IMAGEAMETTREICI 01]
+![Milvago - Qué es Milvago](/img/docs/en/introduction-milvago-01.png)
 
 ## Lo que el producto conserva — y lo que no conserva
 
@@ -38,4 +38,4 @@ Una edición declarada por el cliente nunca otorga autorización: las guardias e
 
 Sobrio, factual, preciso. Los estados vacíos y los errores son visibles y explicados, nunca disimulados; ningún dato ficticio se presenta como real. La promesa: **ver con precisión, actuar con confianza**.
 
-[IMAGEAMETTREICI 02]
+![Milvago - El tono](/img/docs/en/introduction-milvago-02.png)

@@ -1,96 +1,112 @@
 ---
 sidebar_position: 3
-title: Première installation
+title: First installation
 ---
 
-# Première installation
+# First installation
 
-Comment une instance Milvago toute neuve, sans aucun administrateur, se met-elle en service ? Cette page décrit l'assistant qui crée le premier compte, règle la sécurité, l'organisation, le serveur e-mail et les valeurs de confidentialité par défaut.
+How does a brand-new Milvago instance, with no administrator yet, get set up? This page describes the wizard that creates the first account and sets its security, the organization, the mail server, and the default privacy values.
 
-## Accéder à l'écran
+## Accessing the screen
 
-Une instance démarrée **sans** la variable `BOOTSTRAP_EMAIL` n'a pas d'administrateur : à la place de l'écran de connexion, la console affiche directement l'assistant « **Installer cette instance Milvago** ». Rien à cliquer pour l'ouvrir, il remplace la page d'entrée tant qu'aucun compte n'existe.
+An instance started **without** the `BOOTSTRAP_EMAIL` variable has no administrator: instead of the sign-in page, the console shows the wizard **"Set up this Milvago instance"** directly. There is nothing to click to open it — it replaces the entry page until an account exists.
 
-[IMAGEAMETTREICI 01]
 
-## Ce qui protège l'assistant
+## What protects the wizard
 
-L'assistant est fermé tant que le serveur ne dispose pas de deux choses :
+The wizard stays closed until the server has both:
 
-- **`MILVAGO_SETUP_TOKEN`** — un jeton à usage unique d'au moins 32 caractères, fourni par variable d'environnement ou par un Secret Kubernetes. Le serveur n'en conserve que l'empreinte SHA-256 ; il n'apparaît dans aucun journal. Le script Community `scripts/local-init.mjs` en génère un automatiquement dans `.env`.
-- **Un compte de service d'administration de l'identité** — `OIDC_ADMIN_CLIENT_ID` et `OIDC_ADMIN_CLIENT_SECRET`.
+- **`MILVAGO_SETUP_TOKEN`** — a one-time token of at least 32 characters, given by environment variable or by a Kubernetes Secret. The server keeps only its SHA-256 digest; it appears in no log.
+- **An identity administration service account** — `OIDC_ADMIN_CLIENT_ID` and `OIDC_ADMIN_CLIENT_SECRET`.
 
-Sans l'une ou l'autre, l'assistant affiche « **L'assistant d'installation est fermé** » — « Fournissez au serveur MILVAGO_SETUP_TOKEN et le compte d'administration de l'identité (OIDC_ADMIN_CLIENT_ID, OIDC_ADMIN_CLIENT_SECRET), puis rechargez cette page. » Voir [Variables d'environnement](variables-environnement.md).
+For Docker installation, see [Docker installation](docker.md).
 
-Rien n'est enregistré avant la dernière étape : le mot de passe et la licence saisie restent en mémoire de la page jusqu'à leur envoi, une seule fois, à la dernière étape, et ne sont jamais écrits dans un stockage du navigateur.
+Without either, the wizard shows **"The setup wizard is closed"** — "Give the server MILVAGO_SETUP_TOKEN and the identity administration account (OIDC_ADMIN_CLIENT_ID, OIDC_ADMIN_CLIENT_SECRET), then reload this page." See [Environment variables](variables-environnement.md).
 
-## Les neuf étapes
+No setup configuration is saved before the last step. A pasted license is sent to the server for validation at step 2 and checked again at completion. The password stays in the page's memory until completion; neither value is written to browser storage.
 
-### 1. Jeton d'installation
+## The nine steps
 
-Champ **Jeton d'installation** — « La valeur de MILVAGO_SETUP_TOKEN fournie au serveur. Elle n'apparaît dans aucun journal. » Une fois validé, une session d'installation s'ouvre.
+### 1. Setup token
 
-### 2. Licence
+Field **Setup token** — "The value of MILVAGO_SETUP_TOKEN given to the server. It appears in no log." Once validated, a setup session opens.
 
-**Enterprise** : « La licence est fournie par Milvago AI. Partagez l'identifiant d'instance ci-dessous lorsque vous en demandez une, puis collez-la ici pour continuer. » L'assistant affiche l'**identifiant d'instance** de la future installation, avec un bouton pour le copier, puis un champ pour coller le texte de la licence reçue. La licence est obligatoire pour continuer.
+![Installation wizard, step 1](/img/docs/en/installmilvago/step1_en.png)
 
-**Community** : trois choix, « Continuer sans licence » sélectionné par défaut :
+### 2. License
 
-- **J'ai une licence** — un champ pour coller le texte de la licence.
-- **Demander une licence gratuite** — une adresse e-mail à saisir, puis **Envoyer la demande** ; « Demande envoyée. Consultez la boîte de réception de {`adresse`} et collez ci-dessous la licence reçue. », suivi du même champ pour la coller.
-- **Continuer sans licence** — l'avis « Aucune licence » : « Limité à 5 postes, un seul compte administrateur, aucune gestion des droits, aucun annuaire LDAP et aucun SSO. Une licence peut être demandée plus tard depuis [Administration > Paramètres > Licence](../administration/parametres.md#licence). »
+**Enterprise**: "The license is provided by Milvago AI. Share the instance identifier below when you request one, then paste it here to continue." The wizard shows the **instance identifier** of the future installation, with a button to copy it, then a field to paste the received license text. The license is required to continue.
 
-Choisir « J'ai une licence » sans coller de texte, ou rester en Enterprise sans en coller un, bloque le passage à l'étape suivante avec « Saisissez une licence pour continuer. » Le texte collé n'est vérifié par le serveur qu'à la toute fin de l'assistant, au moment de créer le compte : une licence invalide, ou une licence Community proposée à une instance Enterprise, échoue alors avec l'erreur du serveur, affichée sur le Récapitulatif — pas sur cette étape. Le Récapitulatif liste ce choix en premier : « Licence saisie » ou « Aucune ».
+**Community**: three choices, "Continue without a license" selected by default:
 
-[IMAGEAMETTREICI 02]
+The wizard also explains: "The free license lifts only Community limits. It does not unlock Enterprise, which requires the Enterprise edition and a separate license."
 
-### 3. Langue
+- **I have a license** — a field to paste the license text.
+- **Request a free license** — an e-mail address to type in, then **Send the request**; "Request sent. Check the mailbox for {`address`} and paste the license you receive below.", followed by the same field to paste it.
+- **Continue without a license** — the notice "No license": "Limited to 5 devices, a single administrator account, no rights management, no LDAP directory and no SSO. A license can be requested later from [Administration > Settings > License](../administration/parametres.md#license)."
 
-**Langue par défaut de l'instance** : la choisir bascule immédiatement la langue de l'assistant.
+Choosing "I have a license" without pasting text, or staying on Enterprise without one, blocks the next step with "Enter a license to continue." When a license is entered, selecting Next verifies its signature, instance and edition on the server. An invalid license displays an error on this step and keeps the wizard here. The server checks it again before creating the account. The Summary lists this choice first: "License entered" or "None".
 
-### 4. Compte administrateur
+![Installation wizard, step 2](/img/docs/en/installmilvago/step2_en.png)
 
-« Ce compte devient propriétaire de l'organisation à sa première connexion. » Adresse e-mail, prénom, nom, puis le mot de passe saisi deux fois — « Au moins 12 caractères, différent de l'adresse e-mail. Le fournisseur d'identité peut en exiger davantage. » Le fournisseur d'identité a le dernier mot sur la politique de mot de passe.
+### 3. Language
 
-[IMAGEAMETTREICI 03]
+**Instance default language**: choosing it switches the wizard's language immediately.
 
-### 5. Sécurité
+![Installation wizard, step 3](/img/docs/en/installmilvago/step3_en.png)
 
-Deux réglages :
+### 4. Administrator account
 
-- **Enrôler une application d'authentification à la première connexion** — coché par défaut. « Recommandé : ce compte détient toutes les permissions. »
-- **Exiger l'authentification multifacteur pour tous les membres** — « Les membres qui se connectent par mot de passe doivent utiliser un second facteur. Les identités d'un fournisseur externe s'appuient sur le sien. »
+"This account becomes the owner of the organization at its first sign-in." E-mail address, first name, last name, then the password typed twice — "At least 12 characters, different from the e-mail address. The identity provider may require more." The identity provider's password policy has the final word.
 
-### 6. Organisation et accès
+![Installation wizard, step 4](/img/docs/en/installmilvago/step4_en.png)
 
-**Nom de l'organisation**, puis **URL HTTPS publique (agent)** — « Adresse utilisée par les agents et l'extension navigateur. » — préremplie avec l'adresse actuelle. Une URL HTTP n'est acceptée que sur un loopback explicite.
+### 5. Security
 
-### 7. Serveur e-mail
+Two settings:
 
-Étape facultative — « Sert à envoyer les invitations des membres. Il peut aussi être configuré plus tard dans le fournisseur d'identité. » Une fois **Configurer un serveur e-mail maintenant** cochée : hôte, port, sécurité de connexion (STARTTLS, TLS ou aucune), adresse et nom d'expéditeur, puis utilisateur et mot de passe facultatifs. Le bouton **Envoyer un e-mail de test** envoie un message réel à l'adresse de l'administrateur avec ces réglages. Des identifiants ne sont jamais acceptés sur une connexion distante non chiffrée. Ces réglages deviennent le serveur SMTP du fournisseur d'identité, utilisé ensuite pour les invitations.
+- **Enrol an authenticator app at the first sign-in** — checked by default. "After enrolment, this account must use its authenticator at every sign-in."
+- **Require multi-factor authentication for every member** — "Members who sign in with a password need a second factor. Identities from an external identity provider rely on its own."
 
-### 8. Confidentialité
+Enrolling an authenticator makes it mandatory for that account at later sign-ins. After the password, the same sign-in continues to the authenticator code without asking for the password again. The second setting extends the requirement to every member.
 
-Les mêmes réglages que Administration > Confidentialité, sauf **Attribut OIDC de l’équipe**, qui ne se règle qu’une fois un fournisseur d’identité en place — « Valeurs par défaut de l'organisation. Elles restent modifiables dans Confidentialité. »
+![Installation wizard, step 5](/img/docs/en/installmilvago/step5_en.png)
 
-### 9. Récapitulatif
+### 6. Organization and access
 
-« Vérifiez vos choix. Le compte administrateur est créé quand vous terminez ; vous vous connectez ensuite avec lui. » Le bouton final, **Créer l'administrateur et terminer**, déclenche la création.
+**Organization name**, then **Public Milvago URL** — the address used by console sign-in, Keycloak, agents, and the browser extension. It is prefilled from the current page. Enter the HTTPS address of the front proxy when using one; HTTP is accepted for trusted LAN testing.
 
-[IMAGEAMETTREICI 04]
+![Installation wizard, step 6](/img/docs/en/installmilvago/step6_en.png)
 
-## Ce qui se passe à la fin
+### 7. E-mail server
 
-Le compte est créé dans le fournisseur d'identité avec le mot de passe choisi, e-mail marqué comme vérifié ; les réglages d'organisation, de sécurité, de serveur e-mail et de confidentialité sont écrits ; le navigateur est ensuite redirigé vers la connexion. Si un second facteur a été retenu à l'étape Sécurité — enrôlement de l'application d'authentification, ou authentification multifacteur exigée pour tous les membres — mot de passe et enrôlement TOTP se font en une seule connexion. Le compte devient propriétaire de l'organisation à cette première connexion — pas avant.
+An optional step — "Used to send member invitations. It can also be configured later in the identity provider." Once **Configure an e-mail server now** is checked: host, port, connection security (STARTTLS, TLS, or none), sender address and name, then optional username and password. The **Send a test e-mail** button shows the administrator's address from step 4 and sends a real message there with these settings. If the mail server returns `550 5.1.1`, check that this address exists and correct it at step 4. Credentials are never accepted over an unencrypted remote connection. These settings become the identity provider's SMTP server, later used for invitations.
 
-Une adresse e-mail déjà présente chez le fournisseur d'identité est refusée : l'assistant ne prend jamais la main sur un compte existant.
+![Installation wizard, step 7](/img/docs/en/installmilvago/step7_en.png)
 
-## Session, limites et fermeture définitive
+### 8. Privacy
 
-La session d'installation dure 30 minutes ; passé ce délai, il faut ressaisir le jeton. Deviner le jeton est limité par adresse. Dès qu'un administrateur existe, **toutes** les routes de l'assistant répondent 404 : le jeton devient inutile, et il est recommandé de le retirer de l'environnement ou du Secret.
+The same settings as Administration > Privacy, except **OIDC team claim**, which is set once an identity provider is in place — "Defaults for this organization. They remain editable in Privacy."
 
-## Mode automatique (`BOOTSTRAP_EMAIL`)
+![Installation wizard, step 8](/img/docs/en/installmilvago/step8_en.png)
 
-Si `BOOTSTRAP_EMAIL` est définie au démarrage, l'assistant ne s'affiche jamais : le compte portant cette adresse, préalablement créé dans le fournisseur d'identité, devient propriétaire de l'organisation dès sa première connexion. Ce mode reste utile pour les démonstrations et les tests automatisés. Voir [Variables d'environnement](variables-environnement.md).
+### 9. Summary
 
-Ces deux modes existent dans Milvago Community comme dans Milvago Enterprise.
+"Check your choices. The administrator account is created when you finish; you then sign in with it." The final button, **Create the administrator and finish**, triggers creation. While the account is being created, the wizard shows a progress indicator and disables the controls until sign-in opens.
+
+
+## What happens at the end
+
+The account is created in the identity provider with the chosen password, e-mail marked as verified; the organization, security, e-mail server, and privacy settings are written; the browser is then redirected to sign-in. If a second factor was chosen in the Security step — authenticator app enrolment, or multi-factor authentication required for every member — password and TOTP enrolment happen in a single sign-in. The account becomes the organization's owner at that first sign-in — not before.
+
+An e-mail address that already exists at the identity provider is refused: the wizard never takes over an existing account.
+
+## Session, limits, and permanent closure
+
+The setup session lasts 30 minutes; past that, the token must be entered again. Guessing the token is rate limited per address. Once an administrator exists, **every** wizard route answers 404: the token becomes useless, and it is recommended to remove it from the environment or the Secret.
+
+## Automatic mode (`BOOTSTRAP_EMAIL`)
+
+If `BOOTSTRAP_EMAIL` is set at startup, the wizard never appears: the account with that address, pre-created in the identity provider, becomes the organization's owner at its first sign-in. This mode remains useful for demonstrations and automated tests. See [Environment variables](variables-environnement.md).
+
+Both modes exist in Milvago Community and in Milvago Enterprise.

@@ -10,6 +10,8 @@
 
 # Misc
 .DS_Store
+.serena/
+AGENTS.md
 .env.local
 .env.development.local
 .env.test.local

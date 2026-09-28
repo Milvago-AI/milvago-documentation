@@ -1,95 +1,95 @@
-﻿---
+---
 sidebar_position: 6
-title: Organisations mère et fille
+title: Parent and child organizations
 tags: [Enterprise]
 ---
 
-# Organisations mère et fille
+# Parent and child organizations
 
 :::enterprise
 
-Cette page ne concerne que l'édition Enterprise, qui permet plusieurs organisations isolées au sein d'une même instance. En Community, il n'existe qu'une organisation unique.
+This page only concerns the Enterprise edition, which allows several isolated organizations within a single instance. In Community, there is only a single organization.
 
 :::
 
-Milvago Enterprise héberge plusieurs organisations dans une même instance : une **organisation racine**, et sous elle un arbre d'organisations filles — la racine n'a pas de mère, toute autre organisation en a une. Chaque organisation garde ses propres postes, événements, politiques et membres ; l'arbre organise l'accès et l'héritage.
+Milvago Enterprise hosts several organizations in a single instance: a **root organization**, and below it a tree of child organizations — the root has no parent, every other organization has one. Each organization keeps its own devices, events, policies and members; the tree organizes access and inheritance.
 
-![Milvago - Organisations mère et fille](/img/docs/fr/introduction-organisations-mere-fille-01.png)
+![Milvago - Parent and child organizations](/img/docs/en/introduction-organisations-mere-fille-01.png)
 
-## Parcours de création
+## Creation path
 
-1. Connectez-vous à Milvago Enterprise avec le droit `organizations.manage` sur l’organisation mère.
-2. Dans le menu latéral, ouvrez **Administration → Organisations**.
-3. Sélectionnez **Nouvelle organisation**.
-4. Saisissez le nom, choisissez l’organisation parente et, si nécessaire, activez l’authentification multifacteur pour tous ses membres.
-5. Créez l’organisation, puis vérifiez qu’elle apparaît sous sa mère dans l’arbre.
+1. Sign in to Milvago Enterprise with `organizations.manage` on the parent organization.
+2. In the side navigation, open **Administration → Organizations**.
+3. Select **New organization**.
+4. Enter the name, choose the parent organization and, if needed, require multi-factor authentication for all its members.
+5. Create the organization, then check that it appears below its parent in the tree.
 
-## Créer une organisation fille
+## Creating a child organization
 
-L'écran **Organisations** liste les organisations accessibles, la racine en tête, et groupe les filles sous leur mère. Le dialogue « Nouvelle organisation » demande :
+The **Organizations** screen lists the accessible organizations, the root first, and groups the children under their parent. The "New organization" dialog asks for:
 
-- le **nom** (obligatoire) ;
-- l'**organisation parente**, choisie parmi les organisations où le créateur est propriétaire — à défaut, la racine ;
-- l'option « **Imposer l'authentification multifacteur à tous les membres** ».
+- the **name** (required);
+- the **parent organization**, chosen among the organizations where the creator is an owner — otherwise, the root;
+- the option "**Require multi-factor authentication for all members**".
 
-Le créateur devient **propriétaire** de la nouvelle organisation. Le lien de filiation est fixé à la création et ne se modifie plus ; une organisation se déplace en la recréant, pas en la re-parentant.
+The creator becomes an **owner** of the new organization. The parent link is fixed at creation and no longer changes; an organization is moved by recreating it, not by re-parenting it.
 
-La création est autorisée par le droit `organizations.manage` porté par l'**organisation parente** visée, pas par l'organisation courante de la session. La fille est opérationnelle immédiatement : ses rôles intégrés sont posés, et sa **clé de déploiement** est émise dès l'existence — elle peut enrôler des postes sans autre configuration.
+Creation is authorized by the `organizations.manage` right held by the targeted **parent organization**, not by the current organization of the session. The child is operational immediately: its built-in roles are set, and its **deployment key** is issued as soon as it exists — it can enroll devices without any further configuration.
 
-## L'accès descend l'arbre
+## Access flows down the tree
 
-Une appartenance accorde l'accès à tout le sous-arbre :
+A membership grants access to the entire subtree:
 
-- être membre (quel que soit le rôle) d'une organisation donne accès à **toutes ses organisations filles**, à tous les niveaux ;
-- le rôle appliqué dans une organisation est celui de l'**appartenance d'ascendance la plus proche** — une appartenance directe gagne sur une héritée ;
-- à l'inverse, une fille n'accède jamais à sa mère : l'accès ne descend que.
+- being a member (whatever the role) of an organization gives access to **all its child organizations**, at every level;
+- the role applied in an organization is that of the **closest ancestry membership** — a direct membership wins over an inherited one;
+- conversely, a child never accesses its parent: access only flows down.
 
-La console liste les organisations accessibles avec le rôle effectif dans chacune, et le changement d'organisation se fait sans nouvelle connexion. Un administrateur de la mère peut ainsi intervenir dans une fille selon ses permissions effectives — par exemple faire tourner la clé de déploiement d'une fille depuis sa fiche, sans y basculer.
+The console lists the accessible organizations with the effective role in each, and switching organizations happens without a new login. An administrator of the parent can thus intervene in a child according to their effective permissions — for example rotate a child's deployment key from its page, without switching to it.
 
 :::note
-Une clé API est **épinglée à l'organisation où elle a été créée** : quelle que soit l'appartenance de son créateur, elle n'agit jamais hors de cette organisation, y compris sur les routes qui nomment une autre organisation dans l'URL.
+An API key is **pinned to the organization where it was created**: whatever the memberships of its creator, it never acts outside that organization, including on routes that name another organization in the URL.
 :::
 
-![Milvago - L'accès descend l'arbre](/img/docs/fr/introduction-organisations-mere-fille-02.png)
+![Milvago - Access flows down the tree](/img/docs/en/introduction-organisations-mere-fille-02.png)
 
-## L'isolation des données
+## Data isolation
 
-L'isolation repose sur **PostgreSQL Row-Level Security** : chaque requête porte le contexte d'une organisation, et les lignes d'une autre organisation sont invisibles — y compris pour un compte qui aurait des droits ailleurs. Les identifiants d'une organisation passée dans une requête depuis une autre répondent « introuvable », sans différence entre « inexistant » et « hors de portée ».
+Isolation relies on **PostgreSQL Row-Level Security**: each query carries the context of one organization, and the rows of another organization are invisible — including for an account that would have rights elsewhere. Identifiers of another organization passed in a query answer "not found", with no difference between "does not exist" and "out of scope".
 
-La suppression d'une organisation emporte ses données par cascade — postes, événements, politiques, groupes — mais pas le compte des utilisateurs, qui est partagé entre organisations.
+Deleting an organization takes its data down by cascade — devices, events, policies, groups — but not the user accounts, which are shared across organizations.
 
-## Ce que la mère impose
+## What the parent enforces
 
-Trois réglages descendent l'arbre, chacun avec sa règle propre.
+Three settings flow down the tree, each with its own rule.
 
-### La politique Shadow AI
+### The Shadow AI policy
 
-Une organisation fille peut marquer des sections « **Hériter** » et les recevoir de sa mère, section par section — y compris Enrôlement et Exploitation, que groupes et postes ne peuvent pas toucher. La provenance nomme l'organisation d'origine, et une section recouverte plus bas remonte à son écrivain réel. Voir [Héritage de la configuration](heritage-configuration.md).
+A child organization can mark sections "**Inherit**" and receive them from its parent, section by section — including Enrollment and Operations, which groups and devices cannot touch. Provenance names the originating organization, and a section overridden lower down goes back to its real writer. See [Configuration inheritance](heritage-configuration.md).
 
-### La confidentialité
+### Privacy
 
 :::note
-Le verrouillage parental n'impose que des réglages **protecteurs** : pseudonymisation par défaut, rapports agrégés uniquement, k-anonymat, durée de liaison d'identité. Une organisation mère ne peut jamais donner son consentement à une collecte au nom d'une fille.
+Parental locking only enforces **protective** settings: pseudonymization by default, aggregate reports only, k-anonymity, identity linkage duration. A parent organization can never give its consent to a collection on behalf of a child.
 :::
 
-Quand la mère active « **Imposer aux organisations filles** », la configuration verrouillée s'affiche telle quelle dans les filles avec la mention « La configuration est verrouillée. » et son origine — l'organisation mère ; les champs correspondants deviennent inertes.
+When the parent enables "**Enforce for child organizations**", the locked configuration is displayed as-is in the children with the mention "Configuration is locked." and its origin — the parent organization; the corresponding fields become inert.
 
-### Les exports d'observabilité
+### Observability exports
 
-Une organisation peut « **Imposer cette configuration aux organisations filles** » pour ses destinations d'export. La fille qui subit l'imposition lit « Configuration imposée par » suivie du nom de l'organisation mère — elle ne peut ni la personnaliser ni désactiver l'export, et sa personnalisation antérieure reste **conservée mais inactive** tant que la restriction s'applique. À défaut d'imposition, la fille peut hériter volontairement ou garder sa configuration propre ; les secrets de la mère ne sont jamais copiés chez la fille.
+An organization can "**Enforce this configuration on child organizations**" for its export destinations. The child under enforcement reads "Configuration enforced by" followed by the name of the parent organization — it can neither customize it nor disable the export, and its earlier customization remains **stored but inactive** while the restriction applies. Without enforcement, the child can inherit voluntarily or keep its own configuration; the parent's secrets are never copied to the child.
 
-![Milvago - Les exports d'observabilité](/img/docs/fr/introduction-organisations-mere-fille-03.png)
+![Milvago - Observability exports](/img/docs/en/introduction-organisations-mere-fille-03.png)
 
-## Les réglages réservés à la racine
+## Settings reserved to the root
 
-Deux réglages d'instance ne sont modifiables que depuis l'organisation racine, par un propriétaire : l'**URL publique de l'agent** (celle que portent les installateurs) et la **langue par défaut** de la console. Une organisation fille les lit mais ne les change pas.
+Two instance settings can only be changed from the root organization, by an owner: the **public agent URL** (the one carried by the installers) and the **default language** of the console. A child organization reads them but does not change them.
 
-## Supprimer une organisation
+## Deleting an organization
 
-Trois verrous, dans l'ordre du code :
+Three locks, in code order:
 
-- l'organisation **courante** de la session ne peut pas se supprimer elle-même ;
-- l'organisation **racine** ne peut pas être supprimée ;
-- une **mère** ne peut pas être supprimée tant qu'elle a des filles — l'écran invite à les supprimer d'abord, ou à les sélectionner ensemble : la suppression en masse part **des feuilles vers la racine**.
+- the **current** organization of the session cannot delete itself;
+- the **root** organization cannot be deleted;
+- a **parent** cannot be deleted while it has children — the screen invites you to delete them first, or to select them together: mass deletion goes **from the leaves to the root**.
 
-Voir aussi : [Héritage de la configuration](heritage-configuration.md), [Organisations](../administration/organisations.md).
+See also: [Configuration inheritance](heritage-configuration.md), [Organizations](../administration/organisations.md).

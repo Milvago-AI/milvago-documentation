@@ -20,7 +20,7 @@ Administração → Observabilidade configura, por organização, o envio de mé
 Esta página se aplica apenas ao Milvago Enterprise.
 :::
 
-[IMAGEAMETTREICI 01]
+![Milvago - Acessar a tela](/img/docs/en/administration-observabilite-01.png)
 
 ## Exportação OTLP e painel do Grafana
 
@@ -36,7 +36,7 @@ O **painel para download** usa uma fonte de dados **Prometheus**. Configure sepa
 
 ## Destino SIEM personalizado
 
-O segundo cartão é um destino OTLP personalizado chamado “SIEM”. Ele não implementa uma API específica de fornecedor de SIEM nem syslog. É necessário um receptor OTLP/HTTP JSON compatível, como um coletor configurado para transformar e encaminhar os dados ao SIEM escolhido. O protocolo final, as credenciais e o esquema dependem dessa configuração externa.
+O segundo cartão, intitulado **Destino personalizado (SIEM)**, é um destino OTLP personalizado. Ele não implementa uma API específica de fornecedor de SIEM nem syslog. É necessário um receptor OTLP/HTTP JSON compatível, como um coletor configurado para transformar e encaminhar os dados ao SIEM escolhido. O protocolo final, as credenciais e o esquema dependem dessa configuração externa.
 
 Se o seu SIEM exigir Syslog sobre TLS ou uma API específica, configure essa conversão e a autenticação correspondente no coletor. O campo **Authorization** do Milvago autentica apenas o envio ao receptor OTLP informado.
 
@@ -50,7 +50,7 @@ Para uma **conexão direta ao endpoint de ingestão OTLP do Grafana Cloud**, o G
 
 As URLs de exportação usam HTTPS, salvo host HTTP autorizado expressamente pelo operador; destinos de rede proibidos são verificados ao salvar e ao conectar. **Testar a configuração salva** envia somente dados sintéticos dos fluxos selecionados. A aceitação pelo receptor não comprova a chegada ao Grafana ou ao SIEM.
 
-[IMAGEAMETTREICI 02]
+![Milvago - Protocolo e autenticação](/img/docs/en/administration-observabilite-02.png)
 
 ## Recuperação após uma falha do destino
 
@@ -68,15 +68,15 @@ Monitore o tamanho e a capacidade da fila, as falhas de enqueue, as falhas de en
 
 A exportação OTLP não lê prompts, respostas, conteúdo de conversas, URLs, nomes de dispositivos nem endereços de e-mail. Os identificadores técnicos também precisam de proteção no destino. `GET /api/shadow/metrics` é uma API de consulta separada, protegida por sessão e permissão; não é a URL de ingestão OTLP.
 
-**Status da entrega** mostra tentativas, aceitações, erros, registros rejeitados e a próxima tentativa. Uma resposta OTLP parcial conta as rejeições e não reenvia o lote; os lotes seguintes continuam. Na implantação Kubernetes dedicada às exportações, os registros pendentes são enviados automaticamente em lotes limitados por número de eventos e tamanho, sem esperar que fiquem completos; os lotes restantes continuam sem espera intencional após um sucesso. As métricas seguem uma cadência independente. Erros temporários, incluindo `429` e `503`, são repetidos automaticamente, respeitando `Retry-After` quando o destino o fornece. Um erro permanente, incluindo credenciais inválidas, exige correção da configuração.
+**Status da entrega** mostra tentativas, aceitações, erros, registros rejeitados e a próxima tentativa. Uma resposta OTLP parcial conta as rejeições e não reenvia o lote; os lotes seguintes continuam. Com exportações dedicadas, os registros pendentes são enviados automaticamente em lotes limitados por número de eventos e tamanho, sem esperar que fiquem completos; os lotes restantes continuam sem espera intencional após um sucesso. As métricas seguem uma cadência independente. Erros temporários, incluindo `429` e `503`, são repetidos automaticamente, respeitando `Retry-After` quando o destino o fornece. Um erro permanente, incluindo credenciais inválidas, exige correção da configuração.
 
 ## Exportações e escalonamento Kubernetes
 
-Em uma implantação Kubernetes Enterprise, as exportações são executadas em pods dedicados. Para reduzir o atraso de exportação sob alta carga, essa implantação processa os lotes continuamente. O PostgreSQL coordena as entregas: aumentar o número de pods não permite duas entregas da mesma partição ao mesmo tempo.
+Quando as exportações Enterprise são executadas em pods dedicados, processam os lotes continuamente para reduzir o atraso sob alta carga. O PostgreSQL coordena as entregas: aumentar o número de pods não permite duas entregas da mesma partição ao mesmo tempo.
 
 A métrica `milvago_export_runnable_partitions` é a contagem global de partições executáveis. Ela serve ao HPA do Deployment de exportações e não contém identificador de organização nem dados de conversa. Ela fica ausente quando sua observação completa tem mais de 45 segundos; ausência não é contagem zero. O operador deve verificar o caminho do Prometheus e o adaptador de métricas antes de interpretar o estado do HPA.
 
-Para instalar a cadeia de métricas e ajustar as réplicas, consulte [Implantação Kubernetes](../installation/helm.md) e [Dimensionar PostgreSQL e o autoscaling](../avance/dimensionnement-postgresql-hpa.md).
+Para dimensionar a cadeia de métricas e as réplicas, consulte [Dimensionar PostgreSQL e o autoscaling](../avance/dimensionnement-postgresql-hpa.md).
 
 ## Organizações filhas
 
@@ -84,4 +84,4 @@ Uma filha herda por padrão os dois destinos e seus filtros. Pode personalizar t
 
 O acesso aos dados no coletor, Loki, Prometheus e Grafana deve ser isolado pelos controles desses sistemas. Um filtro de painel por `organization.id` não é um controle de acesso.
 
-[IMAGEAMETTREICI 03]
+![Milvago - Organizações filhas](/img/docs/en/administration-observabilite-03.png)

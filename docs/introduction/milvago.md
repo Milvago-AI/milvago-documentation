@@ -1,41 +1,41 @@
-﻿---
+---
 sidebar_position: 1
-title: Qu'est-ce que Milvago
+title: What is Milvago
 ---
 
-# Qu'est-ce que Milvago
+# What is Milvago
 
-Milvago donne à une organisation une vue exacte des usages d'IA : quels services sont sollicités, depuis quels postes, à quelle fréquence, et ce que la politique autorise ou bloque. C'est une plateforme de **détection et de gouvernance du « Shadow AI »** : le parcours voulu est comprendre les usages, identifier les postes, définir la politique, vérifier les effets.
+Milvago gives an organization an exact view of AI usage: which services are called, from which devices, how often, and what the policy allows or blocks. It is a platform for **Shadow AI detection and governance**: the intended journey is to understand usage, identify devices, define the policy, verify the effects.
 
-La console, la page de connexion et la documentation partagent une palette adoucie : fond bleu ardoise en mode sombre, fond gris bleuté et cartes blanches en mode clair. Le bleu distingue les actions ; le vert, l’ambre et le rouge accompagnent les libellés d’état.
+The console, sign-in page and documentation share a softer palette: slate blue backgrounds in dark mode, pale blue-grey backgrounds and white cards in light mode. Blue identifies actions; green, amber and red accompany status labels.
 
-![Milvago - Qu'est-ce que Milvago](/img/docs/fr/introduction-milvago-01.png)
+![Milvago - What is Milvago](/img/docs/en/introduction-milvago-01.png)
 
-## Ce que le produit conserve — et ce qu'il ne conserve pas
+## What the product keeps — and what it does not keep
 
-Par défaut, seuls les **faits** sont conservés : un service a été atteint, un prompt est parti, un blocage a eu lieu. S'y ajoutent les **noms des fichiers** envoyés à un service d'IA, jamais leurs octets.
+By default, only the **facts** are kept: a service was reached, a prompt was sent, a block took place. Added to these are the **names of the files** sent to an AI service, never their bytes.
 
-La **capture du texte des prompts et des réponses** existe, mais elle est **désactivée par défaut** et soumise à une autorisation explicite dans l'outil. Quand elle est activée, la lecture d'un contenu reste soumise à des verrous de confidentialité (session valide, MFA fraîche, motif écrit) et chaque lecture est auditée. Le produit dit cette faculté franchement, à l'endroit où la question se pose : une formulation absolue (« jamais collecté ») contredite par une option du produit serait une faute, pas une simplification.
+**Prompt and response text capture** exists, but it is **disabled by default** and subject to an explicit authorization in the tool. When it is enabled, reading a stored content remains subject to privacy locks (valid session, fresh MFA, written reason) and every read is audited. The product states this capability plainly, where the question arises: an absolute claim ("never collected") contradicted by a product option would be a fault, not a simplification.
 
-## Ce que chaque composant peut voir
+## What each component can see
 
-L'honnêteté sur les limites fait partie du produit, et chaque écran la rappelle : un événement navigateur n'est pas un inventaire logiciel ; une présence détectée n'établit ni un usage ni un envoi ; un outil présent sur un poste n'infère pas son utilisateur. Un service visité sans requête observée est un **signal** qu'un détecteur demande une mise à jour, pas une preuve d'usage.
+Honesty about limits is part of the product, and every screen restates it: a browser event is not a software inventory; a detected presence establishes neither a usage nor a send; a tool present on a device does not infer its user. A service visited without an observed request is a **signal** that a detector asks for an update, not a proof of usage.
 
-## Les trois gestes du produit
+## The three gestures of the product
 
-1. **Observer** — l'extension et l'agent remontent des événements factuels : navigations, requêtes, décisions, plateformes atteintes.
-2. **Comprendre** — la console met ces faits en perspective : vue d'ensemble, conversations, cartographie, rapports agrégés.
-3. **Décider** — la politique Shadow AI observe, bloque ou masque ; le contrôle des modèles autorise ou refuse un modèle ; Fleet distribue la politique aux postes.
+1. **Observe** — the extension and the agent report factual events: navigations, requests, decisions, platforms reached.
+2. **Understand** — the console puts these facts into perspective: overview, conversations, map, aggregate reports.
+3. **Decide** — the Shadow AI policy observes, blocks or masks; model controls allow or deny a model; Fleet distributes the policy to the devices.
 
-## Les éditions
+## The editions
 
-- **Community** : extension limitée à ChatGPT et Claude, agent Windows et Linux, console mono-organisation. Le paquet construit n'embarque même pas les adaptateurs des autres fournisseurs.
-- **Enterprise** : multi-organisations isolées par PostgreSQL, neuf fournisseurs couverts, inventaire natif des applications IA, groupes de postes, contrôle des modèles, sensibilité des usages, serveur MCP, observabilité OTLP.
+- **Community**: extension limited to ChatGPT and Claude, Windows and Linux agent, single-organization console. The built package does not even embed the adapters of the other providers.
+- **Enterprise**: multi-organization isolated by PostgreSQL, nine covered providers, native inventory of AI applications, device groups, model controls, usage sensitivity, MCP server, OTLP observability.
 
-Une édition déclarée par le client n'accorde jamais d'autorisation : les gardes sont serveur, jamais un champ client.
+An edition declared by the client never grants authorization: the guards are server-side, never a client field.
 
-## Le ton
+## The tone
 
-Sobre, factuel, précis. Les états vides et les erreurs sont visibles et expliqués, jamais maquillés ; aucune donnée fictive n'est présentée comme réelle. La promesse : **voir juste, agir avec confiance**.
+Sober, factual, precise. Empty states and errors are visible and explained, never disguised; no fictional data is presented as real. The promise: **see accurately, act with confidence**.
 
-![Milvago - Le ton](/img/docs/fr/introduction-milvago-02.png)
+![Milvago - The tone](/img/docs/en/introduction-milvago-02.png)

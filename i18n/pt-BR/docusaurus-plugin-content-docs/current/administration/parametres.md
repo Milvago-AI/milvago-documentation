@@ -17,16 +17,16 @@ Clique em **Administração** > **Configurações**. As seções dependem das pe
 
 A tela Configurações responde à pergunta "**como esta organização e esta instância são ajustadas**". A linha dela sob o título o anuncia: "Configurações da organização e da instância." Uma navegação vertical divide as seções, e **cada seção só aparece com a permissão que a governa**: o que você não pode ajustar não é exibido.
 
-[IMAGEAMETTREICI 01]
+![Milvago - Acessar a tela](/img/docs/en/administration-parametres-01.png)
 
 ## Organização
 
 Sempre presente. Quatro campos, salvos juntos:
 
 - **Nome da organização** — modificável pelo proprietário da organização.
-- **URL HTTPS pública do agente** — "URL anunciada aos agentes e à extensão do navegador (inscrição, instaladores, update.xml). Alterá-la após a implantação não afeta os dispositivos já inscritos: eles mantêm a URL e precisam ser reinscritos para mudar." Apenas o proprietário da organização raiz pode alterá-la; para os demais, o campo porta o aviso "Apenas o proprietário da organização raiz pode alterar esta URL." A confirmação dela condiciona o download dos instaladores.
-- **Idioma padrão da instância** — "Aplica-se à página de login alcançada sem idioma. Os usuários sem preferência pessoal seguem o próprio navegador e depois o inglês." Apenas o proprietário raiz o altera.
-- **Retenção de eventos (dias)** — de 1 a 3650; "O servidor valida e aplica o período de retenção." Encurtar essa duração exige um segundo fator verificado há instantes e nunca está disponível para uma chave de API: a próxima purga horária apaga imediatamente o histórico que ficar mais antigo que a nova duração, incluindo os textos retidos. Alongá-la permanece inalterado.
+- **URL pública do Milvago** — O console no navegador, o login do Keycloak, os agentes e a extensão usam essa origem. Somente o proprietário da organização raiz pode alterá-la. O Milvago atualiza o realm e o redirecionamento do console pela API privada do Keycloak; novos logins usam a nova URL. Dispositivos já inscritos mantêm a URL anterior e precisam ser reinscritos para mudar. Confirmar a URL também libera o download dos instaladores.
+- **Idioma padrão da instância** — "Aplica-se à página de login alcançada sem idioma. Os usuários sem preferência pessoal seguem o próprio navegador e depois o inglês. Apenas o proprietário da organização raiz pode alterá-lo."
+- **Retenção de eventos (dias)** — de 1 a 365; "O servidor valida e aplica o período de retenção." Encurtar essa duração exige um segundo fator verificado há instantes e nunca está disponível para uma chave de API: a próxima purga horária apaga imediatamente o histórico que ficar mais antigo que a nova duração, incluindo os textos retidos. Alongá-la permanece inalterado.
 
 Um banner "Concluir a configuração" aparece enquanto a URL pública não estiver confirmada em uma instância instalada em modo automático (`BOOTSTRAP_EMAIL`) — o assistente de [primeira instalação](../installation/premiere-installation.md) define esses valores diretamente e nunca deixa esse banner para trás. Ele abre um assistente em duas etapas: idioma padrão da instância, depois nome da organização e URL HTTPS pública. O mesmo banner o lembra de outro modo: "Os agentes e a extensão do navegador se conectarão a esta URL. Confirme-a em Administração antes de implantar."
 
@@ -34,22 +34,24 @@ Um banner "Concluir a configuração" aparece enquanto a URL pública não estiv
 
 Sempre presente para quem puder abrir Configurações: não é uma permissão que a governa, e sim o papel de proprietário da instância que autoriza a alterá-la. Sua descrição na tela: "Status da licença desta instância."
 
+Na Community, o painel também informa: “A licença gratuita remove apenas os limites da Community. Ela não desbloqueia a Enterprise, que exige a edição Enterprise e uma licença separada.”
+
 - **Status** — selo Nenhuma, Válida, Período de carência ou Expirada.
 - **Tipo** — Enterprise, Community, ou "—" se a instância nunca recebeu uma licença.
 - **Dispositivos máximos** — um número, ou "Ilimitado" se a licença não define nenhum (valor 0).
 - **Expira** — visível somente quando a licença tem uma data de expiração (as licenças Enterprise; a licença gratuita Community é perpétua e não exibe nenhuma).
 - **Período de carência até** — visível somente durante o período de carência que segue uma expiração Enterprise.
-- **Identificador da instância** — com o botão **Copiar o identificador**, para repassar à Milvago AI e obter uma licença.
+- **Identificador da instância** — com o botão **Copiar identificador**, para repassar à Milvago AI e obter uma licença.
 
 Abaixo dessas informações, o proprietário da instância vê um campo para colar o texto de uma nova licença e o botão **Salvar a licença** — "Licença salva." confirma o salvamento. Para qualquer outro leitor, a tela porta o aviso "Somente o proprietário da instância pode alterar a licença."
 
 Na **Community**, o proprietário da instância também vê, abaixo desse campo, uma área **Solicitar uma licença gratuita**: um endereço de e-mail (pré-preenchido com o seu) e o botão **Enviar a solicitação**; "Solicitação enviada. Verifique a caixa de entrada de {`endereço`} e cole abaixo a licença recebida." confirma o envio. A solicitação vai para a Milvago AI, que responde por e-mail com o texto a colar aqui. Essa licença gratuita é perpétua e remove todos os limites do modo restrito descritos a seguir.
 
-[IMAGEAMETTREICI 02]
+![Configurações da licença Community](/img/docs/pt-BR/administration-parametres-02.png)
 
 ### Modo restrito (Community sem licença)
 
-Enquanto nenhuma licença for aceita, uma instância Community funciona em **modo restrito**: no máximo 5 dispositivos (os revogados não contam), a única conta de administrador criada na instalação, nenhum gerenciamento de funções nem de membros — a entrada **Funções** desaparece da navegação de Administração —, nenhum diretório LDAP — a seção **Diretório LDAP** logo abaixo desaparece desta própria página — e nenhum login SSO. Um banner de aviso "Sem licença" aparece então em cada página do console, com um link para abrir as configurações. Inscrever um dispositivo além da cota falha com "Esta instância atingiu seu limite de dispositivos para a licença atual."
+Enquanto nenhuma licença for aceita, uma instância Community funciona em **modo restrito**: no máximo 5 dispositivos (os revogados não contam), a única conta de administrador criada na instalação, nenhum gerenciamento de funções nem de membros — a entrada **Funções** desaparece da navegação de Administração —, nenhum diretório LDAP — a seção **Diretório LDAP** logo abaixo desaparece desta própria página —, e nenhum SSO — a seção **SSO** também desaparece, e o login SSO é recusado. Um banner de aviso "Sem licença" aparece então em cada página do console, com um link para abrir as configurações. Inscrever um dispositivo além da cota falha com "Esta instância atingiu seu limite de dispositivos para a licença atual."
 
 ### Enterprise: expiração e bloqueio
 
@@ -61,7 +63,7 @@ Uma licença está vinculada ao identificador desta instância (exibido acima): 
 
 ## Diretório LDAP
 
-Presente com a permissão `directory.manage` ("Gerenciar o diretório LDAP") e uma licença fora do modo restrito: em uma instância Community sem licença, esta seção não aparece. Um diretório LDAP próprio da organização, materializado no provedor de identidade: tipo de diretório (Active Directory, e as convenções pré-preenchidas para os demais, editáveis), URL de conexão `ldap://` ou `ldaps://`, DN de conexão, DN de usuários, atributos, filtro, escopo, tempos-limite, paginação. A tela impõe um transporte verificado — LDAPS ou StartTLS — antes de qualquer transmissão de credenciais: "LDAP requires LDAPS or StartTLS", a validação recusa caso contrário.
+Presente com a permissão `directory.manage` ("Gerenciar o diretório LDAP e o SSO") e uma licença fora do modo restrito: em uma instância Community sem licença, esta seção não aparece. Um diretório LDAP próprio da organização, materializado no provedor de identidade: tipo de diretório (Active Directory, e as convenções pré-preenchidas para os demais, editáveis), URL de conexão `ldap://` ou `ldaps://`, DN de conexão, DN de usuários, atributos, filtro, escopo, tempos-limite, paginação. A tela impõe um transporte verificado — LDAPS ou StartTLS — antes de qualquer transmissão de credenciais: "LDAP requires LDAPS or StartTLS before any directory credentials are transmitted.", a validação recusa caso contrário.
 
 O botão **Testar a conexão** reproduz as duas etapas ("A conexão e a autenticação funcionaram." ou a etapa em falha); **Salvar o diretório** ativa a conexão LDAP; **Remover o diretório** adverte: "Os usuários deste diretório não poderão mais fazer login." Testar, salvar e remover o diretório exigem cada um um segundo fator verificado há instantes; nenhuma dessas três ações está disponível para uma chave de API.
 
@@ -70,6 +72,16 @@ As contas de diretório são então importadas em [Membros](membres.md).
 :::enterprise
 
 Criar, testar, alterar ou excluir um diretório é reservado a um proprietário da organização raiz, para a organização raiz ou, após alternar para ela, para uma organização filha — o login de toda organização consulta cada diretório do provedor de identidade compartilhado. Em uma organização filha, as demais pessoas veem em vez disso o aviso "Somente um proprietário da organização raiz pode configurar um diretório, porque o login de todas as organizações o consulta." ou, quando já há um configurado, "O diretório desta organização é configurado por um proprietário da organização raiz, porque o login de todas as organizações o consulta. Seus usuários são importados em Membros."
+
+:::
+
+## SSO
+
+Presente nas mesmas condições que **Diretório LDAP**: a permissão `directory.manage` e uma licença fora do modo restrito. Ela configura o login com **Google Workspace** e **Microsoft Entra ID**: para cada provedor, a **URI de redirecionamento** a ser registrada no provedor, o ID do cliente, o segredo do cliente — nunca exibido novamente, deixado em branco para mantê-lo — e o domínio do Google Workspace ou o tenant do Microsoft Entra que restringe quem pode entrar. **Salvar** e **Remover o provedor** exigem cada um um segundo fator verificado há instantes, e nenhum dos dois está disponível para uma chave de API. O procedimento completo está em [SSO (Google / Microsoft Entra ID)](../avance/sso.md).
+
+:::enterprise
+
+Os provedores são oferecidos na página de login de todas as organizações: somente um proprietário da organização raiz pode configurá-los. Qualquer outra pessoa lê "O login único se aplica a todas as organizações desta instância: somente um proprietário da organização raiz pode configurá-lo."
 
 :::
 
@@ -89,6 +101,6 @@ Ela regula a maneira como um conector MCP obtém credenciais próprias: "Um cone
 - **Hosts autorizados a receber um login** — "Um host por linha, sem esquema, porta ou caminho — claude.ai, ou *.exemplo.com. Um registro é recusado se algum endereço pedido não estiver nesses hosts, de modo que um código nunca pode ser entregue em outro lugar." Um host coringa mantém ao menos dois rótulos depois de `*.` — `*.exemplo.com` é aceito, `*.com` é recusado. Um estado "O registro está aberto a todos os hosts" posto à mão no provedor de identidade é sinalizado como tal, e não pode ser produzido por esta tela.
 - **Teto de clientes registrados** — "Um registro que ultrapassasse esse número é recusado. Isso limita a bagunça, não o risco."
 
-O que não se negocia: "Uma pessoa sempre vê uma tela de consentimento antes de um modelo alcançar qualquer coisa, um cliente registrado fica limitado aos direitos declarados dele, e nunca lê mais do que os direitos de quem faz login." Todo cliente público do provedor de identidade deve usar PKCE, conectores registrados incluídos, e o Milvago limita, na inicialização, a duração das conexões longas dos conectores — sete dias sem uso, trinta dias no máximo — sem nunca alongar uma duração já mais curta. Veja [Chaves de API e servidor MCP](../mon-profil/cles-api.md).
+O que não se negocia: "Uma pessoa sempre vê uma tela de consentimento antes de um modelo alcançar qualquer coisa, um cliente registrado fica limitado aos direitos declarados dele, e nunca lê mais do que os direitos de quem faz login. O cliente declarado continua servindo a um conector que exija um identificador." Todo cliente público do provedor de identidade deve usar PKCE, conectores registrados incluídos, e o Milvago limita, na inicialização, a duração das conexões longas dos conectores — sete dias sem uso, trinta dias no máximo — sem nunca alongar uma duração já mais curta. Veja [Chaves de API e servidor MCP](../mon-profil/cles-api.md).
 
 :::

@@ -1,52 +1,52 @@
-﻿---
+---
 sidebar_position: 4
-title: Instance de démonstration
+title: Demo instance
 ---
 
-# Instance de démonstration
+# Demo instance
 
-Une instance de démonstration publie le produit sur Internet : n'importe qui peut le visiter avec un identifiant simple, sans rien pouvoir modifier, avec des données qui bougent toutes les cinq minutes. Elle s'appuie sur deux variables d'environnement et une pile Docker dédiée.
+A demo instance publishes the product on the Internet: anyone can visit it with a simple login, without being able to modify anything, with data that moves every five minutes. It relies on two environment variables and a dedicated Docker stack.
 
-![Milvago - Instance de démonstration](/img/docs/fr/avance-demo-instance-01.png)
+![Milvago - Demo instance](/img/docs/en/avance-demo-instance-01.png)
 
-## Mettre en service la démonstration
+## Put the demo into service
 
-1. Depuis l’hôte d’exploitation Docker, préparez les deux variables de démonstration dans les secrets de déploiement.
-2. Démarrez la pile `compose.demo.yaml` dédiée, sans exposer d’autre service que son proxy.
-3. Ouvrez l’URL publique et connectez-vous avec le compte de démonstration.
-4. Vérifiez qu’une action de modification est refusée et que les données synthétiques sont visibles avant de communiquer l’URL.
+1. From the Docker operations host, prepare the two demo variables in deployment secrets.
+2. Start the dedicated `compose.demo.yaml` stack without exposing any service other than its proxy.
+3. Open the public URL and sign in with the demo account.
+4. Check that a modification action is refused and synthetic data is visible before sharing the URL.
 
-## Les deux variables
+## The two variables
 
-| Variable | Effet |
+| Variable | Effect |
 | --- | --- |
-| `MILVAGO_DEMO_READONLY` | refuse **toute** mutation console sur l'instance, quel que soit le rôle de l'appelant, **avant le routage** — une route ajoutée plus tard est couverte sans y penser. Deuxième garde, plus grossière, par-dessus le rôle : deux routes console sont enregistrées sans permission (`PUT /api/profile`, `POST /auth/logout`), donc un rôle en lecture seule ne couvre pas tout |
-| `MILVAGO_DEMO_MCP_KEY` | clé MCP de démonstration affichée sur la page de profil — **et nulle part ailleurs**, et seulement si l'instance est en lecture seule : une instance qui accepte des écritures peut se fabriquer ses propres clés, et une instance client ne doit jamais afficher un credential qu'elle n'a pas créé |
+| `MILVAGO_DEMO_READONLY` | refuses **every** console mutation on the instance, whatever the caller's role, **before routing** — a route added later is covered without thinking about it. Second, coarser guard, on top of the role: two console routes are registered without permission (`PUT /api/profile`, `POST /auth/logout`), so a read-only role does not cover everything |
+| `MILVAGO_DEMO_MCP_KEY` | demo MCP key displayed on the profile page — **and nowhere else**, and only if the instance is read-only: an instance that accepts writes can manufacture its own keys, and a client instance must never display a credential it did not create |
 
-L'**ingestion des postes** (`/v1`, `/v2`, `/v3`) reste volontairement hors périmètre du drapeau : c'est par là que les données arrivent, et elle exige un credential d'appareil qu'aucun visiteur ne détient.
+**Device ingestion** (`/v1`, `/v2`, `/v3`) remains deliberately out of the flag's scope: it is how the data arrives, and it requires a device credential that no visitor holds.
 
-## La pile
+## The stack
 
-`compose.demo.yaml` est une pile autonome, distincte du compose principal : aucun port publié sauf ceux du **proxy**, pas d'instance Community, et tout ce qui n'est pas le proxy est coupé d'Internet. Quatre couches font respecter la lecture seule :
+`compose.demo.yaml` is a self-contained stack, distinct from the main compose: no published port except those of the **proxy**, no Community instance, and everything that is not the proxy is cut off from the Internet. Four layers enforce read-only:
 
-1. **L'arête** : seuls `GET`/`HEAD` passent, plus la déconnexion ; les chemins d'ingestion, `/mcp`, `/metrics` et `/ext` répondent 404 publiquement.
-2. **Le serveur** : `MILVAGO_DEMO_READONLY`.
-3. **Le rôle** : un rôle `demo` en lecture (`overview.read`, `events.read`, `devices.read`, `members.read`, `content.read`, `reports.aggregate`), aucune permission de gestion — la console masque donc toutes les actions.
-4. **L'identité** : changement de mot de passe et inscription désactivés — sinon un visiteur change le mot de passe partagé et verrouille les suivants.
+1. **The edge**: only `GET`/`HEAD` pass, plus logout; the ingestion paths, `/metrics` and `/ext` answer 404 publicly. `/mcp` is the one public machine endpoint: it accepts `POST` only — any other method there also answers 404 — proxied through to the application, still bound by its own read-only credential or OAuth token.
+2. **The server**: `MILVAGO_DEMO_READONLY`.
+3. **The role**: a `demo` role with eight read permissions — `overview.read`, `events.read`, `devices.read`, `members.read`, `content.read`, `reports.aggregate`, `policy.manage`, `audit.read`. `policy.manage` is what unlocks reading the Shadow AI configuration screens and the Discovery candidate list; the console still hides every action that writes, and the other three layers refuse it anyway.
+4. **The identity**: password change and signup disabled — otherwise a visitor changes the shared password and locks out the following ones.
 
-![Milvago - La pile](/img/docs/fr/avance-demo-instance-02.png)
+![Milvago - The stack](/img/docs/en/avance-demo-instance-02.png)
 
-## Aucun agent téléchargeable
+## No downloadable agent
 
-Une démonstration montre le produit ; elle **ne distribue pas un agent** capable d'enrôler une vraie machine. Les routes d'installateur et de clé de déploiement exigent une permission que le rôle ne porte pas, et l'arête refuse explicitement les chemins d'extensions et d'installateurs en 404 — une règle qui ne dépend ni du rôle, ni du contenu de l'image. Conséquence assumée : les pages de réglages Shadow AI et Découverte ne sont pas visibles ; les **données** le sont.
+A demonstration shows the product; it **does not distribute an agent** able to enroll a real machine. The installer and deployment key routes require a permission the role does not carry, and the edge explicitly refuses the extension and installer paths with 404 — a rule that depends neither on the role, nor on the image content. Owned consequence: the Shadow AI configuration screens and the Discovery candidate list are visible, read-only, through `policy.manage`; the screens gated by a `*.manage` write permission the role does not carry — Settings, Members, Roles, Organizations, LDAP directory — stay hidden.
 
-## Les données de démonstration
+## The demo data
 
-Le générateur provisionne ce qu'un credential d'appareil ne peut pas atteindre, puis parle le **protocole agent réel** : rien n'est écrit dans les tables d'événements derrière le dos du serveur — scellement, classification, attribution et rétention passent par le code qu'exerce la flotte d'un client.
+The generator provisions what a device credential cannot reach, then speaks the **real agent protocol**: nothing is written into the event tables behind the server's back — sealing, classification, attribution and retention go through the code a client's fleet exercises.
 
-- Historique de 30 jours posté une fois, puis une **vague toutes les cinq minutes** : la rétention borne la base, rien n'est effacé en bloc.
-- Contenu entièrement inventé (plages de documentation, domaines d'exemple), donc présenté en clair : le visiteur voit l'étendue de ce que le produit peut retenir.
-- Une flotte synthétique par défaut de 25 postes, un quart natifs (les deux canaux de collecte côte à cête), sans aucun nom de personne.
-- Douze thèmes tournent en une heure — pic de téléversements bloqués, secrets détectés, plateforme non couverte, modèle refusé… — donc un visiteur qui reste voit la **forme** changer, pas seulement les compteurs monter.
+- 30 days of history posted once, then a **wave every five minutes**: retention bounds the database, nothing is bulk-deleted.
+- Content entirely invented (documentation ranges, example domains), therefore presented in clear text: the visitor sees the extent of what the product can retain.
+- A synthetic default fleet of 25 devices, a quarter native (both collection channels side by side), without any person name.
+- Twelve themes rotate over an hour — spike of blocked uploads, detected secrets, uncovered platform, denied model… — so a visitor who stays sees the **shape** change, not only the counters rise.
 
-![Milvago - Les données de démonstration](/img/docs/fr/avance-demo-instance-03.png)
+![Milvago - The demo data](/img/docs/en/avance-demo-instance-03.png)

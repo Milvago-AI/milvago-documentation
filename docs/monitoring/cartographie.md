@@ -1,71 +1,66 @@
-﻿---
+---
 sidebar_position: 3
-title: Cartographie
+title: Map
 ---
 
-# Cartographie des requêtes
+# Request map
 
-La cartographie répond à une seule question : **qui parle à quoi**. Elle dessine, sur la période choisie, les flux entre les personnes, les outils, les services et les modèles, en rubans dont la largeur représente les requêtes et la couleur l'éditeur du service.
+## Access this screen
 
-Elle ne répond pas à « est-ce que j'observe bien » : la santé de la capture vit dans Découverte, avec le reste de ce qui parle de couverture. Navigations et inventaires ne sont pas convertis en requêtes — le pied de carte le dit quand la période est vide.
+In the sidebar, click **Monitoring**, then **Cartography**. This screen requires `events.read` and is unavailable to aggregate-only readers.
 
-## Accéder à l’écran
+1. Click **Refine filters**, set the period and criteria, then click **Apply**.
+2. Select or exclude values in the rails; remove a chip or click **Clear** to undo a selection. **Hide people (overall usage)** switches to a global view.
+3. Click a node, ribbon, or **View these requests** to open Conversations with the drawn scope. Export JSON/CSV or open **Synthesis report**; both retain filters, selections and exclusions. Revealed identities require `identity.reveal`.
 
-Dans la barre latérale, cliquez sur **Supervision**, puis sur **Cartographie**. Il faut `events.read` et une organisation qui n’est pas en consultation agrégée seule.
+The map answers a single question: **who talks to what**. It draws, over the chosen period, the flows between people, tools, services and models, as ribbons whose width represents the requests and whose color represents the service vendor.
 
-1. Cliquez sur **Affiner les filtres**, définissez la période et les critères, puis cliquez sur **Appliquer**. La carte se limite au périmètre demandé.
-2. Cochez **Masquer les personnes** pour une lecture globale. Dans les rails, sélectionnez ou excluez des valeurs; retirez une pastille ou cliquez sur **Effacer** pour annuler la sélection.
-3. Cliquez sur un nœud, un ruban ou **Voir ces requêtes** pour ouvrir **Conversations** avec la période et la vue réellement dessinée.
-4. Choisissez JSON ou CSV puis **Exporter**, ou cliquez sur **Rapport de synthèse**. L’export et le rapport reprennent les critères, sélections et exclusions; l’identité révélée exige `identity.reveal`.
+It does not answer "am I observing well": capture health lives in Discovery, with the rest of what speaks about coverage. Navigations and inventories are not converted into requests — the card footer says so when the period is empty.
 
-![Milvago - Cartographie des requêtes](/img/docs/fr/monitoring-cartographie-01.png)
+![Milvago - Access this screen](/img/docs/en/monitoring-cartographie-01.png)
 
-## Ce que l'écran compte
+## What the screen counts
 
-Quatre indicateurs sous la barre de filtres : **requêtes**, **réponses**, **conversations identifiées**, et, en Enterprise, **événements sensibles** (tonalité ambre dès que la valeur est > 0). Une ligne d'information nomme ce que la carte ne peut pas faire : « N événements sans personne vérifiée » — l'identité vérifiée vient d'une association OIDC ; à défaut, le compte OS derrière l'outil est affiché à titre informatif. Les navigations sont comptées à part.
+Four indicators under the filter bar: **Requests**, **Responses**, **Identified conversations**, and, in Enterprise, **Sensitive events** (amber tone as soon as the value is > 0). An information line names what the map cannot do: "N events without a verified person" — verified identity comes from an OIDC association; failing that, the OS account behind the tool is displayed for information only. Navigations are counted apart.
 
-![Milvago - Ce que l'écran compte](/img/docs/fr/monitoring-cartographie-02.png)
+![Milvago - What the screen counts](/img/docs/en/monitoring-cartographie-02.png)
 
-## La carte : rails et rubans
+## The map: rails and ribbons
 
-Le diagramme est organisé en quatre colonnes reliées par des rubans :
+The diagram is organized in four columns connected by ribbons:
 
-- à gauche, **Personnes** et **Navigateurs / applications** ;
-- au centre, les **rubans** eux-mêmes, un par flux (personne × outil × service × modèle) ;
-- à droite, **Services** et **Modèles**.
+- on the left, **People** and **Browsers / applications**;
+- in the center, the **ribbons** themselves, one per flow (person × tool × service × model);
+- on the right, **Services** and **Models**.
 
-Chaque colonne porte son compte de valeurs présentes sur la période (« 10 / 47 »). Au survol d'un ruban ou d'un nœud, une infobulle détaille le volume, les bloqués et, en Enterprise, le nombre d'événements sensibles.
+Each column carries its count of values present over the period ("10 / 47"). On hover over a ribbon or a node, a tooltip details the volume, the blocked and, in Enterprise, the number of sensitive events.
 
-- **Masquer les personnes (usage global)** : une case de la barre de filtres bascule la vue en « outils, services, modèles » — le pôle personnes disparaît, l'usage devient global. C'est une vue client : les filtres latéraux **n'élargissent jamais** ce que le serveur a renvoyé, ils décident seulement de ce qui est dessiné.
-- Les **filtres latéraux** (rails, repliables) excluent ou isolent des valeurs de chaque colonne. Une sélection que la nouvelle vue ne dessine plus est retirée automatiquement plutôt que de fausser le lien vers le journal.
-- Cliquer un nœud ou un ruban **creuse dans Conversations** : le lien transmet la période et la sélection courante, nature « prompt ». La sélection se lit dans le pied de carte (pastilles amovibles, bouton « Effacer »), avec un « Voir ces requêtes » qui emporte exactement ce que l'écran montre — sélection et exclusions comprises.
+![Milvago - The map: rails and ribbons](/img/docs/en/monitoring-cartographie-04.png)
 
-![Milvago - La carte : rails et rubans](/img/docs/fr/monitoring-cartographie-04.png)
+- **Hide people (overall usage)**: a checkbox in the filter bar switches the view to "Tools → services → models" — the people pole disappears, usage becomes global. It is a client-side view: the side filters **never widen** what the server returned, they only decide what is drawn.
+- The **side filters** (rails, collapsible) exclude or isolate values of each column. A selection the new view no longer draws is removed automatically rather than skewing the link to the log.
+- Clicking a node or a ribbon **drills into Conversations**: the link carries the current period and selection, nature "prompt". The selection is readable in the card footer (removable chips, "Clear" button), with a "View these requests" that takes along exactly what the screen shows — selection and exclusions included.
 
-## Légende et états
+![Milvago - The map: rails and ribbons](/img/docs/en/monitoring-cartographie-05-gauche.png)
 
-- La légende porte « Non attribué » (les flux sans personne) et, en Enterprise, « Sensible ».
-- À zéro requête sur la période, la carte l'assume : « Aucune requête dans cette période », avec la précision que les navigations et inventaires ne sont pas convertis en requêtes.
-- La barre de filtres est repliable ici (la carte reste compacte) ; le bouton « Affiner les filtres » l'ouvre, et un « Réinitialiser » dédié retire les filtres latéraux.
+## Legend and states
 
-<div className="mv-doc-image-pair">
+- The legend carries "Unattributed" (the flows without a person) and, in Enterprise, "Sensitive".
+- At zero requests over the period, the map owns it: "No requests in this period", with the precision that navigations and inventories are not converted into requests.
+- The filter bar is collapsible here (the map stays compact); the "Refine filters" button opens it, and a dedicated "Reset" removes the side filters.
 
-![Milvago - Filtres Personnes et Navigateurs ou applications](/img/docs/fr/monitoring-cartographie-05-gauche.png)
-
-![Milvago - Filtres Services et Modèles](/img/docs/fr/monitoring-cartographie-05-droite.png)
-
-</div>
+![Milvago - Legend and states](/img/docs/en/monitoring-cartographie-05-droite.png)
 
 :::enterprise
 
-En Enterprise, la largeur des rubans se double d'un codage de **sensibilité détectée** : hachures sur les rubans, compteur par nœud, KPI dédié et rail de filtrage. En Community, la carte se limite au couple requêtes/bloqués — rien n'est nommé sensibilité, ni sur la carte ni dans le journal.
+In Enterprise, the ribbon width is complemented by a coding of **detected sensitivity**: hatching on the ribbons, counter per node, dedicated KPI and filter rail. In Community, the map is limited to the requests/blocked pair — nothing is named sensitivity, neither on the map nor in the log.
 
 :::
 
-![Milvago - Légende et états](/img/docs/fr/monitoring-cartographie-06.png)
+![Milvago - Legend and states](/img/docs/en/monitoring-cartographie-06.png)
 
 ## Exports
 
-L'export couvre ce que vous regardez, pas la barre de filtres nue : les pastilles de sélection et les exclusions des rails se replient dans le rapport, exactement comme les liens de détail. Comme pour le journal, l'export contient les métadonnées correspondant exactement aux filtres ; les textes éventuels exigent un droit de lecture explicite, et chaque consultation est auditée.
+The export covers what you are looking at, not the bare filter bar: the selection chips and the rail exclusions fold into the report, exactly like the detail links. As for the log, the export contains the metadata corresponding exactly to the filters; any texts require an explicit reading right, and every consultation is audited.
 
-![Milvago - Exports](/img/docs/fr/monitoring-cartographie-07.png)
+![Milvago - Exports](/img/docs/en/monitoring-cartographie-07.png)

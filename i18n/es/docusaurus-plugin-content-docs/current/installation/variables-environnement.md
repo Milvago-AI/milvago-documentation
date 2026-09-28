@@ -7,8 +7,6 @@ title: Variables de entorno
 
 Toda la configuración del servidor pasa por el entorno: la consola nunca lee una y nada se ajusta en caliente. Una variable ausente o inválida detiene el servidor con el mensaje exacto del problema — no hay repliegue silencioso. Las variables necesarias también dependen del rol del proceso.
 
-[IMAGEAMETTREICI 01]
-
 ## Roles de proceso
 
 `MILVAGO_ROLE` selecciona la responsabilidad del proceso. Su valor predeterminado, `all`, conserva el proceso combinado para los despliegues existentes. En Kubernetes, separe los roles y monte solo los secretos que necesita cada pod.
@@ -27,14 +25,14 @@ Toda la configuración del servidor pasa por el entorno: la consola nunca lee un
 | --- | --- |
 | `DATABASE_URL` | conexión PostgreSQL de runtime |
 | `MIGRATION_DATABASE_URL` | conexión usada solo por `all` y `migrate` para las migraciones (rol privilegiado) |
-| `APP_URL` | origen HTTPS de la aplicación (HTTP tolerado únicamente en loopback explícito); rige el modo cookies seguras |
-| `OIDC_ISSUER` | emisor Keycloak (HTTPS o loopback explícito) |
+| `APP_URL` | origen HTTP o HTTPS de la aplicación; HTTPS activa las cookies seguras |
+| `OIDC_ISSUER` | emisor Keycloak (HTTP o HTTPS) |
 | `OIDC_CLIENT_ID` / `OIDC_CLIENT_SECRET` | cliente OIDC de la consola |
 | `SESSION_KEY` | raíz de cifrado de los tokens OIDC de sesión (AES-256-GCM, 32 bytes en base64 estándar) |
 | `CONTENT_KEYS` | raíces del contenido sellado, formato `version:base64` (`1:<32 bytes base64>,2:…`); la versión más alta sella, las anteriores solo abren |
 | `POLICY_SIGNING_KEY` | semilla Ed25519 de firma de las políticas y catálogos (32 bytes en base64) |
 
-`DATABASE_URL` y `CONTENT_KEYS` siguen siendo necesarios para los roles que acceden a los datos. La API requiere `APP_URL`, la configuración OIDC, `SESSION_KEY` y `POLICY_SIGNING_KEY`. `migrate` también requiere `APP_URL`, y `maintenance` requiere el emisor OIDC. El rol `exports` solo se acepta en Milvago Enterprise y no necesita secretos de sesión de consola, URL de migración ni identidad de inicialización.
+`DATABASE_URL` y `CONTENT_KEYS` siguen siendo necesarios para los roles que acceden a los datos. La API requiere `APP_URL`, la configuración OIDC, `SESSION_KEY` y `POLICY_SIGNING_KEY`. `migrate` también requiere `APP_URL`, y `maintenance` requiere el emisor OIDC. En Milvago Enterprise, `migrate` también requiere `OIDC_ISSUER`, salvo que el servidor MCP esté desactivado (`MILVAGO_MCP`). El rol `exports` solo se acepta en Milvago Enterprise y no necesita secretos de sesión de consola, URL de migración ni identidad de inicialización.
 
 :::warning
 `SESSION_KEY` y `CONTENT_KEYS` tienen funciones distintas **por construcción**: la sesión es desechable (una rotación cuesta reconexiones), el contenido sellado es durable. Una entrada `CONTENT_KEYS` igual a `SESSION_KEY` se rechaza en el arranque.
@@ -52,7 +50,7 @@ Toda la configuración del servidor pasa por el entorno: la consola nunca lee un
 | `OIDC_INTERNAL_URL` | — | emisor OIDC visto desde la red interna, si es diferente |
 | `EDITION` | fijada en la compilación | debe corresponder a la composición compilada del binario; en caso contrario, rechazo en el arranque |
 | `BOOTSTRAP_EMAIL` | vacía | dirección de la primera cuenta, creada automáticamente por `all` o `migrate` («modo automático»). Dejada vacía, es el asistente de [primera instalación](premiere-installation.md) quien crea esta cuenta en lugar de una importación. |
-| `OIDC_ADMIN_CLIENT_ID` / `OIDC_ADMIN_CLIENT_SECRET` | — | necesario para las operaciones de perfil, invitaciones y directorio de los roles `api` o `all`, para el asistente de [primera instalación](premiere-installation.md) y para las comprobaciones de mantenimiento de Keycloak; no se exige al iniciar y las exportaciones no lo usan |
+| `OIDC_ADMIN_CLIENT_ID` / `OIDC_ADMIN_CLIENT_SECRET` | — | necesario para las operaciones de perfil, invitaciones, directorio y SSO de los roles `api` o `all` (con un Keycloak existente, conceda a esta cuenta de servicio `manage-identity-providers` y `view-identity-providers`, y dé al cliente de la consola el ámbito `basic`, que lleva `auth_time`), para el asistente de [primera instalación](premiere-installation.md) y para las comprobaciones de mantenimiento de Keycloak; no se exige al iniciar y las exportaciones no lo usan |
 
 ## Facultativas `MILVAGO_*`
 
@@ -71,12 +69,10 @@ Toda la configuración del servidor pasa por el entorno: la consola nunca lee un
 | `MILVAGO_OTEL_HTTP_HOSTS` | hosts HTTP OTLP autorizados, separados por comas; cada entrada se valida estrictamente (solo host, sin usuario, ruta, consulta ni fragmento) |
 | `MILVAGO_EXPORT_CA_FILE` | archivo PEM (≤ 1 MB) de autoridades raíz para los destinos de exportación; debe contener al menos un certificado explotable |
 
-[IMAGEAMETTREICI 02]
-
 ## Funcionalidades de Keycloak que hay que desactivar
 
 « Milvago desactiva en Keycloak las funcionalidades que no usa y que un cliente que se registra por sí mismo podría activar para obtener tokens sin dirección de redirección: `KC_FEATURES_DISABLED=device-flow,ciba,token-exchange-standard`. Un proveedor de identidad existente que sirva a Milvago debe aplicar el mismo ajuste. »
 
 ## Los rechazos de arranque son salvaguardas
 
-La configuración se valida en bloque: raíces de 32 bytes exactamente, versiones `CONTENT_KEYS` positivas y únicas, claves de contenido distintas de `SESSION_KEY`, orígenes HTTPS (loopback explícito tolerado para las pruebas), emisor OIDC seguro, roles de base bien formados. Un defecto de configuración es un error, no una sustitución silenciosa por una raíz de otro uso.
+La configuración se valida en bloque: raíces de 32 bytes exactamente, versiones `CONTENT_KEYS` positivas y únicas, claves de contenido distintas de `SESSION_KEY`, orígenes HTTP o HTTPS, emisor OIDC bien formado, roles de base bien formados. Un defecto de configuración es un error, no una sustitución silenciosa por una raíz de otro uso.

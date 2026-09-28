@@ -31,7 +31,7 @@ Una navegación vertical divide la pantalla, numerada en el orden de la polític
 
 Cada guardado lee « Configuración guardada. Las instalaciones la recibirán en su próxima sincronización. » Mientras haya campos cambiados, un badge « Borrador » señala el estado no guardado.
 
-[IMAGEAMETTREICI 01]
+![Milvago - Las secciones](/img/docs/en/administration-shadow-ai-01.png)
 
 ## Inscripción y recolección
 
@@ -59,7 +59,7 @@ Esta sección solo existe al nivel de la organización: ni un grupo, ni un dispo
 
 La descripción de la sección porta el límite de edición: « Community conecta la extensión al puente Rust abierto. Las conversaciones de aplicaciones locales siguen siendo una capacidad Enterprise. »
 
-[IMAGEAMETTREICI 02]
+![Milvago - Recolección en el navegador](/img/docs/en/administration-shadow-ai-02.png)
 
 ## Servicios
 
@@ -84,13 +84,13 @@ El confinamiento a nivel de sistema (WFP en Windows, SELinux en Linux) solo cubr
 
 :::
 
-[IMAGEAMETTREICI 03]
+![Milvago - Control de modelos](/img/docs/en/administration-shadow-ai-03.png)
 
 ## Protecciones
 
 ### Archivos adjuntos
 
-**Bloquear el envío de archivos** sella las rutas de carga **medidas** del catálogo (`kind:"file"`) — las URL que un envío desencadena realmente en el sitio, relevadas en el lugar y publicadas en el catálogo firmado, nunca adivinadas. Ninguna heurística sobre el método, el host o la forma del cuerpo: tres bloqueos erróneos valen mejor que un envío legítimo interceptado. « La interceptación depende del navegador y de las interfaces compatibles. »
+**Bloquear el envío de archivos** sella las rutas de carga **medidas** del catálogo (`kind:"file"`) — las URL que un envío desencadena realmente en el sitio, relevadas en el lugar y publicadas en el catálogo firmado, nunca adivinadas. Ninguna heurística sobre el método, el host o la forma del cuerpo: solo quedan selladas las rutas de carga medidas, para no interceptar nunca un envío legítimo. « La interceptación depende del navegador y de las interfaces compatibles. »
 
 ### Palabras y frases protegidas
 
@@ -101,11 +101,11 @@ El confinamiento a nivel de sistema (WFP en Windows, SELinux en Linux) solo cubr
 - **Excepciones** — una por línea; reducen el perímetro de detección.
 - **Mensaje mostrado al bloquear**.
 
-[IMAGEAMETTREICI 04]
+![Milvago - Palabras y frases protegidas](/img/docs/en/administration-shadow-ai-04.png)
 
 ## Enmascaramiento local
 
-« Actúa sobre el texto capturado, en el dispositivo, antes de cualquier envío: cada elemento detectado se sustituye por su etiqueta, por ejemplo [email]. Es independiente de la sensibilidad de los usos (paneles) y de la conservación del texto. » Dos interruptores: **Activar el enmascaramiento**, y **Exigir una revisión antes del envío**.
+« Actúa sobre el texto capturado, en el dispositivo, antes de cualquier envío: cada elemento detectado se sustituye por su etiqueta, por ejemplo [email]. Es independiente de la sensibilidad de los usos (paneles) y de la conservación del texto. La detección es heurística y se limita a los formatos compatibles; revise los resultados antes de ampliar el despliegue. » Dos interruptores: **Activar el enmascaramiento**, y **Exigir una revisión antes del envío**.
 
 :::enterprise
 
@@ -119,7 +119,7 @@ Las dos ediciones definen reglas personalizadas: una **etiqueta**, una **expresi
 
 En Community, sin categorías integradas, la pantalla lo explicita: « Esta edición no incluye patrones de detección integrados: defina sus propias expresiones regulares en « Reglas de enmascaramiento personalizadas » más abajo. »
 
-[IMAGEAMETTREICI 05]
+![Milvago - Reglas de enmascaramiento personalizadas](/img/docs/en/administration-shadow-ai-05.png)
 
 :::enterprise
 
@@ -145,7 +145,7 @@ Esta sección se configura **al nivel de la organización**: Descubrimiento se l
 
 Una plataforma que la edición ya captura nunca aparece en la lista: el servidor solo envía lo que esta edición no captura en su totalidad, y una plataforma capturada no puede alcanzar Descubrimiento.
 
-[IMAGEAMETTREICI 06]
+![Milvago - Plataformas de IA](/img/docs/en/administration-shadow-ai-06.png)
 
 ## Operaciones
 

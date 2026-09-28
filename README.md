@@ -13,8 +13,8 @@ documentation site; the product sources live in their own repositories.
 
 | Language | Source |
 |---|---|
-| Français | `docs/` |
-| English | `i18n/en/docusaurus-plugin-content-docs/current/` |
+| English (default) | `docs/` |
+| Français | `i18n/fr/docusaurus-plugin-content-docs/current/` |
 | Español | `i18n/es/docusaurus-plugin-content-docs/current/` |
 | Português (Brasil) | `i18n/pt-BR/docusaurus-plugin-content-docs/current/` |
 
@@ -28,19 +28,26 @@ Requires Node.js 20 or later.
 
 ```bash
 npm ci
-npm start                        # dev server on http://localhost:3000, French only
-npm start -- --locale en         # dev server for one other language
+npm start                        # dev server on http://localhost:3000, English only
+npm start -- --locale fr         # dev server for one other language
 npm run build && npm run serve   # production build of all four languages
 ```
 
-The dev server serves a single locale: `/en/docs/…` returns a 404 there, this is expected. Use a
-production build to check every language.
+The dev server serves a single locale: `/fr/docs/…` returns a 404 there, this is expected. Use a
+production build to check every language. **Do not run `npm run build` while `npm start` is running
+in the same checkout.** Both commands write to `.docusaurus`; the build can replace the dev
+server's English routes with another locale and make `/docs/…` display a Portuguese 404. Stop
+the dev server before building.
+
+For a stable preview of all four languages on port 3001, run `npm run build` and then
+`npm run serve -- --port 3001`. Rebuild after editing the documentation; the preview server serves
+the updated files without needing a restart.
 
 ## Layout
 
 ```
-docs/            French pages, one folder per sidebar section (_category_.json)
-i18n/            English, Spanish and Brazilian Portuguese translations
+docs/            English pages, one folder per sidebar section (_category_.json)
+i18n/            French, Spanish and Brazilian Portuguese translations
 src/components/  React components used by pages (architecture diagram)
 src/theme/       Swizzled theme parts (footer, Enterprise admonition)
 src/css/         Site styles and design tokens

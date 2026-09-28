@@ -17,11 +17,17 @@ title: Componentes
 
 A extensão é distribuída em duas variantes de edição. Na Community, apenas os adaptadores ChatGPT e Claude são embarcados: nenhum catálogo nem script de conteúdo dos outros provedores está presente no pacote.
 
-[IMAGEAMETTREICI 01]
+![Milvago - Extensão de navegador](/img/docs/en/installation-composants-01.png)
 
 - **Chrome / Edge / Brave / Vivaldi**: pacote CRX, implantado no Windows por política de empresa (`ExtensionInstallForcelist`). O Vivaldi não tem um caminho automatizado dedicado no Linux.
 - **Arc (Windows)**: pacote CRX compatível e política empresarial Arc. A instalação por MSI e o controle de conteúdo ainda precisam de qualificação separada.
 - **Firefox**: XPI assinado, exigido mesmo sob política de empresa; Firefox 140.0 ou posterior é obrigatório em todos os sistemas operacionais. Sem pacote assinado esperado, o serviço de atualizações da extensão responde 503.
+
+:::info
+
+Para instalar no Windows, por `ExtensionInstallForcelist`, a extensão privada do Google Chrome conforme o procedimento descrito aqui, o computador deve estar associado a um domínio do Active Directory ou ao Microsoft Entra ID. A extensão não está disponível na Chrome Web Store; instalar apenas o agente ou o host Native Messaging não é suficiente.
+
+:::
 
 O Chromium independente não é compatível. Consulte [Arquitetura técnica](../introduction/architecture.md) para a matriz de integração por sistema operacional, os modos de implantação Linux e o escopo das qualificações.
 
@@ -37,22 +43,18 @@ O catálogo de fábrica da Enterprise cobre **nove provedores**. O controle de m
 
 ## Agente Windows
 
-O agente é distribuído na forma de um **MSI assinado**:
+O agente Windows é distribuído como MSI imutável. Seu manifesto de atualização é assinado; a assinatura Authenticode do MSI aguarda o certificado do editor:
 
-1. Recuperar o MSI servido pelo servidor (embarcado na imagem Docker, manifesto de atualização assinado).
-2. Instalar no dispositivo; o serviço executa-se sob conta local e retransmite as políticas à extensão por canais loopback.
+1. Baixe o ZIP do Windows pelo console. Ele contém o MSI imutável, o script de instalação correspondente e o JSON de provisionamento desta organização. Se a conta tiver um segundo fator ativo, o download será retomado após uma nova verificação.
+2. Extraia o ZIP e execute o script como administrador com os caminhos do MSI e do JSON. O serviço é executado com uma conta local e retransmite políticas à extensão por canais loopback. Proteja e exclua o ZIP e o JSON quando não forem mais necessários.
 
 As atualizações são distribuídas pela imagem Docker contendo o MSI e seu manifesto: reconstruir e colocar novamente em serviço a imagem, e depois verificar a impressão digital do MSI efetivamente servido, a assinatura e a versão anunciada. A aplicação nos dispositivos depende da política de atualização configurada.
 
-[IMAGEAMETTREICI 02]
+![Milvago - Agente Windows](/img/docs/fr/installation-composants-02.png)
 
 ## Console
 
-O console é fornecido com o backend (AGPL-3.0):
-
-```bash
-docker compose up -d
-```
+O console é fornecido com o backend (AGPL-3.0). Para instalá-lo com Docker, consulte [Instalação Docker](docker.md).
 
 Por padrão na Community: uma organização, sem controle de modelos, sem motivos de mascaramento integrados nem sensibilidade dos usos. A observação do nome do modelo que respondeu está aberta nas duas edições (inventário); a decisão de controle permanece limitada aos provedores cobertos. O gerenciamento de funções e membros, o diretório LDAP e o login SSO dependem, na Community, de uma **licença**: enquanto nenhuma for aceita, a instância permanece em modo restrito — 5 dispositivos, uma única conta de administrador, nenhuma dessas três funções. Veja [Configurações > Licença](../administration/parametres.md#licença).
 
@@ -62,4 +64,4 @@ Na Enterprise, o console gere várias organizações isoladas (PostgreSQL RLS), 
 
 :::
 
-[IMAGEAMETTREICI 03]
+![Milvago - Console](/img/docs/en/installation-composants-03.png)

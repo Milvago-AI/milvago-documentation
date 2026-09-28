@@ -12,15 +12,15 @@ Na barra lateral, clique em **Administração** > **Registro de auditoria**. Voc
 1. Clique em **Atualizar**.
 2. Verifique se a tabela recarrega ou informa que não há entradas visíveis.
 
-O registro de auditoria responde à pergunta "**quem fez o quê**" na plataforma. Ele rastreia as ações de administração: mudança de função, remoção de acesso, modificação de política, exclusão de um dispositivo, rotação de uma chave, modificação da privacidade — esta última com o motivo escrito que a autorizou.
+O registro de auditoria responde à pergunta "**quem fez o quê**" na plataforma. Ele rastreia as ações de administração: mudança de função, remoção de acesso, modificação de política, exclusão de um dispositivo, rotação de uma chave, modificação da privacidade — esta última com o motivo escrito que a autorizou, mostrado na coluna **Motivo**.
 
 O acesso exige a permissão `audit.read` — entre as funções integradas, apenas o Proprietário a possui; sem ela, a tela mostra "É necessário acesso de proprietário".
 
 ## A tabela
 
-Cada linha porta quatro colunas: **Data**, **Autor**, **Ação** (código pontuado, tal como `directory.update` ou `role.change`), **Alvo** (identificador técnico, em fonte monoespaçada). Vazia, a tela lê "Nenhuma ação registrada"; o botão "Atualizar" recarrega a lista.
+Cada linha porta cinco colunas: **Data**, **Autor**, **Ação** (código pontuado, tal como `directory.update` ou `member.role`), **Alvo** (identificador técnico, em fonte monoespaçada) e **Motivo** — o motivo escrito que autorizou uma modificação de privacidade ou uma revelação de identidade, vazio para qualquer outra ação. Vazia, a tela lê "Nenhuma ação registrada"; o botão "Atualizar" recarrega a lista.
 
-[IMAGEAMETTREICI 01]
+![Milvago - A tabela](/img/docs/en/administration-audit-01.png)
 
 ## Somente anexação, por construção
 

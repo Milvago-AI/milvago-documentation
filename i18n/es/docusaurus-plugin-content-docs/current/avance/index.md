@@ -15,7 +15,7 @@ Esta sección reúne lo que concierne a los operadores y a la integración, desp
 - [Configuración del agente](agent-configuration.md) — el archivo `milvago.toml` bajo Windows y Linux, parámetro por parámetro.
 - [SSO (Google / Microsoft Entra ID)](sso.md) — intermediación de identidad de Keycloak, vinculación en el primer inicio de sesión, restricción al dominio o al tenant.
 
-[IMAGEAMETTREICI 01]
+![Milvago - Contenido](/img/docs/en/avance-index-01.png)
 
 :::note
 Estos temas no tienen todos el mismo punto de configuración: el servidor usa el entorno, el agente su archivo TOML y el catálogo y las opciones de uso compartido se ajustan en la consola. Véase [Variables de entorno](../installation/variables-environnement.md).

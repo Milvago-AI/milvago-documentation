@@ -1,0 +1,7 @@
+{
+  "label": "Fleet",
+  "position": 5,
+  "collapsible": true,
+  "collapsed": true,
+  "className": "mv-nav-fleet"
+}

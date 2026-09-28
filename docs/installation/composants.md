@@ -1,65 +1,65 @@
-﻿---
+---
 sidebar_position: 1
-title: Composants
+title: Components
 ---
 
-# Installation des composants
+# Installing the components
 
-## Parcours d'installation
+## Installation path
 
-1. Déployez le serveur Milvago, puis ouvrez la console avec un compte administrateur.
-2. Dans **Administration → Paramètres**, définissez et confirmez l’URL HTTPS publique qui sera portée par les agents.
-3. Ouvrez **Parc → Postes** et sélectionnez **Télécharger l’agent** pour obtenir le paquet de votre édition.
-4. Installez ce paquet sur le poste, puis distribuez l’extension adaptée au navigateur par votre politique d’entreprise.
-5. Revenez dans **Parc → Postes** : approuvez le poste s’il est en attente et vérifiez ses derniers contacts ainsi que ses extensions navigateur.
+1. Deploy the Milvago server, then open the console with an administrator account.
+2. In **Administration → Settings**, set and confirm the public HTTPS URL that agents will carry.
+3. Open **Fleet → Devices** and select **Download agent** to obtain the package for your edition.
+4. Install that package on the device, then distribute the browser-specific extension through your enterprise policy.
+5. Return to **Fleet → Devices**: approve the device if it is pending and check its last contact and browser extensions.
 
-## Extension navigateur
+## Browser extension
 
-L'extension est distribuée en deux variantes d'édition. En Community, seuls les adaptateurs ChatGPT et Claude sont embarqués : aucun catalogue ni script de contenu des autres fournisseurs n'est présent dans le paquet.
+The extension is distributed in two edition variants. In Community, only the ChatGPT and Claude adapters are embedded: no catalog or content script of the other providers is present in the package.
 
-![Milvago - Extension navigateur](/img/docs/fr/installation-composants-01.png)
+![Milvago - Browser extension](/img/docs/en/installation-composants-01.png)
 
-- **Chrome / Edge / Brave / Vivaldi** : paquet CRX, déployé sous Windows par politique d'entreprise (`ExtensionInstallForcelist`). Vivaldi ne possède aucun chemin automatisé dédié sous Linux.
-- **Arc (Windows)** : paquet CRX pris en charge et politique d'entreprise Arc. L'installation par MSI et le contrôle de contenu restent à qualifier séparément.
-- **Firefox** : XPI signé, requis même sous politique d'entreprise ; Firefox 140.0 ou ultérieur est requis sur tous les systèmes d'exploitation. Sans paquet signé attendu, le service de mises à jour répond 503.
+- **Chrome / Edge / Brave / Vivaldi**: CRX package, deployed on Windows through enterprise policy (`ExtensionInstallForcelist`). Vivaldi has no dedicated automated Linux path.
+- **Arc (Windows)**: supported CRX package and Arc enterprise policy. MSI installation and content control remain to be qualified separately.
+- **Firefox**: signed XPI, required even under enterprise policy; Firefox 140.0 or later is required on every operating system. Without the expected signed package, the extension update service answers 503.
 
-Chromium autonome n'est pas un navigateur pris en charge. Voir [Architecture technique](../introduction/architecture.md) pour la matrice d'intégration par système d'exploitation, les modes de déploiement Linux et le périmètre des qualifications.
+:::info[Google Chrome installation]
+The Chrome extension is private and is not published in the Chrome Web Store. For the Windows deployment described here through `ExtensionInstallForcelist`, the PC must be joined to an Active Directory domain or Microsoft Entra ID. Installing the agent or Native Messaging host alone is not enough.
+:::
 
-L'extension est pilotée par un **catalogue de détection signé** (moteur + données) qui décrit les routes mesurées des sites couverts : routes de prompt, routes de téléversement. Elle n'applique aucune heuristique hors de ces routes.
+Standalone Chromium is not supported. See [Technical architecture](../introduction/architecture.md) for the operating-system integration matrix, the Linux deployment modes, and the scope of qualifications.
 
-Dans les deux éditions, les **plateformes connues** signalent la présence sur une plateforme atteinte, jamais son contenu, sans rouvrir la capture hors des fournisseurs qualifiés.
+The extension is driven by a **signed detection catalog** (engine + data) that describes the measured routes of the covered sites: prompt routes, upload routes. It applies no heuristic outside those routes.
+
+In both editions, **known platforms** report presence on a reached platform, never its content, without re-enabling capture outside qualified providers.
 
 :::enterprise
 
-Le catalogue d'usine Enterprise couvre **neuf fournisseurs**. Le contrôle des modèles et la sensibilité des usages sont également réservés à Enterprise.
+The Enterprise factory catalog covers **nine providers**. Model controls and usage sensitivity are also reserved for Enterprise.
 
 :::
 
-## Agent Windows
+## Windows agent
 
-L'agent est distribué sous forme de **MSI signé** :
+The Windows agent is distributed as an immutable MSI. Its update manifest is signed; Authenticode signing of the MSI awaits the publisher certificate:
 
-1. Récupérer le MSI servi par le serveur (embarqué dans l'image Docker, manifeste de mise à jour signé).
-2. Installer sur le poste ; le service s'exécute sous compte local et relaie les politiques vers l'extension via canaux loopback.
+1. Download the Windows ZIP from the console. It contains the immutable MSI, the matching installation script and this organization's provisioning JSON. If a second factor is enabled on your account, the download resumes after fresh verification.
+2. Extract the ZIP and run the script as administrator with the MSI and JSON paths. The service runs under a local account and relays policies to the extension via loopback channels. Protect and delete the ZIP and JSON when no longer needed.
 
-Les mises à jour sont distribuées par l'image Docker contenant le MSI et son manifeste : reconstruire et remettre en service l'image, puis vérifier l'empreinte du MSI effectivement servi, la signature et la version annoncée. L'application sur les postes dépend de la politique de mise à jour configurée.
+Updates are distributed by the Docker image containing the MSI and its manifest: rebuild and redeploy the image, then verify the fingerprint of the MSI actually served, the signature and the announced version. Application on the devices depends on the configured update policy.
 
-![Milvago - Agent Windows](/img/docs/fr/installation-composants-02.png)
+![Milvago - Windows agent](/img/docs/fr/installation-composants-02.png)
 
 ## Console
 
-La console est fournie avec le backend (AGPL-3.0) :
+The console ships with the backend (AGPL-3.0). For Docker setup, see [Docker installation](docker.md).
 
-```bash
-docker compose up -d
-```
-
-Par défaut en Community : une organisation, sans contrôle de modèle, sans motifs de masquage intégrés ni sensibilité des usages. L'observation du nom du modèle ayant répondu est ouverte dans les deux éditions (inventaire) ; la décision de contrôle reste limitée aux fournisseurs couverts. La gestion des rôles et des membres, l'annuaire LDAP et la connexion SSO dépendent en Community d'une **licence** : tant qu'aucune n'est acceptée, l'instance reste en mode restreint — 5 postes, un seul compte administrateur, aucune de ces trois fonctions. Voir [Paramètres > Licence](../administration/parametres.md#licence).
+By default in Community: one organization, no model controls, no built-in masking patterns and no usage sensitivity. Observing the name of the model that answered is open in both editions (inventory); the control decision remains limited to the covered providers. Role and member management, the LDAP directory and SSO sign-in depend in Community on a **license**: as long as none is accepted, the instance stays in restricted mode — 5 devices, a single administrator account, none of these three features. See [Settings > License](../administration/parametres.md#license).
 
 :::enterprise
 
-En Enterprise, la console gère plusieurs organisations isolées (PostgreSQL RLS), les groupes de postes, les clés de déploiement et le serveur MCP. Voir la section Administration. Une licence Enterprise valide et propre à l'instance est toujours requise, sans mode restreint : voir [Paramètres > Licence](../administration/parametres.md#licence).
+In Enterprise, the console manages several isolated organizations (PostgreSQL RLS), device groups, deployment keys and the MCP server. See the Administration section. A valid Enterprise license bound to the instance is always required, with no restricted mode: see [Settings > License](../administration/parametres.md#license).
 
 :::
 
-![Milvago - Console](/img/docs/fr/installation-composants-03.png)
+![Milvago - Console](/img/docs/en/installation-composants-03.png)

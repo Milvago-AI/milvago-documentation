@@ -11,18 +11,19 @@ Como uma instância do Milvago totalmente nova, sem nenhum administrador, é col
 
 Uma instância iniciada **sem** a variável `BOOTSTRAP_EMAIL` não tem administrador: em vez da tela de login, o console exibe diretamente o assistente **"Instalar esta instância do Milvago"**. Não há nada a clicar para abri-lo — ele substitui a página de entrada enquanto nenhuma conta existir.
 
-[IMAGEAMETTREICI 01]
 
 ## O que protege o assistente
 
 O assistente permanece fechado enquanto o servidor não dispuser de duas coisas:
 
-- **`MILVAGO_SETUP_TOKEN`** — um token de uso único com no mínimo 32 caracteres, fornecido por variável de ambiente ou por um Secret do Kubernetes. O servidor guarda apenas sua impressão SHA-256; ele não aparece em nenhum log. O script Community `scripts/local-init.mjs` gera um automaticamente em `.env`.
+- **`MILVAGO_SETUP_TOKEN`** — um token de uso único com no mínimo 32 caracteres, fornecido por variável de ambiente ou por um Secret do Kubernetes. O servidor guarda apenas sua impressão SHA-256; ele não aparece em nenhum log.
 - **Uma conta de serviço de administração da identidade** — `OIDC_ADMIN_CLIENT_ID` e `OIDC_ADMIN_CLIENT_SECRET`.
+
+Para instalar com Docker, consulte [Instalação Docker](docker.md).
 
 Sem um ou outro, o assistente exibe **"O assistente de instalação está fechado"** — "Forneça ao servidor o MILVAGO_SETUP_TOKEN e a conta de administração da identidade (OIDC_ADMIN_CLIENT_ID, OIDC_ADMIN_CLIENT_SECRET) e recarregue esta página." Veja [Variáveis de ambiente](variables-environnement.md).
 
-Nada é salvo antes da última etapa: a senha e a licença informada permanecem na memória da página até seu envio, uma única vez, na última etapa, e nunca são gravadas em um armazenamento do navegador.
+Nenhuma configuração é salva antes da última etapa. Uma licença informada é enviada ao servidor para validação na etapa 2 e verificada novamente na conclusão. A senha permanece na memória da página até o final; nenhum desses valores é gravado no armazenamento do navegador.
 
 ## As nove etapas
 
@@ -30,54 +31,69 @@ Nada é salvo antes da última etapa: a senha e a licença informada permanecem 
 
 Campo **Token de instalação** — "O valor de MILVAGO_SETUP_TOKEN fornecido ao servidor. Ele não aparece em nenhum log." Depois de validado, uma sessão de instalação é aberta.
 
+![Assistente de instalação, etapa 1](/img/docs/pt-BR/installmilvago/step1_pr.png)
+
 ### 2. Licença
 
 **Enterprise**: "A licença é fornecida pela Milvago AI. Compartilhe o identificador da instância abaixo ao solicitá-la e depois cole-a aqui para continuar." O assistente mostra o **identificador da instância** da futura instalação, com um botão para copiá-lo, e depois um campo para colar o texto da licença recebida. A licença é obrigatória para continuar.
 
 **Community**: três opções, "Continuar sem licença" selecionada por padrão:
 
+O assistente também informa: “A licença gratuita remove apenas os limites da Community. Ela não desbloqueia a Enterprise, que exige a edição Enterprise e uma licença separada.”
+
 - **Tenho uma licença** — um campo para colar o texto da licença.
 - **Solicitar uma licença gratuita** — um endereço de e-mail a digitar, depois **Enviar a solicitação**; "Solicitação enviada. Verifique a caixa de entrada de {`endereço`} e cole abaixo a licença recebida.", seguido do mesmo campo para colá-la.
 - **Continuar sem licença** — o aviso "Sem licença": "Limitado a 5 dispositivos, uma única conta de administrador, sem gerenciamento de funções, sem diretório LDAP e sem SSO. Uma licença pode ser solicitada mais tarde em [Administração > Configurações > Licença](../administration/parametres.md#licença)."
 
-Escolher "Tenho uma licença" sem colar texto, ou permanecer na Enterprise sem colar uma, bloqueia a passagem para a próxima etapa com "Informe uma licença para continuar." O texto colado só é verificado pelo servidor ao final do assistente, no momento de criar a conta: uma licença inválida, ou uma licença Community oferecida a uma instância Enterprise, falha então com o erro do servidor, exibido no Resumo — não nesta etapa. O Resumo lista essa escolha em primeiro lugar: "Licença informada" ou "Nenhuma".
+Escolher "Tenho uma licença" sem colar texto, ou permanecer na Enterprise sem licença, bloqueia o avanço com "Informe uma licença para continuar." Se uma licença for informada, "Próximo" faz o servidor verificar a assinatura, a instância e a edição. Uma licença inválida mostra um erro nesta etapa e mantém o assistente nela. O servidor verifica a licença novamente antes de criar a conta. O Resumo lista essa escolha primeiro: "Licença informada" ou "Nenhuma".
 
-[IMAGEAMETTREICI 02]
+![Assistente de instalação, etapa 2](/img/docs/pt-BR/installmilvago/step2_pr.png)
 
 ### 3. Idioma
 
 **Idioma padrão da instância**: escolhê-lo muda imediatamente o idioma do assistente.
 
+![Assistente de instalação, etapa 3](/img/docs/pt-BR/installmilvago/step3_pr.png)
+
 ### 4. Conta de administrador
 
 "Esta conta se torna o proprietário da organização no primeiro login." Endereço de e-mail, nome, sobrenome, depois a senha digitada duas vezes — "No mínimo 12 caracteres, diferente do endereço de e-mail. O provedor de identidade pode exigir mais." A política de senhas do provedor de identidade tem a palavra final.
 
-[IMAGEAMETTREICI 03]
+![Assistente de instalação, etapa 4](/img/docs/pt-BR/installmilvago/step4_pr.png)
 
 ### 5. Segurança
 
 Duas opções:
 
-- **Inscrever um aplicativo de autenticação no primeiro login** — marcada por padrão. "Recomendado: esta conta tem todas as permissões."
+- **Inscrever um aplicativo de autenticação no primeiro login** — marcada por padrão. "Após a configuração, esta conta deve usar o aplicativo autenticador em cada acesso."
 - **Exigir autenticação de duplo fator de todos os membros** — "Os membros que fazem login com senha precisam de um segundo fator. As identidades de um provedor de identidade externo dependem do seu próprio."
+
+Depois de configurar o aplicativo autenticador, o segundo fator é obrigatório nos próximos acessos dessa conta. Após a senha, o mesmo login solicita o código do aplicativo sem pedir a senha novamente. A segunda opção estende essa exigência a todos os membros.
+
+![Assistente de instalação, etapa 5](/img/docs/pt-BR/installmilvago/step5_pr.png)
 
 ### 6. Organização e acesso
 
-**Nome da organização**, depois **URL HTTPS pública do agente** — "Endereço usado pelos agentes e pela extensão do navegador." — pré-preenchida com o endereço atual. Uma URL HTTP só é aceita em um loopback explícito.
+**Nome da organização**, depois **URL pública do Milvago** — o endereço usado pelo login do console, Keycloak, agentes e extensão do navegador. Ele é preenchido com o endereço da página atual. Informe o endereço HTTPS do proxy frontal se houver um; HTTP é aceito para testes em uma rede local confiável.
+
+![Assistente de instalação, etapa 6](/img/docs/pt-BR/installmilvago/step6_pr.png)
 
 ### 7. Servidor de e-mail
 
-Uma etapa opcional — "Usado para enviar os convites dos membros. Também pode ser configurado mais tarde no provedor de identidade." Ao marcar **Configurar um servidor de e-mail agora**: host, porta, segurança da conexão (STARTTLS, TLS ou nenhuma), endereço e nome do remetente, depois usuário e senha opcionais. O botão **Enviar um e-mail de teste** envia uma mensagem real para o endereço do administrador com essas configurações. Credenciais nunca são aceitas em uma conexão remota não criptografada. Essas configurações se tornam o servidor SMTP do provedor de identidade, usado depois para os convites.
+Uma etapa opcional — "Usado para enviar os convites dos membros. Também pode ser configurado mais tarde no provedor de identidade." Ao marcar **Configurar um servidor de e-mail agora**: host, porta, segurança da conexão (STARTTLS, TLS ou nenhuma), endereço e nome do remetente, depois usuário e senha opcionais. O botão **Enviar um e-mail de teste** mostra o endereço do administrador informado na etapa 4 e envia uma mensagem real para ele com essas configurações. Se o servidor de e-mail responder `550 5.1.1`, verifique se o endereço existe e corrija-o na etapa 4. Credenciais nunca são aceitas em uma conexão remota não criptografada. Essas configurações se tornam o servidor SMTP do provedor de identidade, usado depois para os convites.
+
+![Assistente de instalação, etapa 7](/img/docs/pt-BR/installmilvago/step7_pr.png)
 
 ### 8. Privacidade
 
 As mesmas configurações de Administração > Privacidade, exceto **Atributo OIDC da equipe**, configurado depois que houver um provedor de identidade — "Valores padrão desta organização. Continuam editáveis em Privacidade."
 
+![Assistente de instalação, etapa 8](/img/docs/pt-BR/installmilvago/step8_pr.png)
+
 ### 9. Resumo
 
-"Revise suas escolhas. A conta de administrador é criada ao finalizar; em seguida, você fará login com ela." O botão final, **Criar o administrador e finalizar**, dispara a criação.
+"Revise suas escolhas. A conta de administrador é criada ao finalizar; em seguida, você fará login com ela." O botão final, **Criar o administrador e finalizar**, dispara a criação. Enquanto a conta é criada, o assistente exibe um indicador de progresso e desativa os controles até a abertura da página de login.
 
-[IMAGEAMETTREICI 04]
 
 ## O que acontece no final
 

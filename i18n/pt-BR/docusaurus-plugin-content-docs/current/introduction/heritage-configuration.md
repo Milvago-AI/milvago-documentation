@@ -7,7 +7,7 @@ title: Herança da configuração
 
 A configuração Shadow AI do Milvago lê-se em três andares: **organização → grupo de dispositivos → dispositivo**. Cada andar define apenas o que quer mudar; uma seção ausente é herdada do andar superior, e a derrogação mais próxima do dispositivo prevalece.
 
-[IMAGEAMETTREICI 01]
+![Milvago - Herança da configuração](/img/docs/en/introduction-heritage-configuration-01.png)
 
 ## O princípio: seções, não blocos
 
@@ -24,7 +24,7 @@ Um grupo que quer mudar apenas "Proteções" define, portanto, unicamente essa s
 | Nível | Seções possíveis | Tela de edição |
 | --- | --- | --- |
 | **Organização** | todas, incluindo Registro e Exploração | Administração → Shadow AI |
-| **Grupo de dispositivos** | coleta, serviços, proteções, mascaramento local, sensibilidade dos usos, controle de modelos | Parque → Grupos de dispositivos |
+| **Grupo de dispositivos** | coleta, serviços, proteções, mascaramento local, sensibilidade dos usos, controle de modelos | Parque → Grupos |
 | **Dispositivo** | as mesmas seis seções do grupo | ficha do dispositivo → Política do dispositivo |
 
 Duas seções permanecem por natureza na organização: **Registro** (quem pode se juntar, segundo qual rede) e **Exploração** (atualizações do agente). Um grupo ou um dispositivo não pode nem sobrescrevê-las nem enfraquecê-las — são decisões de parque, não de uso.
@@ -33,9 +33,9 @@ Um dispositivo pertence a um único grupo por vez: não há prioridade a arbitra
 
 ## Quem vê a procedência
 
-O editor exibe o escopo corrente ("Política da organização", "Derrogação do grupo", "Derrogação do dispositivo") e, para cada seção herdada, uma caixa "**Herdar · nome da seção**" que nomeia a tela de onde a seção vem — o grupo na ficha de um dispositivo, a organização na ficha de um grupo. A procedência segue o **último escritor**: uma seção herdada pela organização pai e depois recoberta pelo grupo é atribuída ao grupo.
+O editor exibe o escopo corrente ("Política da organização", "Exceção do grupo", "Exceção do dispositivo") e, para cada seção herdada, uma caixa "**Herdar · nome da seção**" que nomeia a tela de onde a seção vem — o grupo na ficha de um dispositivo, a organização na ficha de um grupo. A procedência segue o **último escritor**: uma seção herdada pela organização pai e depois recoberta pelo grupo é atribuída ao grupo.
 
-[IMAGEAMETTREICI 02]
+![Milvago - Quem vê a procedência](/img/docs/en/introduction-heritage-configuration-02.png)
 
 ## As revisões, na ordem
 

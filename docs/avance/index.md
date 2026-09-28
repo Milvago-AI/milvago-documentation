@@ -1,22 +1,22 @@
-﻿---
+---
 sidebar_position: 1
-title: Sujets avancés
+title: Advanced topics
 ---
 
-# Sujets avancés
+# Advanced topics
 
-Cette section rassemble ce qui concerne les opérateurs et l'intégration, après la découverte des écrans courants.
+This section gathers what concerns operators and integration, after the discovery of the common screens.
 
-## Contenu
+## Content
 
-- [Catalogue de détection](catalogue-editeur.md) — l'éditeur derrière `MILVAGO_DEBUG`, la publication sous révision, la santé des détecteurs.
-- [Instance de démonstration](demo-instance.md) — `MILVAGO_DEMO_READONLY` et `MILVAGO_DEMO_MCP_KEY`, la pile, les quatre couches de lecture seule.
-- [Connexion au service éditeur](service-editeur.md) — variables `MILVAGO_PUBLISHER_*` et choix disponibles dans la console.
-- [Configuration de l'agent](agent-configuration.md) — le fichier `milvago.toml` sous Windows et Linux, paramètre par paramètre.
-- [SSO (Google / Microsoft Entra ID)](sso.md) — courtage d'identité Keycloak, rattachement au premier login, restriction au domaine ou au tenant.
+- [Detection catalogue](catalogue-editeur.md) — the editor behind `MILVAGO_DEBUG`, publication under revision, detector health.
+- [Demo instance](demo-instance.md) — `MILVAGO_DEMO_READONLY` and `MILVAGO_DEMO_MCP_KEY`, the stack, the four read-only layers.
+- [Connect to the publisher service](service-editeur.md) — `MILVAGO_PUBLISHER_*` variables and choices available in the console.
+- [Agent configuration](agent-configuration.md) — the `milvago.toml` file under Windows and Linux, parameter by parameter.
+- [SSO (Google / Microsoft Entra ID)](sso.md) — Keycloak identity brokering, linking at first login, domain or tenant restriction.
 
-![Milvago - Contenu](/img/docs/fr/avance-index-01.png)
+![Milvago - Content](/img/docs/en/avance-index-01.png)
 
 :::note
-Ces sujets n’ont pas tous le même point de réglage : le serveur se configure par l’environnement, l’agent par son fichier TOML, tandis que le catalogue et les choix de partage se règlent dans la console. Voir [Variables d'environnement](../installation/variables-environnement.md).
+These topics do not all have the same configuration point: the server uses the environment, the agent uses its TOML file, while the catalog and sharing choices are set in the console. See [Environment variables](../installation/variables-environnement.md).
 :::

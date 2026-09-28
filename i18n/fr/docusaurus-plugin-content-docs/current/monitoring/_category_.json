@@ -1,0 +1,7 @@
+{
+  "label": "Monitoring",
+  "position": 4,
+  "collapsible": true,
+  "collapsed": true,
+  "className": "mv-nav-monitoring"
+}

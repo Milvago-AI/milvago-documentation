@@ -1,69 +1,69 @@
-﻿---
+---
 sidebar_position: 5
-title: Héritage de la configuration
+title: Configuration inheritance
 ---
 
-# Héritage de la configuration
+# Configuration inheritance
 
-La configuration Shadow AI de Milvago se lit en trois étages : **organisation → groupe de postes → poste**. Chaque étage ne définit que ce qu'il veut changer ; une section absente est héritée de l'étage supérieur, et la dérogation la plus proche du poste gagne.
+Milvago's Shadow AI configuration is read across three layers: **organization → device group → device**. Each layer only defines what it wants to change; an absent section is inherited from the layer above, and the derogation closest to the device wins.
 
-![Milvago - Héritage de la configuration](/img/docs/fr/introduction-heritage-configuration-01.png)
+![Milvago - Configuration inheritance](/img/docs/en/introduction-heritage-configuration-01.png)
 
-## Le principe : des sections, pas des blocs
+## The principle: sections, not blocks
 
-La configuration n'est pas un bloc unique mais une **liste de sections** : enrôlement, collecte, services, protections, masquage local, sensibilité des usages, contrôle des modèles, exploitation. L'héritage se règle **section par section** :
+The configuration is not a single block but a **list of sections**: enrollment, collection, services, protections, local masking, usage sensitivity, model controls, operations. Inheritance is set **section by section**:
 
-- une section **définie** à un niveau s'applique à tout ce qui est en dessous ;
-- une section **laissée en héritage** suit l'étage supérieur ;
-- un étage inférieur peut réécrire une section précise sans copier les autres.
+- a section **defined** at a level applies to everything below;
+- a section **left in inheritance** follows the layer above;
+- a lower layer can rewrite a specific section without copying the others.
 
-Un groupe qui ne veut changer que « Protections » définit donc uniquement cette section : services, masquage et le reste continuent de suivre l'organisation.
+A group that only wants to change "Protections" therefore defines only that section: services, masking and the rest keep following the organization.
 
-## Ce que chaque niveau peut définir
+## What each level can define
 
-| Niveau | Sections possibles | Écran d'édition |
+| Level | Possible sections | Editing screen |
 | --- | --- | --- |
-| **Organisation** | toutes, y compris Enrôlement et Exploitation | Administration → Shadow AI |
-| **Groupe de postes** | collecte, services, protections, masquage local, sensibilité des usages, contrôle des modèles | Parc → Groupes de postes |
-| **Poste** | les mêmes six sections que le groupe | fiche du poste → Politique du poste |
+| **Organization** | all, including Enrollment and Operations | Administration → Shadow AI |
+| **Device group** | collection, services, protections, local masking, usage sensitivity, model controls | Fleet → Groups |
+| **Device** | the same six sections as the group | device page → Device policy |
 
-Deux sections restent par nature à l'organisation : **Enrôlement** (qui peut rejoindre, selon quel réseau) et **Exploitation** (mises à jour de l'agent). Un groupe ou un poste ne peut ni les écraser ni les affaiblir — ce sont des décisions de parc, pas d'usage.
+Two sections remain organizational by nature: **Enrollment** (who can join, from which network) and **Operations** (agent updates). A group or a device can neither override nor weaken them — these are fleet decisions, not usage decisions.
 
-Un poste n'appartient qu'à un seul groupe à la fois : pas de priorité à arbitrer entre plusieurs groupes. Le retirer d'un groupe le ramène à la politique de l'organisation.
+A device belongs to only one group at a time: there is no priority to arbitrate between several groups. Removing it from a group returns it to the organization policy.
 
-## Qui voit la provenance
+## Who sees the provenance
 
-L'éditeur affiche la portée courante (« Politique de l'organisation », « Dérogation du groupe », « Dérogation du poste ») et, pour chaque section héritée, une case « **Hériter · nom de la section** » qui nomme l'écran dont la section vient — le groupe sur la fiche d'un poste, l'organisation sur la fiche d'un groupe. La provenance suit le **dernier écrivain** : une section héritée par l'organisation mère puis recouverte par le groupe est attribuée au groupe.
+The editor displays the current scope ("Organization policy", "Group override", "Device override") and, for each inherited section, an "**Inherit · section name**" checkbox that names the screen the section comes from — the group on a device page, the organization on a group page. Provenance follows the **last writer**: a section inherited from the parent organization and then overridden by the group is attributed to the group.
 
-![Milvago - Qui voit la provenance](/img/docs/fr/introduction-heritage-configuration-02.png)
+![Milvago - Who sees the provenance](/img/docs/en/introduction-heritage-configuration-02.png)
 
-## Les révisions, dans l'ordre
+## Revisions, in order
 
-Chaque enregistrement produit une **révision** plus récente, et la politique effective d'un poste additionne les révisions de ses étages. Un poste n'applique jamais une révision plus ancienne que celle qu'il détient : déplacer un poste d'un groupe vers un autre, puis revenir, ne fait que croître. Cette règle de **non-retour arrière** garantit qu'aucune manipulation d'affectation ne peut faire repartir un poste sur une politique dépassée — par exemple réimposer un blocage retiré.
+Each save produces a **newer revision**, and the effective policy of a device adds up the revisions of its layers. A device never applies a revision older than the one it holds: moving a device from one group to another, then back, only grows. This **no-rollback** rule guarantees that no assignment manipulation can put a device back on an outdated policy — for example re-imposing a block that had been removed.
 
-Réaffecter à un poste le groupe qu'il porte déjà ne réécrit rien : la révision ne bouge pas et l'agent ne voit aucun changement.
+Reassigning to a device the group it already carries rewrites nothing: the revision does not move and the agent sees no change.
 
-## La chaîne complète en Enterprise
+## The full chain in Enterprise
 
 :::enterprise
 
-En Enterprise, la chaîne compte un étage de plus **au-dessus** de l'organisation : l'**organisation mère**. Une organisation fille peut marquer des sections « Hériter » et les recevoir de sa mère — voir [Organisations mère et fille](organisations-mere-fille.md). La chaîne effective d'un poste devient : organisation mère → organisation → groupe → poste, toujours section par section, et la provenance nomme l'écran d'origine.
+In Enterprise, the chain counts one more layer **above** the organization: the **parent organization**. A child organization can mark sections "Inherit" and receive them from its parent — see [Parent and child organizations](organisations-mere-fille.md). The effective chain of a device becomes: parent organization → organization → group → device, always section by section, and provenance names the originating screen.
 
-Deux règles complètent l'ensemble :
+Two rules complete the picture:
 
-- la **sensibilité des usages** n'existe dans l'éditeur que si l'édition sert cette capacité — la section disparaît plutôt que de s'afficher inutilisable ;
-- la profondeur de l'arbre d'organisations est bornée : une ascendance trop profonde est refusée plutôt que lue indéfiniment.
+- **usage sensitivity** only exists in the editor if the edition serves that capability — the section disappears rather than being displayed unusable;
+- the depth of the organization tree is bounded: an ancestry that is too deep is refused rather than read indefinitely.
 
 :::
 
-## Qui peut écrire quoi
+## Who can write what
 
-| Édition | Droit requis |
+| Edition | Required right |
 | --- | --- |
-| Politique de l'organisation | `policy.manage` |
-| Politique d'un groupe | `policy.manage` |
-| Politique d'un poste | `policy.manage` |
+| Organization policy | `policy.manage` |
+| Group policy | `policy.manage` |
+| Device policy | `policy.manage` |
 
-Le droit seul ne suffit pas toujours : les réglages qui exposent du contenu — activer la collecte de texte, relâcher une protection de confidentialité — exigent une **authentification MFA fraîche**, quel que soit le niveau d'où la modification part.
+The right alone is not always enough: settings that expose content — enabling text collection, relaxing a privacy protection — require **fresh MFA authentication**, regardless of the level the change starts from.
 
-Voir aussi : [Shadow AI](../administration/shadow-ai.md), [Groupes de postes](../fleet/groupes.md), [Postes](../fleet/postes.md).
+See also: [Shadow AI](../administration/shadow-ai.md), [Device groups](../fleet/groupes.md), [Devices](../fleet/postes.md).

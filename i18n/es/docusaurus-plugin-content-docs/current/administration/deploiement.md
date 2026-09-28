@@ -18,30 +18,28 @@ Esta página describe cómo se inscriben los **dispositivos**: la clave de despl
 
 ## La clave de despliegue
 
-« Una clave aleatoria única para esta organización, incluida dentro de cada instalador descargado. Nunca se muestra: solo sirve para la inscripción de un dispositivo, que después recibe credenciales propias. » El panel, en [Ajustes](parametres.md) — y en Enterprise, en la página de cada [organización](organisations.md) — muestra lo que existe, nunca el secreto: estado, creación, última rotación, contador de instalaciones.
+La clave de despliegue autoriza la inscripción de un dispositivo. En Windows se entrega en un archivo de aprovisionamiento separado; el MSI no contiene secretos de la organización. El RPM actual de Linux aún incluye la clave. Cada dispositivo recibe sus propias credenciales tras la inscripción. El panel en [Ajustes](parametres.md), y en la página de cada [organización](organisations.md) en Enterprise, muestra el estado, la creación, la última rotación y el número de instalaciones.
 
-Tres acciones, cada una con su confirmación:
+- **Generar una clave** o **Rotar**: descargue después un nuevo ZIP de Windows. Los archivos anteriores y los RPM de Linux dejan de inscribir dispositivos. Los ya inscritos no cambian.
+- **Revocar**: ningún dispositivo nuevo puede inscribirse hasta generar una nueva clave. Los ya inscritos no cambian.
 
-- **Generar una clave** / **Rotar** — « Será necesario un nuevo instalador: todos los MSI y RPM ya distribuidos dejan de instalar nuevos dispositivos de inmediato. Los dispositivos ya inscritos no cambian. »
-- **Revocar** — « No será posible ninguna instalación en esta organización hasta que se genere una nueva clave. Los dispositivos ya inscritos no cambian. »
-
-En estado sin clave, la pantalla lo enuncia: « Ninguna clave activa. Ningún instalador puede inscribir un dispositivo en esta organización hasta que se genere una clave. »
-
-[IMAGEAMETTREICI 01]
+![Milvago - La clave de despliegue](/img/docs/fr/administration-deploiement-01.png)
 
 ## Descargar el agente
 
-La descarga de los instaladores — Windows MSI, Linux RPM, ambos servicios para todo el dispositivo — está bloqueada mientras la **URL HTTPS pública** no esté confirmada en [Ajustes](parametres.md): « Defina y confirme la URL HTTPS pública en Administración → Ajustes antes de descargar un instalador. Los agentes se conectarán a esa URL. »
+Confirme la **URL HTTPS pública** en [Ajustes](parametres.md) y haga clic en **Windows ZIP**. Un solo archivo contiene el MSI inmutable, su script de PowerShell y el JSON de aprovisionamiento de esta organización. La descarga requiere `installers.manage`. Si su cuenta utiliza un segundo factor, puede solicitarse una nueva verificación; el ZIP se descargará automáticamente al regresar. El ZIP y el JSON contienen un token de despliegue: protéjalos hasta eliminarlos o rotar o revocar la clave.
 
-El diálogo recuerda tres cosas:
+Extraiga `milvago-windows-package.zip` en una carpeta protegida. Allí, ejecute el script como administrador:
 
-- « El paquete lleva la clave de despliegue de esta organización. Tras la instalación, el dispositivo se inscribe una vez y conserva su estado en una caché cifrada. Su administrador también debe distribuir la extensión del navegador. »
-- Según el **modo de aprobación** elegido en la política Shadow AI: bajo aprobación manual, « Cada dispositivo instalado aparecerá como pendiente y no informará de nada hasta que lo apruebe en Dispositivos. »; en aprobación según la red, « Un dispositivo instalado desde una red autorizada informa de inmediato; los demás quedan pendientes de aprobación. »
-- « El mismo paquete sirve a toda la organización. La clave de despliegue se gestiona en Administración → Ajustes: rotarla invalida de inmediato los instaladores ya distribuidos. »
+```powershell
+powershell.exe -NoProfile -File .\milvago-windows-install.ps1 -MsiPath .\milvago-windows-installer.msi -ProvisionPath .\milvago-provision.json
+```
 
-La versión del instalador descargado se confirma después de la descarga. Si la clave fue revocada entretanto, la descarga falla con el aviso que remite a la rotación: « La clave de esta organización fue revocada. Rótela en Administración → Ajustes para reanudar los despliegues. »
+Los tres nombres de archivo siguientes son los incluidos en el ZIP. Mantenga juntos los archivos extraídos.
 
-[IMAGEAMETTREICI 02]
+El script comprueba el hash del MSI, verifica la firma Authenticode del editor cuando se configura un certificado de firma, guarda el MSI y el JSON con acceso exclusivo de SYSTEM y administradores, ejecuta Windows Installer y elimina los archivos temporales. Abrir el MSI sin el archivo no puede inscribir un dispositivo nuevo porque no contiene la clave de la organización. Los paquetes locales fabricados antes de disponer del certificado carecen de firma Authenticode; úselos solo en un entorno de prueba controlado.
+
+Linux aún descarga un RPM específico de la organización. La aprobación manual o basada en la red sigue aplicándose tras la instalación. También debe distribuirse la extensión del navegador.
 
 ## Después de la instalación
 
@@ -51,6 +49,6 @@ Un dispositivo inscrito solicita su aprobación según el modo elegido, luego re
 
 En Enterprise multiorganización, cada organización porta **su propia** clave de despliegue. El administrador de una organización principal la rota o la revoca desde la página de la hija, sin cambiar a su contexto — es el primer bloque de esta página.
 
-Las imágenes Docker Enterprise embarcan el MSI firmado y su manifiesto de actualización; el servidor sirve el MSI congelado de su directorio de instaladores, nunca un paquete reconstruido localmente. El orden de las compilaciones, las claves y la verificación de la huella servida corresponden a los procedimientos de fabricación del agente Windows.
+Las imágenes Docker Enterprise incluyen el MSI inmutable, su script de despliegue correspondiente a la versión y un manifiesto de actualización firmado. El servidor entrega los mismos bytes MSI a todas las organizaciones.
 
 :::

@@ -1,33 +1,33 @@
 ---
 sidebar_position: 1
 slug: /
-title: Documentation Milvago
-description: Contrôle des usages IA · Shadow AI · Documentation produit
+title: Milvago Documentation
+description: AI usage control · Shadow AI · Product documentation
 ---
 
 <div className="mv-hero">
 
-<span className="mv-eyebrow">Contrôle des usages IA · Shadow AI · Documentation produit</span>
+<span className="mv-eyebrow">AI usage control · Shadow AI · Product documentation</span>
 
-# Bienvenue dans la documentation Milvago
+# Welcome to the Milvago documentation
 
-<p className="mv-hero-lead">Milvago montre quels services d'IA vos équipes utilisent réellement, depuis quels postes, et si des données sensibles partent — puis laisse poser des règles signées qui tiennent, même hors connexion. Chaque écran de la console a sa page, écrite à partir du code : ce qu'il montre, ce qu'il refuse, et ce qu'il ne sait pas.</p>
+<p className="mv-hero-lead">Milvago shows which AI services your teams actually use, from which devices, and whether sensitive data is leaving — then lets you set signed rules that hold, even offline. Every console screen has its own page, written from the code: what it shows, what it refuses, and what it does not know.</p>
 
 <div className="mv-cta">
 
-<a className="mv-btn mv-btn--primary" href="/docs/installation/composants">Premiers pas avec Community</a>
+<a className="mv-btn mv-btn--primary" href="/docs/installation/composants">Get started with Community</a>
 
-<a className="mv-btn mv-btn--ghost" href="/docs/introduction/architecture">Comment ça fonctionne</a>
+<a className="mv-btn mv-btn--ghost" href="/docs/introduction/architecture">How it works</a>
 
 </div>
 
 <div className="mv-chips">
 
-<span>Community open source</span>
+<span>Open source Community edition</span>
 
-<span>Auto-hébergé sur votre infrastructure</span>
+<span>Self-hosted on your infrastructure</span>
 
-<span>Windows · Linux · 6 navigateurs</span>
+<span>Windows · Linux · 6 browsers</span>
 
 </div>
 
@@ -37,9 +37,9 @@ description: Contrôle des usages IA · Shadow AI · Documentation produit
 
 <p className="mv-kicker">Sections</p>
 
-<div className="mv-title">Toute la documentation, en sept points d'entrée</div>
+<div className="mv-title">The whole documentation, in seven entry points</div>
 
-<p className="mv-title-desc">Les sections se lisent dans l'ordre : comprendre le produit, l'installer, observer les usages, administrer le parc et la politique, puis les sujets d'exploitation.</p>
+<p className="mv-title-desc">The sections read in order: understand the product, install it, observe usage, administer the fleet and the policy, then the operator topics.</p>
 
 <div className="mv-content-grid">
 
@@ -49,17 +49,17 @@ description: Contrôle des usages IA · Shadow AI · Documentation produit
 
 <ul>
 
-<li><a href="/docs/introduction/milvago">Qu'est-ce que Milvago</a></li>
+<li><a href="/docs/introduction/milvago">What is Milvago</a></li>
 
-<li><a href="/docs/introduction/hardware-requirements">Prérequis technique</a></li>
+<li><a href="/docs/introduction/hardware-requirements">Hardware Requirements</a></li>
 
-<li><a href="/docs/introduction/architecture">Architecture technique</a></li>
+<li><a href="/docs/introduction/architecture">Technical architecture</a></li>
 
-<li><a href="/docs/introduction/securite">Mécanismes de sécurité</a></li>
+<li><a href="/docs/introduction/securite">Security mechanisms</a></li>
 
-<li><a href="/docs/introduction/heritage-configuration">Héritage de la configuration</a></li>
+<li><a href="/docs/introduction/heritage-configuration">Configuration inheritance</a></li>
 
-<li><a href="/docs/introduction/organisations-mere-fille">Organisations mère et fille</a> <span className="mv-edition-tag">Enterprise</span></li>
+<li><a href="/docs/introduction/organisations-mere-fille">Parent and child organisations</a> <span className="mv-edition-tag">Enterprise</span></li>
 
 </ul>
 
@@ -71,15 +71,15 @@ description: Contrôle des usages IA · Shadow AI · Documentation produit
 
 <ul>
 
-<li><a href="/docs/installation/composants">Composants</a></li>
+<li><a href="/docs/installation/composants">Components</a></li>
 
-<li><a href="/docs/installation/docker">Docker</a> (à venir)</li>
+<li><a href="/docs/installation/docker">Docker</a></li>
 
-<li><a href="/docs/installation/premiere-installation">Première installation</a></li>
+<li><a href="/docs/installation/premiere-installation">First installation</a></li>
 
-<li><a href="/docs/installation/helm">Déploiement Kubernetes</a></li>
+<li><a href="/docs/installation/helm">Helm chart (coming soon)</a></li>
 
-<li><a href="/docs/installation/variables-environnement">Variables d'environnement</a></li>
+<li><a href="/docs/installation/variables-environnement">Environment variables</a></li>
 
 </ul>
 
@@ -87,21 +87,21 @@ description: Contrôle des usages IA · Shadow AI · Documentation produit
 
 <div className="mv-content-card">
 
-<strong>Supervision</strong>
+<strong>Monitoring</strong>
 
 <ul>
 
-<li><a href="/docs/monitoring/vue-ensemble">Vue d'ensemble</a></li>
+<li><a href="/docs/monitoring/vue-ensemble">Overview</a></li>
 
 <li><a href="/docs/monitoring/conversations">Conversations</a></li>
 
-<li><a href="/docs/monitoring/cartographie">Cartographie</a></li>
+<li><a href="/docs/monitoring/cartographie">Mapping</a></li>
 
 <li><a href="/docs/monitoring/ai-applications">AI applications</a> <span className="mv-edition-tag">Enterprise</span></li>
 
 <li><a href="/docs/monitoring/discovery">Discovery</a></li>
 
-<li><a href="/docs/monitoring/reports">Rapports</a></li>
+<li><a href="/docs/monitoring/reports">Reports</a></li>
 
 </ul>
 
@@ -109,13 +109,13 @@ description: Contrôle des usages IA · Shadow AI · Documentation produit
 
 <div className="mv-content-card">
 
-<strong>Parc</strong>
+<strong>Fleet</strong>
 
 <ul>
 
-<li><a href="/docs/fleet/postes">Postes</a></li>
+<li><a href="/docs/fleet/postes">Devices</a></li>
 
-<li><a href="/docs/fleet/groupes">Groupes de postes</a></li>
+<li><a href="/docs/fleet/groupes">Device groups</a></li>
 
 </ul>
 
@@ -127,37 +127,23 @@ description: Contrôle des usages IA · Shadow AI · Documentation produit
 
 <ul>
 
-<li><a href="/docs/administration/membres">Membres</a></li>
+<li><a href="/docs/administration/membres">Members</a></li>
 
-<li><a href="/docs/administration/roles">Rôles</a></li>
+<li><a href="/docs/administration/roles">Roles</a></li>
 
 <li><a href="/docs/administration/shadow-ai">Shadow AI</a></li>
 
-<li><a href="/docs/administration/confidentialite">Confidentialité</a></li>
+<li><a href="/docs/administration/confidentialite">Privacy</a></li>
 
 <li><a href="/docs/administration/organisations">Organisations</a> <span className="mv-edition-tag">Enterprise</span></li>
 
-<li><a href="/docs/administration/audit">Journal d'audit</a></li>
+<li><a href="/docs/administration/audit">Audit log</a></li>
 
-<li><a href="/docs/administration/parametres">Paramètres</a></li>
+<li><a href="/docs/administration/parametres">Settings</a></li>
 
-<li><a href="/docs/administration/observabilite">Observabilité</a> <span className="mv-edition-tag">Enterprise</span></li>
+<li><a href="/docs/administration/observabilite">Observability</a> <span className="mv-edition-tag">Enterprise</span></li>
 
-<li><a href="/docs/administration/deploiement">Déploiement</a></li>
-
-</ul>
-
-</div>
-
-<div className="mv-content-card">
-
-<strong>Mon Profil</strong>
-
-<ul>
-
-<li><a href="/docs/mon-profil/profil">Configurer mon profil</a></li>
-
-<li><a href="/docs/mon-profil/cles-api">Clés API et serveur MCP</a> <span className="mv-edition-tag">MCP · Enterprise</span></li>
+<li><a href="/docs/administration/deploiement">Deployment</a></li>
 
 </ul>
 
@@ -165,21 +151,35 @@ description: Contrôle des usages IA · Shadow AI · Documentation produit
 
 <div className="mv-content-card">
 
-<strong>Avancé</strong>
+<strong>My Profile</strong>
 
 <ul>
 
-<li><a href="/docs/avance/catalogue-editeur">Catalogue de détection</a></li>
+<li><a href="/docs/mon-profil/profil">Configure my profile</a></li>
 
-<li><a href="/docs/avance/demo-instance">Instance de démonstration</a></li>
+<li><a href="/docs/mon-profil/cles-api">API keys and MCP server</a> <span className="mv-edition-tag">MCP · Enterprise</span></li>
 
-<li><a href="/docs/avance/service-editeur">Connexion au service éditeur</a></li>
+</ul>
 
-<li><a href="/docs/avance/agent-configuration">Configuration de l'agent</a> (TOML Windows / Linux)</li>
+</div>
+
+<div className="mv-content-card">
+
+<strong>Advanced</strong>
+
+<ul>
+
+<li><a href="/docs/avance/catalogue-editeur">Detection catalogue</a></li>
+
+<li><a href="/docs/avance/demo-instance">Demo instance</a></li>
+
+<li><a href="/docs/avance/service-editeur">Connect to the publisher service</a></li>
+
+<li><a href="/docs/avance/agent-configuration">Agent configuration</a> (TOML Windows / Linux)</li>
 
 <li><a href="/docs/avance/sso">SSO (Google / Microsoft Entra ID)</a></li>
 
-<li><a href="/docs/avance/dimensionnement-postgresql-hpa">Dimensionner PostgreSQL et l'autoscaling</a></li>
+<li><a href="/docs/avance/dimensionnement-postgresql-hpa">Sizing PostgreSQL and autoscaling</a></li>
 
 </ul>
 
@@ -191,9 +191,9 @@ description: Contrôle des usages IA · Shadow AI · Documentation produit
 
 <div className="mv-section">
 
-<p className="mv-kicker">Éditions</p>
+<p className="mv-kicker">Editions</p>
 
-<div className="mv-title">Community ou Enterprise</div>
+<div className="mv-title">Community or Enterprise</div>
 
 <div className="mv-cards">
 
@@ -201,9 +201,9 @@ description: Contrôle des usages IA · Shadow AI · Documentation produit
 
 <p className="mv-card-num">COMMUNITY</p>
 
-<h3>Gratuite et open source</h3>
+<h3>Free and open source</h3>
 
-<p>Une organisation, extension navigateur pour ChatGPT et Claude, agent Windows et Linux, console complète et API REST. Licences Apache-2.0 et AGPL-3.0.</p>
+<p>One organisation, browser extension for ChatGPT and Claude, Windows and Linux agent, full console and REST API. Apache-2.0 and AGPL-3.0 licences.</p>
 
 </div>
 
@@ -211,29 +211,29 @@ description: Contrôle des usages IA · Shadow AI · Documentation produit
 
 <p className="mv-card-num">ENTERPRISE</p>
 
-<h3>Multi-organisation et inventaire complet</h3>
+<h3>Multi-organisation and full inventory</h3>
 
-<p>Neuf fournisseurs couverts, applications IA natives, organisations isolées par Row-Level Security, sensibilité des usages, contrôle des modèles, serveur MCP, exports OTLP et clés API.</p>
-
-</div>
+<p>Nine covered vendors, native AI applications, organisations isolated by Row-Level Security, usage sensitivity, model access control, MCP server, OTLP exports.</p>
 
 </div>
 
-Dans la documentation, les encadrés <strong>Enterprise</strong> signalent ce qui ne s'applique pas à Community ; tout le reste vaut pour les deux éditions.
+</div>
+
+Throughout the documentation, <strong>Enterprise</strong> callouts mark what does not apply to Community; everything else applies to both editions.
 
 </div>
 
-## Commencer
+## Get started
 
-Pour mettre Milvago en service, suivez ce parcours :
+Use this path to put Milvago into service:
 
-1. Vérifiez les [prérequis techniques](introduction/hardware-requirements.md) et choisissez Docker ou Kubernetes.
-2. Installez les [composants](installation/composants.md), puis ouvrez la console.
-3. Dans la console, sélectionnez **Administration → Paramètres** pour confirmer l’URL publique utilisée par les agents.
-4. Ouvrez **Parc → Postes**, téléchargez l’agent et distribuez l’extension au navigateur par votre politique d’entreprise.
-5. Revenez dans **Parc → Postes** pour vérifier l’apparition et l’état du poste, puis configurez la politique dans **Administration → Shadow AI**.
+1. Check the [technical requirements](introduction/hardware-requirements.md) before installing.
+2. Install the [components](installation/composants.md), then open the console.
+3. In the console, select **Administration → Settings** to confirm the public URL used by agents.
+4. Open **Fleet → Devices**, download the agent, and distribute the browser extension through your enterprise policy.
+5. Return to **Fleet → Devices** to check that the device appears and is in the expected state, then configure the policy in **Administration → Shadow AI**.
 
 ## Licence
 
-- Extension, agent/service Rust et outil CRX : Apache-2.0.
-- Backend et console : AGPL-3.0.
+- Extension, Rust agent/service and CRX tool: Apache-2.0.
+- Backend and console: AGPL-3.0.

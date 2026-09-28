@@ -18,30 +18,28 @@ Esta página descreve como os **dispositivos** são inscritos: a chave de implan
 
 ## A chave de implantação
 
-"Uma chave aleatória exclusiva desta organização, embutida em cada instalador baixado. Ela nunca é exibida: serve apenas para a inscrição de um dispositivo, que em seguida recebe credenciais próprias." O painel, em [Configurações](parametres.md) — e na Enterprise, na página de cada [organização](organisations.md) — mostra o que existe, jamais o segredo: estado, criação, última rotação, contador de instalações.
+A chave de implantação autoriza o registro de um dispositivo. No Windows, ela é entregue em um arquivo de provisionamento separado; o MSI não contém segredo da organização. O RPM atual do Linux ainda inclui a chave. Cada dispositivo recebe suas próprias credenciais após o registro. O painel em [Configurações](parametres.md), e na página de cada [organização](organisations.md) no Enterprise, mostra o estado, a criação, a última rotação e o número de instalações.
 
-Três ações, cada uma com a confirmação dela:
+- **Gerar uma chave** ou **Girar**: baixe depois um novo ZIP do Windows. Os arquivos anteriores e os RPMs Linux deixam de registrar dispositivos. Os já registrados não mudam.
+- **Revogar**: nenhum novo dispositivo pode ser registrado até a geração de uma nova chave. Os já registrados não mudam.
 
-- **Gerar uma chave** / **Girar** — "Será necessário um novo instalador: todos os MSI e RPM já distribuídos param imediatamente de instalar novos dispositivos. Os dispositivos já inscritos não mudam."
-- **Revogar** — "Nenhuma instalação será possível nesta organização até que uma nova chave seja gerada. Os dispositivos já inscritos não mudam."
-
-No estado sem chave, a tela o enuncia: "Nenhuma chave ativa. Nenhum instalador pode inscrever um dispositivo nesta organização até que uma chave seja gerada."
-
-[IMAGEAMETTREICI 01]
+![Milvago - A chave de implantação](/img/docs/fr/administration-deploiement-01.png)
 
 ## Baixar o agente
 
-O download dos instaladores — MSI do Windows, RPM do Linux, ambos serviços para toda a máquina — é bloqueado enquanto a **URL HTTPS pública** não estiver confirmada em [Configurações](parametres.md): "Defina e confirme a URL HTTPS pública em Administração → Configurações antes de baixar um instalador. Os agentes se conectarão a essa URL."
+Confirme a **URL HTTPS pública** em [Configurações](parametres.md) e clique em **Windows ZIP**. Um único arquivo contém o MSI imutável, o script PowerShell correspondente e o JSON de provisionamento desta organização. O download exige `installers.manage`. Se sua conta usar um segundo fator, uma nova verificação poderá ser solicitada; o ZIP será baixado automaticamente após o retorno. O ZIP e o JSON contêm um token de implantação: proteja-os até excluí-los ou girar ou revogar a chave.
 
-O diálogo lembra três coisas:
+Extraia `milvago-windows-package.zip` em uma pasta protegida. Nessa pasta, execute o script como administrador:
 
-- "O pacote carrega a chave de implantação desta organização. Após a instalação, o dispositivo se inscreve uma vez e mantém seu estado em um cache criptografado. Seu administrador também deve distribuir a extensão do navegador."
-- Segundo o **modo de aprovação** escolhido na política Shadow AI: sob aprovação manual, "Cada dispositivo instalado aparecerá como pendente e não reportará nada até que você o aprove em Dispositivos."; em aprovação pela rede, "Um dispositivo instalado a partir de uma rede autorizada reporta imediatamente; os demais ficam pendentes de aprovação."
-- "O mesmo pacote atende toda a organização. A chave de implantação é gerenciada em Administração → Configurações: girá-la invalida imediatamente os instaladores já distribuídos."
+```powershell
+powershell.exe -NoProfile -File .\milvago-windows-install.ps1 -MsiPath .\milvago-windows-installer.msi -ProvisionPath .\milvago-provision.json
+```
 
-A versão do instalador baixado é confirmada após o download. Se a chave foi revogada entretanto, o download falha com o aviso que remete à rotação: "A chave desta organização foi revogada. Faça a rotação em Administração → Configurações para retomar as implantações."
+Os três nomes de arquivos abaixo são os incluídos no ZIP. Mantenha os arquivos extraídos juntos.
 
-[IMAGEAMETTREICI 02]
+O script verifica o hash do MSI, confere a assinatura Authenticode do editor quando um certificado de assinatura está configurado, armazena o MSI e o JSON com acesso exclusivo de SYSTEM e administradores, executa o Windows Installer e remove os arquivos temporários. Abrir apenas o MSI não registra um dispositivo novo porque ele não contém a chave da organização. Os pacotes locais gerados antes da disponibilidade do certificado não têm assinatura Authenticode; use-os somente em um ambiente de teste controlado.
+
+O Linux ainda baixa um RPM específico da organização. A aprovação manual ou por rede continua valendo após a instalação. A extensão do navegador também deve ser distribuída.
 
 ## Após a instalação
 
@@ -51,6 +49,6 @@ Um dispositivo inscrito solicita a aprovação dele segundo o modo escolhido, e 
 
 Na Enterprise multiorganizações, cada organização porta a **própria** chave de implantação dela. O administrador de uma organização principal a gira ou a revoga a partir da página da filha, sem mudar para o contexto dela — é o primeiro bloco desta página.
 
-As imagens Docker Enterprise embarcam o MSI assinado e o manifesto de atualização dele; o servidor serve o MSI congelado do diretório de instaladores dele, jamais um pacote reconstruído localmente. A ordem das compilações, as chaves e a verificação da impressão digital servida pertencem aos procedimentos de fabricação do agente Windows.
+As imagens Docker Enterprise incluem o MSI imutável, seu script de implantação correspondente à versão e um manifesto de atualização assinado. O servidor entrega os mesmos bytes MSI a todas as organizações.
 
 :::

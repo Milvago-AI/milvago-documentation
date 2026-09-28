@@ -9,18 +9,18 @@ title: Dispositivos
 
 En la barra lateral, haga clic en **Parque > Dispositivos**. Requiere `devices.read` y no está disponible en consulta solo agregada.
 
-1. Con `installers.manage`, haga clic en **Descargar agente**, elija MSI o RPM, instálelo, vuelva y actualice. Con `members.manage`, apruebe un dispositivo pendiente cuando corresponda.
-2. Abra un dispositivo y elija Información, política o, en Enterprise con `events.read`, herramientas locales. Cambie el grupo desde su etiqueta; la revisión se aplica en la próxima sincronización.
-3. Aprobar, revocar y eliminar requieren `members.manage` y confirmación; la eliminación masiva informa los fallos por dispositivo.
+1. Con `installers.manage`, haga clic en **Descargar agente**, elija el ZIP de Windows o el RPM de Linux, instálelo, vuelva y actualice. Con `devices.manage`, apruebe un dispositivo pendiente cuando corresponda.
+2. Abra un dispositivo y elija Detalles, política o, en Enterprise con `events.read`, herramientas locales. Cambie el grupo desde su etiqueta; la revisión se aplica en la próxima sincronización.
+3. Aprobar, revocar y eliminar requieren `devices.manage` y confirmación; la eliminación masiva informa los fallos por dispositivo.
 
 La pantalla **Dispositivos** recensa los aparatos registrados ante el servidor y responde a la pregunta: qué dispositivos reportan información, y cuáles todavía tienen el derecho de hacerlo. Se encuentra en la sección **Parque** de la navegación, con [Grupos de dispositivos](groupes.md).
 
 La línea de información bajo el título fija el alcance del agente, según la edición:
 
-- **Community**: « El agente Community cubre los usos de navegador. Ningún inventario de aplicaciones instaladas está incluido. Un dispositivo en espera o revocado no puede enviar eventos. »
-- **Enterprise**: « El agente Enterprise cubre el navegador y el inventario dirigido de las herramientas. Un dispositivo en espera o revocado no puede enviar eventos. »
+- **Community**: « El agente Community cubre el uso en el navegador. No incluye el inventario de aplicaciones instaladas. Los dispositivos pendientes o revocados no pueden enviar eventos. »
+- **Enterprise**: « El agente Enterprise cubre el navegador y el inventario dirigido de herramientas. Los dispositivos pendientes o revocados no pueden enviar eventos. »
 
-[IMAGEAMETTREICI 01]
+![Milvago - Acceder a esta pantalla](/img/docs/en/fleet-postes-01.png)
 
 ## Quién ve qué
 
@@ -28,7 +28,7 @@ La línea de información bajo el título fija el alcance del agente, según la 
 | --- | --- |
 | Ver la lista y las fichas | derecho `devices.read`, y no una consulta agregada sola |
 | Descargar el agente | derecho `installers.manage` |
-| Aprobar, revocar, eliminar | derecho `members.manage` |
+| Aprobar, revocar, eliminar | derecho `devices.manage` |
 | Cambiar el grupo de un dispositivo | derecho `devices.manage` |
 | Regular la política del dispositivo | derecho `policy.manage` |
 
@@ -44,7 +44,7 @@ La barra de filtros solo aparece si existe al menos un dispositivo. Lleva tres c
 - **Usuario** — contiene el texto introducido, sobre la cuenta OS señalada;
 - **Sistema** — lista desplegable de las plataformas efectivamente presentes en el parque (« Todos los sistemas » por defecto).
 
-[IMAGEAMETTREICI 02]
+![Milvago - La lista de dispositivos](/img/docs/en/fleet-postes-02.png)
 
 Columnas de la tabla:
 
@@ -55,29 +55,29 @@ Columnas de la tabla:
 | **Grupo** | etiqueta pulsable hacia el grupo, o « — » |
 | **Plataforma** | sistema del dispositivo, con la versión del agente en detalle |
 | **Estado** | badge **En espera**, **Activo** o **Revocado** |
-| **Último contacto** | marca de tiempo del último señalamiento |
+| **Última conexión** | marca de tiempo del último señalamiento |
 | **Acciones** | « Aprobar » (dispositivo en espera) y « Revocar » (dispositivo no revocado) para quien tenga el derecho; « — » si no |
 
 Dos pantallas vacías distintas, que no dicen lo mismo:
 
-- ningún dispositivo en absoluto: « **Su primer dispositivo le espera** » — « Descargue el MSI o el RPM preconfigurado. El dispositivo aparece automáticamente tras la instalación y la conexión. »;
-- ningún dispositivo correspondiente a los filtros: « **Ningún dispositivo corresponde** » — « Modifique los criterios de búsqueda. »
+- ningún dispositivo en absoluto: « **Listo para su primer dispositivo** » — « Descargue el ZIP de Windows con el MSI, el script y el archivo de aprovisionamiento, o el RPM de Linux. El dispositivo aparece automáticamente tras la instalación y la conexión. »;
+- ningún dispositivo correspondiente a los filtros: « **Ningún dispositivo coincide** » — « Ajuste los criterios de búsqueda. »
 
 ## Descargar el agente
 
 El botón « **Descargar el agente** » abre un diálogo de descarga solamente: no crea nada, la organización ya posee una clave de despliegue. Tres salvaguardas, en el orden del código:
 
-1. **URL pública confirmada**: sin ella, el diálogo muestra un recuadro de advertencia — « Defina y confirme la URL HTTPS pública en Administración → Parámetros antes de descargar un instalador. Los agentes se conectarán a esta URL. » — o pide la intervención de un propietario cuando la URL no es modificable.
-2. **Clave de despliegue activa**: si la clave fue revocada, el recuadro « Ninguna clave de despliegue activa » invita a rotarla en Administración → Parámetros.
+1. **URL pública confirmada**: sin ella, el diálogo muestra un recuadro de advertencia — « Defina y confirme la URL HTTPS pública en Administración → Ajustes antes de descargar un instalador. Los agentes se conectarán a esa URL. » — o pide la intervención de un propietario cuando la URL no es modificable.
+2. **Clave de despliegue activa**: si la clave fue revocada, el recuadro « Ninguna clave de despliegue activa » invita a rotarla en Administración → Ajustes.
 3. **Modo de aprobación anunciado antes de la descarga**:
-   - aprobación manual — recuadro ámbar « Aprobación manual activa »: « Cada dispositivo instalado aparecerá en espera y no transmitirá nada antes de su aprobación en Dispositivos. » Un dispositivo en espera no recibe ninguna política: desde la instalación del agente y hasta la aprobación, **ningún acceso a las plataformas de IA** está permitido en ese dispositivo: la extensión falla cerrada y sella la superficie de IA cubierta, en lugar de dejarla abierta por defecto;
-   - aprobación según la red — « Un dispositivo instalado desde una red autorizada transmite inmediatamente; los demás quedan en espera de aprobación. »
+   - aprobación manual — recuadro ámbar « La aprobación manual está activada »: « Cada dispositivo instalado aparecerá como pendiente y no informará de nada hasta que lo apruebe en Dispositivos. » Un dispositivo en espera no recibe ninguna política: desde la instalación del agente y hasta la aprobación, **ningún acceso a las plataformas de IA** está permitido en ese dispositivo: la extensión falla cerrada y sella la superficie de IA cubierta, en lugar de dejarla abierta por defecto;
+   - aprobación según la red — « La aprobación depende de la red »: « Un dispositivo instalado desde una red autorizada informa de inmediato; los demás quedan pendientes de aprobación. »
 
-El diálogo propone dos paquetes lado a lado: **Windows MSI** (servicio Windows para todo el dispositivo) y **Linux RPM** (servicio systemd para todo el dispositivo). El paquete lleva la clave de despliegue de la organización; tras la instalación, el dispositivo se inscribe una sola vez y conserva su estado en una caché cifrada. La versión realmente descargada se recuerda en el pie de la tarjeta.
+El diálogo ofrece **Windows ZIP** (una descarga con el MSI, el script de instalación y el JSON de aprovisionamiento de esta organización) y **Linux RPM** (servicio systemd para todo el equipo). Si su cuenta utiliza un segundo factor, la descarga de Windows se reanuda automáticamente tras la verificación. El RPM de Linux aún contiene la clave de despliegue. Tras la instalación, el equipo se inscribe una sola vez y conserva su estado en una caché cifrada. La versión descargada aparece bajo la tarjeta.
 
-El mismo paquete vale para toda la organización: rotar la clave de despliegue invalida inmediatamente los instaladores ya distribuidos.
+El MSI incluido en cada ZIP de Windows es idéntico para todas las organizaciones; el JSON es específico de esta organización. Proteja el ZIP y el JSON. Rotar la clave invalida los archivos de aprovisionamiento Windows y RPM Linux anteriores, sin afectar a los equipos inscritos.
 
-[IMAGEAMETTREICI 03]
+![Milvago - Descargar el agente](/img/docs/fr/fleet-postes-03.png)
 
 ## La ficha de un dispositivo
 
@@ -85,13 +85,13 @@ Abrir un dispositivo en la lista muestra su ficha. La línea de información baj
 
 Las acciones de la ficha dependen del estado: « Aprobar » sobre un dispositivo en espera, « Revocar » sobre todo dispositivo no revocado, « Eliminar » en todos los casos para quien tenga el derecho. Pestañas se añaden cuando sus condiciones están reunidas:
 
-- **Información** — siempre presente;
+- **Detalles** — siempre presente;
 - **Política del dispositivo** — derecho `policy.manage`, en las dos ediciones;
 - **Herramientas locales** — Enterprise, con un acceso de analista.
 
-[IMAGEAMETTREICI 04]
+![Milvago - La ficha de un dispositivo](/img/docs/en/fleet-postes-04.png)
 
-### Información
+### Detalles
 
 | Campo | Contenido |
 | --- | --- |
@@ -105,9 +105,9 @@ Las acciones de la ficha dependen del estado: « Aprobar » sobre un dispositivo
 | **Colectores nativos** | Enterprise únicamente: estado de cada colector de inventario, versión, último éxito, árboles ignorados y modificaciones de la configuración gestionada detectadas |
 | **Extensiones de navegador** | presencia viva de la extensión por navegador, detallada abajo |
 | **Estado** | En espera / Activo / Revocado |
-| **Último contacto** | marca de tiempo |
+| **Última conexión** | marca de tiempo |
 
-[IMAGEAMETTREICI 05]
+![Milvago - Detalles](/img/docs/en/fleet-postes-05.png)
 
 #### El grupo de un dispositivo
 
@@ -129,7 +129,7 @@ La sección **Sensibilidad de los usos** solo existe en el editor si la edición
 
 :::
 
-[IMAGEAMETTREICI 06]
+![Milvago - Política del dispositivo](/img/docs/en/fleet-postes-06.png)
 
 ### Herramientas locales
 
@@ -146,16 +146,14 @@ A falta de observación, la pantalla lo enuncia: « Ninguna herramienta local se
 
 :::
 
-[IMAGEAMETTREICI 07]
-
 ## Aprobar, revocar, eliminar
 
 Tres acciones diferentes, que no hay que confundir:
 
 - **Aprobar**: dar acceso. Reservada al dispositivo en espera; el dispositivo pasa al estado activo y empieza a transmitir.
-- **Revocar**: cortar el acceso conservando el historial. La confirmación lo enuncia: el dispositivo « perderá su acceso al envío de eventos y a las nuevas políticas. Será necesario un nuevo registro (enrollment) para restablecer su acceso. »
-- **Eliminar**: ir más lejos que la revocación, definitivamente. La confirmación lleva el texto completo: « La eliminación retira la identidad del dispositivo: pierde inmediatamente el derecho de enviar, como si estuviera revocado, y su agente abandona su cola local. Es definitiva y va más lejos que una revocación: el dispositivo desaparece de la consola con sus eventos, su excepción de política y sus observaciones locales. La revocación, por su parte, corta el envío conservando el historial. » Eliminar un dispositivo exige un segundo factor verificado hace un momento y nunca está disponible para una clave API, porque la eliminación borra todo su historial — eventos y el texto de las solicitudes y respuestas conservado incluido. Mientras el dispositivo aún tenga texto conservado, eliminarlo también exige el derecho a purgar contenidos (`content.purge`, reservado al propietario por defecto); si no, el servidor rechaza con « Este dispositivo todavía tiene texto de prompt conservado: eliminarlo exige el derecho a purgar contenidos. »
+- **Revocar**: cortar el acceso conservando el historial. La confirmación lo enuncia: el dispositivo « perderá el acceso al envío de eventos y a las nuevas políticas. Será necesaria una nueva inscripción para restablecer el acceso. »
+- **Eliminar**: ir más lejos que la revocación, definitivamente. La confirmación lleva el texto completo: « La eliminación retira la identidad del dispositivo: pierde de inmediato el derecho a informar, exactamente como si fuera revocado, y su agente descarta su cola local. Es permanente y va más lejos que la revocación: el dispositivo desaparece de la consola junto con sus eventos, su excepción de política y sus observaciones locales. La revocación detiene los informes pero conserva el historial. » Eliminar un dispositivo exige un segundo factor verificado hace un momento y nunca está disponible para una clave API, porque la eliminación borra todo su historial — eventos y el texto de las solicitudes y respuestas conservado incluido. Mientras el dispositivo aún tenga texto conservado, eliminarlo también exige el derecho a purgar contenidos (`content.purge`, reservado al propietario por defecto); si no, el servidor rechaza con « Este dispositivo todavía tiene texto de prompt conservado: eliminarlo exige el derecho a purgar contenidos. »
 
-[IMAGEAMETTREICI 08]
+![Milvago - Aprobar, revocar, eliminar](/img/docs/en/fleet-postes-08.png)
 
-La eliminación funciona también en masa: marcar varios dispositivos en la lista muestra el botón « Eliminar (N) », y la confirmación lista los nombres (diez mostrados, luego « y N otras »). Cada dispositivo se elimina por una consulta propia: un fallo se señala dispositivo por dispositivo (« Eliminación imposible para: … ») en lugar de interrumpir toda la selección, y los éxitos se cuentan aparte.
+La eliminación funciona también en masa: marcar varios dispositivos en la lista muestra el botón « Eliminar (N) », y la confirmación lista los nombres (diez mostrados, luego « y N otras »). Cada dispositivo se elimina por una consulta propia: un fallo se señala dispositivo por dispositivo (« No se pudo eliminar: … ») en lugar de interrumpir toda la selección, y los éxitos se cuentan aparte.

@@ -55,7 +55,7 @@ function Diagram({local, t}) {
 
 export default function ArchitectureDiagram() {
   const {i18n: {currentLocale}} = useDocusaurusContext();
-  const t = labels[currentLocale] || labels.fr;
+  const t = labels[currentLocale] || labels.en;
   const [local, setLocal] = useState(false);
   const dialog = useRef(null);
   const content = <><Diagram local={local} t={t} /><div className={styles.enterprise}><strong>{t.enterprise}</strong><p>{local ? t.enterpriseLocal : t.enterpriseNetwork}</p></div></>;

@@ -2,7 +2,7 @@
   "sidebar.docsSidebar.category.Administration": {
     "message": "Administração"
   },
-  "sidebar.docsSidebar.category.Avancé": {
+  "sidebar.docsSidebar.category.Advanced": {
     "message": "Avançado"
   },
   "sidebar.docsSidebar.category.Fleet": {
@@ -14,7 +14,7 @@
   "sidebar.docsSidebar.category.Introduction": {
     "message": "Introdução"
   },
-  "sidebar.docsSidebar.category.Mon Profil": {
+  "sidebar.docsSidebar.category.My Profile": {
     "message": "Meu perfil"
   },
   "sidebar.docsSidebar.category.Monitoring": {

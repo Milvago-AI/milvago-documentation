@@ -26,7 +26,7 @@ La pantalla Organizaciones responde a la pregunta « **qué organizaciones veo, 
 
 La barra lateral porta, por encima de la navegación, el selector de organización: la organización actual como botón, y un panel lateral « Elegir una organización » que dibuja el árbol — « Las organizaciones hijas se agrupan bajo su organización principal. » Cada entrada porta su nombre y su rol en la organización; la organización actual está marcada con una marca de verificación. Las organizaciones accesibles cuya principal no lo es se listan en la raíz del panel.
 
-[IMAGEAMETTREICI 01]
+![Milvago - El selector de organización](/img/docs/en/administration-organisations-01.png)
 
 ## La lista de organizaciones
 
@@ -38,9 +38,9 @@ Con el permiso `organizations.manage` (« Gestionar las organizaciones »), la p
 - **Renombrar** — cualquier organización accesible.
 - **Eliminar** — sola, o « Eliminar la selección » para un lote. El servidor rechaza la eliminación de la organización actual, de la raíz, y de una organización que aún tiene hijas (« Elimine primero sus organizaciones hijas (o selecciónelas juntas). »). Una eliminación de lote ordena los objetivos de las más profundas a las menos profundas, para vaciar cada principal de sus hijas seleccionadas antes de retirarla. La confirmación nombra lo irreversible: « Esto elimina de forma permanente las siguientes organizaciones y todos sus datos (miembros, roles, dispositivos, eventos). Las cuentas de usuario no se eliminan. » Eliminar exige un segundo factor verificado hace un momento; la consola redirige a la verificación y repite la eliminación al volver. Mientras la organización aún tenga texto de solicitudes y respuestas conservado, eliminarla también exige el derecho a purgar contenidos (`content.purge`, reservado al propietario por defecto); si no, el servidor rechaza con « Esta organización todavía tiene texto de prompt conservado: eliminarla exige el derecho a purgar contenidos. »
 
-Actuar sobre otra organización desde esta lista — renombrarla, eliminarla, o rotar su clave de despliegue — exige que su conexión porte una autenticación de doble factor en cuanto esa organización la exige a sus miembros: la misma regla que para cambiar a ella. Las entradas de auditoría de la creación y la eliminación de una organización se escriben en el registro de la organización principal; la de un renombrado se escribe en el registro de la organización renombrada.
+Actuar sobre otra organización desde esta lista — renombrarla, eliminarla, o rotar su clave de despliegue — exige que su conexión porte una autenticación de doble factor en cuanto esa organización la exige a sus miembros: la misma regla que para cambiar a ella. Crear una organización escribe una entrada de auditoría en el registro de la organización principal **y** otra en el registro propio de la nueva organización; eliminarla solo se registra en el de la principal; un renombrado se escribe en el registro de la organización renombrada.
 
-[IMAGEAMETTREICI 02]
+![Milvago - La lista de organizaciones](/img/docs/en/administration-organisations-02.png)
 
 ## La página de una organización
 
@@ -49,4 +49,4 @@ Cada línea abre la página propia de la organización: « La identidad de la or
 - **Informaciones** — identificador, organización principal (« Ninguna — organización raíz » para la raíz, enlace hacia la principal si no) y su rol en ella.
 - **Clave de despliegue** — con `installers.manage`, el panel de la clave propia de esta organización. Existe para que un administrador de una principal pueda rotar o revocar la clave de una hija **sin cambiar a su contexto**. Véase [Despliegue](deploiement.md).
 
-[IMAGEAMETTREICI 03]
+![Milvago - La página de una organización](/img/docs/en/administration-organisations-03.png)

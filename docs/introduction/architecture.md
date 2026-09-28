@@ -1,121 +1,122 @@
 ---
 sidebar_position: 3
-title: Architecture technique
+title: Technical architecture
 ---
 
-# Architecture technique
+# Technical architecture
 
 import ArchitectureDiagram from '@site/src/components/ArchitectureDiagram';
 
-Milvago se compose de quatre parties, reliées par des canaux bornés et signés : l'**extension navigateur**, l'**agent local**, le **serveur** et la **console**.
+Milvago consists of four parts, connected by bounded and signed channels: the **browser extension**, the **local agent**, the **server** and the **console**.
 
 <ArchitectureDiagram />
 
-## Flux et ports
+## Flows and ports
 
-Les flèches du schéma indiquent **qui ouvre la connexion**. Les réponses utilisent le même canal. L'agent contacte le serveur ; le serveur ne se connecte pas aux postes. Le trafic du navigateur vers un site IA ne transite pas par le serveur Milvago.
+The diagram arrows show **who opens the connection**. Responses use the same channel. The agent contacts the server; the server does not connect to endpoints. Browser traffic to an AI site does not pass through the Milvago server.
 
-### Réseau de la plateforme
+### Platform network
 
-| Initiateur → destination | Protocole et port | Usage et configuration |
+| Initiator → destination | Protocol and port | Use and configuration |
 | --- | --- | --- |
-| Agent → entrée de l'instance | HTTPS, généralement TCP **443** | Politiques signées, événements, heartbeat, catalogue et mises à jour. Le port vient de l'URL de provisionnement. |
-| Navigateur de la console → entrée de l'instance | HTTPS, généralement TCP **443** | Console React et API sur la même origine ; pas de serveur Node.js séparé. |
-| Reverse proxy / Ingress / Gateway API → serveur Go | HTTP, TCP **4020** par défaut | Écoute `LISTEN_ADDR=:4020`. La terminaison TLS est à configurer en amont ; le binaire appelle `ListenAndServe`, pas un serveur TLS intégré. |
-| Serveur Go → PostgreSQL | PostgreSQL, TCP **5432** dans Compose | Connexions `DATABASE_URL` et `MIGRATION_DATABASE_URL`, sur réseau privé. |
-| Navigateur de la console → Keycloak | HTTPS, généralement TCP **443** en production | Connexion, MFA et redirections OIDC via l'URL publique de l'émetteur. L'accès serveur seul à Keycloak ne suffit pas. |
-| Serveur Go → Keycloak | HTTP **8080** dans Compose ; sinon port de l'URL choisie | Découverte OIDC, clés publiques, échange de code et administration d'identité. `OIDC_INTERNAL_URL` peut router ces appels sur le réseau privé en conservant l'émetteur public. |
-| Keycloak → PostgreSQL | PostgreSQL, TCP **5432** dans Compose | Base d'identité dédiée, distincte des bases applicatives. |
-| Client API / client MCP → instance | HTTPS, port de l'URL publique | API REST ; MCP Enterprise sur `/mcp`, sans port d'écoute supplémentaire. |
-| Serveur → collecteur OTLP externe | OTLP/HTTP JSON, port de l'URL configurée | Enterprise : `/v1/logs` et `/v1/metrics`. **4318** est le port du collecteur d'exemple, pas une écoute Milvago ni un port obligatoire. HTTP interne exige l'autorisation `MILVAGO_OTEL_HTTP_HOSTS`. |
-| Outil de supervision → serveur | HTTP(S), même port que l'instance | `/metrics` lorsqu'un jeton de supervision est configuré ; les sondes `/health/live` et `/health` utilisent aussi le port applicatif. |
+| Agent → instance entry point | HTTPS, usually TCP **443** | Signed policies, events, heartbeat, catalog, and updates. The port comes from the provisioning URL. |
+| Console browser → instance entry point | HTTPS, usually TCP **443** | React console and API on the same origin; no separate Node.js server. |
+| Reverse proxy / Ingress / Gateway API → Go server | HTTP, TCP **4020** by default | Listens on `LISTEN_ADDR=:4020`. TLS termination must be configured upstream; the binary builds an `http.Server` and calls `Serve` on a `net.Listen` listener, not an integrated TLS server. |
+| Go server → PostgreSQL | PostgreSQL, TCP **5432** in Compose | `DATABASE_URL` and `MIGRATION_DATABASE_URL` connections, on a private network. |
+| Console browser → Keycloak | HTTPS, usually TCP **443** in production | Sign-in, MFA, and OIDC redirects through the issuer's public URL. Server-only access to Keycloak is insufficient. |
+| Go server → Keycloak | HTTP **8080** in Compose; otherwise the port of the chosen URL | OIDC discovery, public keys, code exchange, and identity administration. `OIDC_INTERNAL_URL` can route these calls over the private network while retaining the public issuer. |
+| Keycloak → PostgreSQL | PostgreSQL, TCP **5432** in Compose | Dedicated identity database, separate from application databases. |
+| API client / MCP client → instance | HTTPS, public URL port | REST API; Enterprise MCP at `/mcp`, with no additional listening port. |
+| Server → external OTLP collector | OTLP/HTTP JSON, configured URL port | Enterprise: `/v1/logs` and `/v1/metrics`. **4318** is the example collector port, not a Milvago listener or required port. Internal HTTP requires `MILVAGO_OTEL_HTTP_HOSTS` authorization. |
+| Monitoring tool → server | HTTP(S), same port as the instance | `/metrics` when a monitoring token is configured; `/health/live` and `/health` probes also use the application port. |
 
-Les manifestes Kubernetes séparent l’API, la maintenance et les exports Enterprise. L’API et les exports disposent de HPA indépendants ; le **Service ClusterIP 4020 → 4020** de l’API reste interne. L’entrée HTTPS par Ingress ou Gateway API, les certificats, PostgreSQL et Keycloak sont à provisionner séparément. Les ports privés ci-dessus ne sont pas à publier sur Internet. Voir [Déploiement Kubernetes](../installation/helm.md) et [Dimensionner PostgreSQL et l’autoscaling](../avance/dimensionnement-postgresql-hpa.md).
+For Kubernetes, plan separate API, maintenance and Enterprise export roles. The API and exports can use independent HPAs; keep the API’s **ClusterIP Service 4020 → 4020** internal. Provision the HTTPS entry point through Ingress or Gateway API, certificates, PostgreSQL and Keycloak separately. Do not publish the private ports above to the Internet. See [Sizing PostgreSQL and autoscaling](../avance/dimensionnement-postgresql-hpa.md).
 
-### Communications locales sur le poste
+### Local endpoint communications
 
-| Initiateur → destination | Transport / port local | Fonction |
+| Initiator → destination | Local transport / port | Function |
 | --- | --- | --- |
-| Extension → relais Native Messaging | Entrée/sortie standard encadrée ; **aucun port TCP** | Échanges entre extension et binaire lancé par le navigateur. |
-| Relais → service agent | Windows : named pipe `milvago-browser` ou `milvago-commercial` ; Linux : `/run/milvago/browser.sock` ou `commercial.sock` | Politique, décisions et événements via IPC ; aucune ouverture réseau à prévoir. |
-| Navigateurs à base Chromium → agent | HTTP **127.0.0.1:17641** (Community), **:17642** (Enterprise) | CRX et manifeste `/ext/update.xml`, depuis le paquet embarqué. |
-| Firefox → agent | HTTPS **127.0.0.1:17651** (Community), **:17652** (Enterprise) | XPI signé et `/ext/updates.json` ; certificat local géré par l'installation. |
-| Navigateur → site IA | HTTPS, généralement TCP **443** | Trafic direct vers le fournisseur, contrôlé par l'extension sur les sites couverts. |
-| Agent Enterprise → collecteur natif | IPC local, sans TCP | L'agent demande les observations puis acquitte leur persistance. Le collecteur ne pousse pas directement vers le serveur. |
-| Outils natifs → collecteur natif Enterprise | OTLP/HTTP protobuf sur **127.0.0.1**, port attribué au premier démarrage puis conservé | `/v1/logs`, authentification et attribution au processus appelant ; ce port n'est pas fixé à 4318. |
-| Clients natifs couverts → filtre Enterprise | Proxy TLS sur **127.0.0.1:47831–47834** | Respectivement Codex, Claude Code, Claude Desktop, Claude Desktop Agent ; connexions sortantes du filtre vers les fournisseurs sur **443**. Uniquement pour les clients configurés. |
-| Détection Enterprise → services de modèles locaux | Sondes loopback **11434, 1234, 1337, 4891** | Ports cibles autorisés pour l'inventaire local ; ce ne sont pas des serveurs ouverts par Milvago. |
+| Extension → Native Messaging relay | Framed standard input/output; **no TCP port** | Exchanges between the extension and the binary launched by the browser. |
+| Relay → agent service | Windows: named pipe `milvago-browser` or `milvago-commercial`; Linux: `/run/milvago/browser.sock` or `commercial.sock` | Policy, decisions, and events over IPC; no network opening is needed. |
+| Chromium-based browsers → agent | HTTP **127.0.0.1:17641** (Community), **:17642** (Enterprise) | CRX and `/ext/update.xml` manifest, from the embedded package. |
+| Firefox → agent | HTTPS **127.0.0.1:17651** (Community), **:17652** (Enterprise) | Signed XPI and `/ext/updates.json`; local certificate managed by the installation. |
+| Browser → AI site | HTTPS, usually TCP **443** | Direct traffic to the provider, controlled by the extension on covered sites. |
+| Enterprise agent → native collector | Local IPC, without TCP | The agent requests observations and then acknowledges their persistence. The collector does not push directly to the server. |
+| Native tools → Enterprise native collector | OTLP/HTTP protobuf on **127.0.0.1**, port assigned at first start then retained | `/v1/logs`, authentication, and attribution to the calling process; this port is not fixed at 4318. |
+| Covered native clients → Enterprise filter | TLS proxy on **127.0.0.1:47831–47834** | Respectively Codex, Claude Code, Claude Desktop, Claude Desktop Agent; filter outbound connections to providers on **443**. Only for configured clients. |
+| Enterprise detection → local model services | Loopback probes **11434, 1234, 1337, 4891** | Target ports allowed for local inventory; these are not servers opened by Milvago. |
 
-Les écoutes loopback restent accessibles uniquement sur le poste. Elles ne justifient aucune règle entrante depuis le LAN. La présence d'un port dans le tableau ne signifie pas que sa fonctionnalité optionnelle est active.
+Loopback listeners remain accessible only on the endpoint. They do not justify any inbound rule from the LAN. The presence of a port in the table does not mean that its optional feature is active.
 
-### Ports du Compose de développement
+### Development Compose ports
 
-Toutes les publications sont liées à `127.0.0.1` : **4020 → 4020** pour Community, **4120 → 4020** pour Enterprise, **4080 → 8080** pour Keycloak, **55432 → 5432** pour PostgreSQL et **4081 → 8025** pour l'interface du serveur de courrier de test. Ces valeurs sont les défauts du Compose et peuvent être remplacées par ses variables. Elles ne constituent pas un plan de ports de production.
+All publications are bound to `127.0.0.1`: **4020 → 4020** for Community, **4120 → 4020** for Enterprise, **4080 → 8080** for Keycloak, **55432 → 5432** for PostgreSQL, and **4081 → 8025** for the test mail server interface. These values are Compose defaults and can be replaced by its variables. They are not a production port plan.
 
-## L'extension navigateur
+## The browser extension
 
-Un service worker dans Chrome, Edge, Brave, Vivaldi et Arc, et des scripts d'arrière-plan dans Firefox, appliquent la politique sur les sites IA couverts. L'extension est pilotée par un **catalogue de détection signé** — un moteur et des données : routes mesurées des sites (routes de prompt, routes de téléversement), sélecteurs DOM du composeur, chemins des champs. Elle n'applique aucune heuristique hors de ces routes mesurées, et la couverture dépend de l'édition servie.
+A service worker in Chrome, Edge, Brave, Vivaldi, and Arc, and background scripts in Firefox, apply the policy on covered AI sites. The extension is driven by a **signed detection catalog** — an engine and data: measured routes of the sites (prompt routes, upload routes), DOM selectors of the composer, field paths. It applies no heuristic outside those measured routes, and coverage depends on the served edition.
 
-Sans politique valable (agent arrêté, révocation), elle **échoue en fermeture** : la surface IA couverte est scellée, jamais laissée ouverte par défaut. La politique signée est persistée localement et relue au réveil du composant d'arrière-plan, révision et expiration vérifiées à chaque lecture.
+Without a valid policy (agent down, revocation), it **fails closed**: the covered AI surface is sealed, never left open by default. The signed policy is persisted locally and re-read by the background component, with revision and expiration checked at every read.
 
-## Navigateurs pris en charge
+## Supported browsers
 
-Le périmètre produit comprend six navigateurs : Google Chrome, Microsoft Edge, Brave, Vivaldi, Mozilla Firefox et Arc. Chromium autonome n'en fait pas partie, même s'il peut encore apparaître dans des scripts historiques. Aucun agent macOS, Safari ou mobile n'est déclaré.
+The product scope includes six browsers: Google Chrome, Microsoft Edge, Brave, Vivaldi, Mozilla Firefox, and Arc. Standalone Chromium is not included, even where it remains in historical scripts. No macOS, Safari, or mobile agent is declared.
 
-| Navigateur | Famille | Windows | Linux |
+| Browser | Family | Windows | Linux |
 | --- | --- | --- | --- |
-| Google Chrome | Chromium | Politique MSI et CRX local. Un CRX hors Chrome Web Store dépend des conditions de gestion Active Directory de la machine. | Intégration Native Messaging par le script système ; extension et profil à administrer. |
-| Microsoft Edge | Chromium | Politique MSI et CRX local. | Intégration Native Messaging par le script système ; extension et profil à administrer. |
-| Brave | Chromium | Politique MSI et CRX local. | Intégration Native Messaging par le script système ; extension et profil à administrer. |
-| Vivaldi | Chromium | Politique MSI, CRX local et hôte Native Messaging. | Aucun chemin automatisé Vivaldi dédié ; extension et profil à administrer. |
-| Mozilla Firefox | Gecko | Politique MSI, XPI signé et hôte Native Messaging. | Intégration Native Messaging par le script système ; extension et profil à administrer. |
-| Arc | Chromium | Pris en charge : politique Arc et CRX local. L'installation par MSI et le contrôle de contenu restent à qualifier séparément. | Non déclaré. |
+| Google Chrome | Chromium | MSI policy and local CRX. For this private extension, the PC must be joined to an Active Directory domain or Microsoft Entra ID. | Native Messaging integration through the system script; the extension and profile remain to be administered. |
+| Microsoft Edge | Chromium | MSI policy and local CRX. | Native Messaging integration through the system script; the extension and profile remain to be administered. |
+| Brave | Chromium | MSI policy and local CRX. | Native Messaging integration through the system script; the extension and profile remain to be administered. |
+| Vivaldi | Chromium | MSI policy, local CRX, and Native Messaging host. | No dedicated automated Vivaldi path; the extension and profile remain to be administered. |
+| Mozilla Firefox | Gecko | MSI policy, signed XPI, and Native Messaging host. | Native Messaging integration through the system script; the extension and profile remain to be administered. |
+| Arc | Chromium | Supported: Arc policy and local CRX. MSI installation and content control remain to be qualified separately. | Not declared. |
 
-Firefox 140.0 ou ultérieur est requis sur tous les systèmes d'exploitation ; Firefox Release et Beta exigent un XPI signé. Les navigateurs Chromium n'ont pas de version minimale fixée dans le manifeste ; les versions stables cibles restent à qualifier. Le bundle Linux ne configure pas à lui seul les profils navigateur : `deploy/install-browser.sh` installe le service système et les manifestes Native Messaging. Le RPM distribué par la plateforme installe le même service systemd système, sous l'utilisateur `milvago-agent`, et les mêmes manifestes Native Messaging machine que `deploy/install-browser.sh`.
+The Chrome extension is private and is not published in the Chrome Web Store. For the Windows policy deployment described here, the PC must be joined to an Active Directory domain or Microsoft Entra ID; installing the Native Messaging host alone does not meet this requirement.
 
-Les contrôles réseau utilisant `webRequestBlocking` exigent une extension administrée dans les navigateurs qui réservent cette capacité aux extensions installées par politique. Une installation manuelle ne démontre pas le même contrôle.
+Firefox 140.0 or later is required on every operating system; Firefox Release and Beta require a signed XPI. Chromium browsers have no minimum version set in the manifest; target stable versions remain to be qualified. The Linux bundle does not configure browser profiles by itself: `deploy/install-browser.sh` installs the system service and Native Messaging manifests. The platform-distributed RPM installs the same system systemd service, under the `milvago-agent` user, and the same machine-wide Native Messaging manifests as `deploy/install-browser.sh`.
 
-La couverture des sites IA est indépendante du navigateur. Community embarque la capture pour ChatGPT et Claude, tandis que les deux éditions signalent séparément la présence sur des plateformes connues sans réactiver la capture. Enterprise couvre neuf fournisseurs. Les résultats de qualification restent propres à l'édition, au navigateur, au système et au scénario exécuté : une note datée ou un artefact construit ne se généralise pas à un autre contexte.
+Network controls using `webRequestBlocking` require a managed extension installation in browsers that reserve this capability for policy-installed extensions. A manual installation does not demonstrate the same control.
 
-## L'agent : un service, pas une tâche utilisateur
+AI-site coverage is independent of the browser. Community embeds capture for ChatGPT and Claude, while both editions report presence on known platforms separately without re-enabling capture. Enterprise covers nine providers. Qualification results apply only to the edition, browser, operating system, and executed scenario: a dated note or a built artifact does not generalize to another context.
 
-Le cœur de l'agent est un **service** (Rust) : `endpoint` en Community, `bridge` en Enterprise. Sous Windows, il tourne sans session utilisateur sous NetworkService, avec un jeu de privilèges réduit (`SeChangeNotifyPrivilege` et `SeCreateGlobalPrivilege` seulement) et des dossiers ProgramData dont l'ACL nomme désormais le SID propre au service, plutôt que NetworkService dans son ensemble. Sous Linux, le RPM et le script autonome `deploy/install-browser.sh` installent tous deux un service systemd système, sous l'utilisateur `milvago-agent`, avec les manifestes Native Messaging machine. Il exécute deux boucles :
+## The agent: a service, not a user task
 
-- la boucle de **synchronisation** : politique, file d'événements, mises à jour, et l'inventaire en Enterprise ;
-- un **serveur IPC local**, le seul point de contact du navigateur.
+The agent core is a **service** (Rust): `endpoint` in Community and `bridge` in Enterprise. On Windows, it runs without a user session under NetworkService, with a reduced privilege set (`SeChangeNotifyPrivilege` and `SeCreateGlobalPrivilege` only) and ProgramData folders whose ACL now names the service's own SID rather than NetworkService as a whole. On Linux, the RPM and the standalone `deploy/install-browser.sh` script both install a system systemd service, under the `milvago-agent` user, with machine-wide Native Messaging manifests. It runs two loops:
 
-Le navigateur ne peut pas parler à un service (session 0). Le même binaire, lancé par le navigateur comme hôte Native Messaging, agit en **relais** : il transmet les trames au service via un canal local (named pipe Windows à descripteur durci, socket Unix). L'identité du poste reste celle du service, jamais celle du client.
+- the **synchronization** loop: policy, event queue, updates, and the inventory in Enterprise;
+- a **local IPC server**, the only contact point of the browser.
 
-L'état du poste vit dans un magasin **chiffré par la machine** (DPAPI sous Windows) : credentials, politique en cache, file d'événements. Une coupure entre l'agent et le serveur n'arrête pas le navigateur : tant que l'agent local répond par le canal authentifié, il applique sa dernière politique locale vérifiée et garde les événements avant leur synchronisation. La tolérance de **cinq minutes** ne commence que si le service SYSTEM ne peut plus joindre cet agent local ; à son échéance, la surface IA est scellée. Une révocation ou un refus explicite bloque immédiatement.
+The browser cannot talk to a service (session 0). The same binary, launched by the browser as a Native Messaging host, acts as a **relay**: it forwards frames to the service over a local channel (Windows named pipe with a hardened descriptor, Unix socket). The device identity remains that of the service, never that of the client.
 
-## Le serveur
+The device state lives in a store **encrypted by the machine** (DPAPI under Windows): credentials, cached policy, event queue. A break between the agent and the server does not stop the browser: while the local agent answers over the authenticated channel, it applies its last verified local policy and keeps events until synchronization resumes. The **five-minute** grace period starts only when the SYSTEM service can no longer reach that local agent; when it expires, the AI surface is sealed. An explicit revocation or refusal blocks immediately.
 
-Un backend **Go** servant :
+## The server
 
-- l'**ingestion** des agents : événements, heartbeats (utilisateur OS de la session active, pur informatif), inventaire, avec limites de débit par poste ;
-- le **catalogue de détection** signé et sa publication versionnée ;
-- la **console** et l'**API REST** avec RBAC par permissions ;
-- les **mises à jour** : MSI signé et manifeste de mise à jour signé, figés dans l'image ;
-- le stockage : **PostgreSQL**, avec isolation par **Row-Level Security** en Enterprise.
+A **Go** backend serving:
 
-La console (React) est servie par le même binaire ; **aucune ressource externe** n'est chargée à l'exécution — bundle, polices et thème sont embarqués. L'authentification passe par Keycloak (OIDC Authorization Code + PKCE) ; le thème de connexion suit les mêmes tokens.
+- **ingestion** from the agents: events, heartbeats (OS user of the active session, purely informative), inventory, with rate limits per device;
+- the signed **detection catalog** and its versioned publication;
+- the **console** and the **REST API** with permission-based RBAC;
+- **updates**: immutable MSI and signed update manifest, frozen into the image;
+- storage: **PostgreSQL**, with isolation by **Row-Level Security** in Enterprise.
 
-## En Enterprise, trois composants privilégiés supplémentaires
+The console (React) is served by the same binary; **no external resource** is loaded at runtime — bundle, fonts and theme are embedded. Authentication goes through Keycloak (OIDC Authorization Code + PKCE); the login theme follows the same tokens.
 
-- Le **collecteur natif** (`collector`, LocalSystem) lit les applications IA natives déclarées par la politique, sans jamais partager le magasin de l'agent : il a sa propre ancre, sa propre clé, et ne fait confiance à rien de ce que l'agent stocke. L'agent **tire** les enregistrements du collecteur, jamais l'inverse.
-- Le **filtre réseau** (`filter`) observe le trafic des services couverts côté machine.
-- L'**inventaire** fusionne les applications IA par poste (jamais un instantané destructif : un relevé vide n'efface rien), avec `first_seen` pour poser la question « qu'est-ce qui est apparu cette semaine ? ».
+## In Enterprise, three additional privileged components
 
+- The **native collector** (`collector`, LocalSystem) reads the native AI applications declared by the policy, without ever sharing the agent's store: it has its own anchor, its own key, and trusts nothing the agent stores. The agent **pulls** the collector's records, never the reverse.
+- The **network filter** (`filter`) observes the traffic of the covered services on the machine.
+- The **inventory** merges AI applications per device (never a destructive snapshot: an empty reading erases nothing), with `first_seen` to answer the question "what appeared this week?".
 
-## Les canaux, en résumé
+## The channels, in summary
 
-| Canal | Sens | Contenu |
+For `/v2/events`, the agent first writes the event to its encrypted local store. The server returns its identifier in `accepted_ids` only after validating the device and committing PostgreSQL. If PostgreSQL is unavailable, the API temporarily returns `503`: the agent keeps the same identifier and retries. Replay is expected and remains idempotent; a received acknowledgement means PostgreSQL has taken custody of the event.
+
+| Channel | Direction | Content |
 | --- | --- | --- |
-| `policy_v3` | extension → agent → serveur | politique **projetée** : services, collection, contrôle des modèles ; les mots-clés et exceptions n'en sortent pas |
-| `event_v2` | agent → serveur | événements Shadow AI, par lots, acquittés |
-| `/v2/heartbeat` | agent → serveur | utilisateur OS de la session active (information, jamais une autorité), extensions vues |
-| `/v1/inventory` | agent → serveur | applications IA détectées (Enterprise) |
+| `/v3/policy` | extension → agent → server | **projected** policy: services, collection, model controls; keywords and exceptions do not leave it |
+| `/v2/events` | agent → server | Shadow AI events, in batches, acknowledged |
+| `/v2/heartbeat` | agent → server | OS user of the active session (information, never an authority), extensions seen |
+| `/v1/inventory` | agent → server | detected AI applications (Enterprise) |
 
-Pour `event_v2`, l'agent écrit d'abord l'événement dans son magasin local chiffré. Le serveur ne renvoie l'identifiant dans `accepted_ids` qu'après validation du poste et commit PostgreSQL. Si PostgreSQL est indisponible, l'API répond temporairement `503` : l'agent conserve le même identifiant et réessaie. Un rejeu est attendu et reste idempotent ; un acquittement reçu signifie que PostgreSQL a pris la garde de l'événement.
-
-Un échec de synchronisation ne se cache pas : l'agent journalise un état unique (`synchronisé`, `différé` avec autorisation en cache valable, `bloqué`), avec la cause classée et le remède proposé — jamais de détail de transport ni d'identifiant.
+A synchronization failure is not hidden: the agent logs a single state (`synchronized`, `deferred` with a valid cached authorization, `blocked`), with the classified cause and the proposed remedy — never a transport detail or an identifier.

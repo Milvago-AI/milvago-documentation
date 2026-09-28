@@ -17,7 +17,7 @@ La pantalla Miembros responde a la pregunta « **quién puede entrar** en esta o
 
 El acceso exige el permiso `members.read`; sin él, la entrada de navegación no existe y la pantalla muestra « Acceso restringido ».
 
-[IMAGEAMETTREICI 01]
+![Milvago - Acceder a la pantalla](/img/docs/en/administration-membres-01.png)
 
 ## La tabla de miembros
 
@@ -29,13 +29,13 @@ El selector **Por página** ofrece 10, 20, 50, 100 o 200 miembros. El contador a
 | --- | --- |
 | **Miembro** | nombre mostrado, o « — » cuando no tiene |
 | **Dirección de correo electrónico** | la dirección de la cuenta |
-| **Rol** | badge del rol actual (`owner`, `admin`, `viewer` o un rol personalizado) |
+| **Rol** | badge del rol actual (`owner`, `admin`, `viewer`, `reporter` o un rol personalizado) |
 | **Tipo** | procedencia de la identidad: « Local », « SSO » o « LDAP » |
 | **Idioma** | idioma de consola del miembro, o « Predeterminado » |
 | **Organización** | nombre de la organización de afiliación, o « — » |
 | **Acciones** | véase más abajo |
 
-[IMAGEAMETTREICI 02]
+![Milvago - La tabla de miembros](/img/docs/en/administration-membres-02.png)
 
 En vacío, la pantalla lee « Ningún miembro visible »: esto describe lo que sus derechos dejan ver, no una organización sin usuarios.
 
@@ -47,6 +47,8 @@ Las tres acciones solo aparecen si usted porta `members.manage` (`members.manage
 - **Cambiar el idioma**: el idioma se aplica a la próxima apertura de la consola por este miembro; « Predeterminado » sigue el idioma de su navegador, o el inglés si no se ofrece. Sus sesiones permanecen abiertas.
 - **Retirar el acceso**: el miembro pierde el acceso a esta organización y sus sesiones se invalidan; su identidad en el proveedor de inicio de sesión se conserva. En su propia cuenta, un aviso precede a la confirmación.
 
+El último propietario de una organización no puede ser ni degradado ni retirado: ya sea vía **Cambiar el rol** o **Retirar el acceso**, el servidor rechaza con « Asigne otro propietario antes de retirar o degradar al último propietario. » Asigne primero un segundo propietario.
+
 :::enterprise
 
 Una persona que llega a esta organización a través de su organización padre (acceso heredado) solo puede ser invitada, importada, reasignada o retirada aquí por alguien que gestione los miembros de la organización padre; si no, el servidor rechaza con « El acceso de esta persona proviene de la organización padre: gestiónelo desde allí. »
@@ -55,7 +57,7 @@ En Enterprise, una cuenta que ya pertenece a otra organización — una organiza
 
 :::
 
-[IMAGEAMETTREICI 03]
+![Milvago - Las acciones por miembro](/img/docs/en/administration-membres-03.png)
 
 ## Invitar a un miembro
 
@@ -63,6 +65,8 @@ El botón « Invitar a un miembro » abre un diálogo de tres campos: dirección
 
 - Las identidades y las invitaciones las gestiona Keycloak. Enviar una invitación requiere una configuración SMTP operativa.
 - Las cuentas SSO y LDAP invitadas por correo no reciben ninguno; su acceso se activa en su primer inicio de sesión.
+
+Una cuenta local nueva recibe « Su invitación a Milvago », en el idioma de consola elegido para ella. Su enlace **Activar mi cuenta** confirma la dirección y luego pide una contraseña. La última página, « Su cuenta está lista », ofrece **Iniciar sesión**, que abre directamente el inicio de sesión de la consola. El enlace es válido durante un día. Cuando se ofrece el SSO y la dirección pertenece al dominio de la organización, la invitación no tiene contraseña que crear: tras el enlace, la persona inicia sesión con Google o Microsoft (véase [SSO](../avance/sso.md)).
 
 ## Importar del directorio
 

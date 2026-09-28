@@ -17,21 +17,21 @@ A Discovery responde à pergunta que um CISO coloca desde o primeiro dia: **quai
 
 Ela exige a gestão da política (`policy.manage`) — é uma tela de decisão, não uma consulta passiva.
 
-[IMAGEAMETTREICI 01]
+![Milvago - Acessar esta tela](/img/docs/en/monitoring-discovery-01.png)
 
-## Plataformas conhecidas
+## Plataformas conhecidas acessadas
 
 O primeiro cartão porta as **plataformas de IA conhecidas** que os dispositivos alcançaram. O aviso de cabeçalho fixa a fronteira, em letras claras: **apenas presença** — o host foi alcançado; nenhum prompt, nenhuma resposta, nenhum endereço nem conversa é coletado nessas plataformas.
 
 | Coluna | Conteúdo |
 | --- | --- |
-| **Serviço** | a plataforma (botão "alcançada pelos dispositivos" na Enterprise) |
+| **Serviço** | a plataforma (botão na Enterprise, dica "Mostrar as máquinas que o alcançaram") |
 | **Visitas** | o número de visitas registradas |
 | **Dispositivos** | o número de dispositivos distintos |
-| **Contas do SO** | apenas Enterprise: as contas do SO conectadas no momento das visitas |
-| **Último sinal** | a data mais recente |
+| **Contas do sistema** | apenas Enterprise: as contas do sistema conectadas no momento das visitas |
+| **Última conexão** | a data mais recente |
 
-[IMAGEAMETTREICI 02]
+![Milvago - Plataformas conhecidas acessadas](/img/docs/en/monitoring-discovery-02.png)
 
 As duas tabelas são delimitadas no lado do servidor (500 domínios candidatos no máximo, plataformas do catálogo assinado): a paginação é uma ajuda de leitura, não um meio de ir buscar menos. Uma lista reduzida sob a página exibida volta à última página em vez de apresentar uma tabela vazia.
 
@@ -42,26 +42,26 @@ O segundo cartão lista os **domínios de IA** que os dispositivos sinalizam e q
 - **Marcar o candidato publicado como promovido** — oferecida apenas para um domínio que o catálogo publicado porta realmente; o servidor permanece a autoridade e responde 409 se a publicação falta.
 - **Ignorar / Reconsiderar** — retirar um domínio do sinal, ou repô-lo.
 
-[IMAGEAMETTREICI 03]
+![Milvago - Domínios candidatos](/img/docs/en/monitoring-discovery-03.png)
 
 Em uma instância em somente leitura, as ações não aparecem, em vez de prometer botões recusados.
 
-A **zero candidato, a tela é um estado normal, não uma falha**: a descoberta dos domínios candidatos está desativada por padrão, e a tela o diz com o link que a reativa — "Ative-a no Shadow AI, Plataformas de IA, para que os dispositivos sinalizem os domínios de IA que alcançam e que este catálogo não cobre." O interruptor atravessa a rota de privacidade, com seu motivo escrito e sua MFA recente.
+A **zero candidato, a tela é um estado normal, não uma falha**: a tela exibe "Nenhum domínio candidato observado", com um link que reativa a descoberta — "A descoberta de domínios candidatos vem desativada. Ative-a em Shadow AI, Plataformas de IA, para que os dispositivos informem os domínios de IA que acessam e que este catálogo não cobre." O interruptor atravessa a rota de privacidade, com seu motivo escrito e sua MFA recente.
 
-[IMAGEAMETTREICI 04]
+![Milvago - Domínios candidatos](/img/docs/en/monitoring-discovery-04.png)
 
 ## Quem alcançou este domínio?
 
-Cada linha abre um diálogo "**Dispositivos que alcançaram este domínio nos últimos N dias**", com uma busca (nome da máquina ou identificador do dispositivo, o que um leitor vindo de uma ficha de dispositivo porta), o número de observações por dispositivo e a última data. Os levantamentos do detector são purgados além da janela: uma visita mais antiga não é mais contada aqui.
+Cada linha abre um diálogo intitulado com o nome da plataforma ou do domínio em si; um aviso dentro dele traz **"Máquinas que alcançaram este domínio nos últimos N dias. Os relatórios do detector são expurgados depois disso, então uma visita mais antiga não é mais contada aqui."**, com uma busca (nome da máquina ou identificador do dispositivo, o que um leitor vindo de uma ficha de dispositivo porta), o número de observações por dispositivo e a última data.
 
 Um único diálogo responde à mesma pergunta a partir das duas tabelas, porque um leitor perguntando "quem foi lá" não se importa em saber qual tabela porta a resposta.
 
-[IMAGEAMETTREICI 05]
+![Milvago - Quem alcançou este domínio?](/img/docs/en/monitoring-discovery-05.png)
 
 :::enterprise
 
-O diálogo "alcançada pelos dispositivos" e a coluna Contas do SO só existem na Enterprise: na Community, as linhas permanecem em texto simples em vez de portar um controle que responderia 404. O catálogo porta também a regra de higiene da descoberta: os domínios dos provedores cobertos — após redução à edição servida — nunca aparecem na Discovery, e uma plataforma mascarada pela organização sai dela, mantendo suas visitas registradas.
+O diálogo das máquinas que alcançaram uma plataforma e a coluna Contas do sistema só existem na Enterprise: na Community, as linhas permanecem em texto simples em vez de portar um controle que responderia 404. O catálogo porta também a regra de higiene da descoberta: os domínios dos provedores cobertos — após redução à edição servida — nunca aparecem na Discovery, e uma plataforma mascarada pela organização sai dela, mantendo suas visitas registradas.
 
 :::
 
-[IMAGEAMETTREICI 06]
+![Milvago - Quem alcançou este domínio?](/img/docs/en/monitoring-discovery-06.png)

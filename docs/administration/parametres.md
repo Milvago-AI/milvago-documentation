@@ -1,94 +1,106 @@
-﻿---
+---
 sidebar_position: 7
-title: Paramètres
+title: Settings
 ---
 
-# Paramètres
+# Settings
 
-## Accéder à l’écran
+## Open the page
 
-Dans la barre latérale, cliquez sur **Administration**, puis sur **Paramètres**. L’entrée est visible dans la console ; les sections et actions disponibles dépendent ensuite de vos permissions et, pour certains réglages, de votre rôle de propriétaire de l’organisation racine.
+Click **Administration** > **Settings** in the sidebar. Sections and actions depend on your permissions.
 
-1. Ouvrez **Annuaire LDAP** dans la navigation verticale.
-2. Renseignez les paramètres de connexion et d’attributs.
-3. Cliquez sur **Tester la connexion** et corrigez toute étape signalée en échec.
-4. Après un test réussi, cliquez sur **Enregistrer l’annuaire**.
-5. Vérifiez que le statut confirme l’enregistrement de la connexion.
+1. Open **LDAP directory** in the vertical navigation.
+2. Enter the connection and attribute settings.
+3. Click **Test connection** and correct any step reported as failed.
+4. After a successful test, click **Save directory**.
+5. Verify that the status confirms the saved connection.
 
-L'écran Paramètres répond à la question « **comment cette organisation et cette instance sont réglées** ». Sa ligne sous le titre l'annonce : « Paramètres de l'organisation et de l'instance. » Une navigation verticale découpe les sections, et **chaque section n'apparaît qu'avec la permission qui la gouverne** : ce que vous ne pouvez pas régler ne s'affiche pas.
+The Settings screen answers the question "**how this organization and this instance are set**". Its line under the title announces it: "Organization and instance settings." A vertical navigation splits the sections, and **each section appears only with the permission that governs it**: what you cannot set does not show up.
 
-![Milvago - Paramètres](/img/docs/fr/administration-parametres-01.png)
+![Milvago - Open the page](/img/docs/en/administration-parametres-01.png)
 
-## Organisation
+## Organization
 
-Toujours présente. Quatre champs, enregistrés ensemble :
+Always present. Four fields, saved together:
 
-- **Nom de l'organisation** — modifiable par le propriétaire de l'organisation.
-- **URL HTTPS publique (agent)** — « URL annoncée aux agents et à l'extension navigateur (enrôlement, installeurs, update.xml). La modifier après un déploiement n'affecte pas les postes déjà enrôlés : ils conservent leur URL et doivent être ré-enrôlés pour en changer. » Seul le propriétaire de l'organisation racine peut la modifier ; pour les autres, le champ porte l'avis « Seul le propriétaire de l'organisation racine peut modifier cette URL. » Sa confirmation conditionne le téléchargement des installateurs.
-- **Langue par défaut de l'instance** — « S'applique à la page de connexion atteinte sans langue. Les utilisateurs sans préférence personnelle suivent leur navigateur, puis l'anglais. » Le propriétaire racine seul la modifie.
-- **Conservation des événements (jours)** — de 1 à 3650 ; « La durée est validée et appliquée par le serveur. » Raccourcir cette durée exige un second facteur vérifié à l'instant et n'est jamais accessible à une clé API : la purge horaire suivante supprime aussitôt l'historique devenu plus ancien que la nouvelle durée, textes conservés compris. L'allonger reste inchangé.
+- **Organization name** — changeable by the organization owner.
+- **Public Milvago URL** — The browser console, Keycloak sign-in, agents, and the browser extension use this origin. Only the root organization owner can change it. Milvago updates the Keycloak realm and console redirect through its private API; new sign-ins use the new URL. Already enrolled devices keep their previous URL and must be re-enrolled to move. Confirming the URL also enables installer downloads.
+- **Instance default language** — "Applies to the sign-in page reached without a language. Users without a personal preference follow their own browser, then English. Only the root organization owner can change it."
+- **Event retention (days)** — from 1 to 365; "The server validates and applies the retention period." Shortening this duration requires a second factor verified moments ago and is never available to an API key: the next hourly purge immediately deletes the history that becomes older than the new duration, retained texts included. Lengthening it is unchanged.
 
-Un bandeau « Terminer l'installation » apparaît tant que l'URL publique n'est pas confirmée sur une instance installée en mode automatique (`BOOTSTRAP_EMAIL`) — l'assistant de [première installation](../installation/premiere-installation.md) règle directement ces valeurs et ne laisse jamais ce bandeau derrière lui. Il ouvre un assistant en deux étapes : langue par défaut de l'instance, puis nom de l'organisation et URL HTTPS publique. Le même bandeau le rappelle autrement : « Les agents et l'extension navigateur se connecteront à cette URL. Vérifiez-la dans Administration avant tout déploiement. »
+A "Complete setup" banner appears as long as the public URL is not confirmed on an instance installed in automatic mode (`BOOTSTRAP_EMAIL`) — the [first installation](../installation/premiere-installation.md) wizard sets these values directly and never leaves this banner behind. It opens a two-step wizard: instance default language, then organization name and public HTTPS URL. The same banner restates it differently: "Agents and the browser extension will connect to this URL. Confirm it in Administration before deploying."
 
-## Licence
+## License
 
-Toujours présente pour quiconque peut ouvrir Paramètres : ce n'est pas une permission qui la gouverne, mais le rôle de propriétaire de l'instance qui autorise à la modifier. Sa description à l'écran : « État de la licence de cette instance. »
+Always present for anyone who can open Settings: no permission governs it — only the instance owner role allows changing it. Its on-screen description: "Status of this instance's license."
 
-- **Statut** — badge Aucune, Valide, Période de grâce ou Expirée.
-- **Type** — Enterprise, Community, ou « — » si l'instance n'a jamais reçu de licence.
-- **Postes maximum** — un nombre, ou « Illimité » si la licence n'en fixe aucun (valeur 0).
-- **Expire** — visible seulement quand la licence porte une date d'expiration (les licences Enterprise ; la licence gratuite Community est perpétuelle et n'en affiche pas).
-- **Période de grâce jusqu'au** — visible seulement pendant la période de grâce qui suit une expiration Enterprise.
-- **Identifiant d'instance** — avec le bouton **Copier l'identifiant**, à transmettre à Milvago AI pour obtenir une licence.
+On Community, the panel also states: "The free license lifts only Community limits. It does not unlock Enterprise, which requires the Enterprise edition and a separate license."
 
-Le propriétaire de l'instance voit, sous ces informations, un champ pour coller le texte d'une nouvelle licence et le bouton **Enregistrer la licence** — « Licence enregistrée. » confirme l'enregistrement. Pour tout autre lecteur, l'écran porte l'avis « Seul le propriétaire de l'instance peut modifier la licence. »
+- **Status** — badge None, Valid, Grace period, or Expired.
+- **Kind** — Enterprise, Community, or "—" if the instance never received a license.
+- **Maximum devices** — a number, or "Unlimited" if the license sets none (value 0).
+- **Expires** — shown only when the license carries an expiry date (Enterprise licenses; the free Community license is perpetual and shows none).
+- **Grace period until** — shown only during the grace period that follows an Enterprise expiry.
+- **Instance identifier** — with the **Copy instance ID** button, to pass on to Milvago AI to obtain a license.
 
-En **Community**, le propriétaire de l'instance voit aussi, sous ce champ, une zone **Demander une licence gratuite** : une adresse e-mail (préremplie avec la sienne) et le bouton **Envoyer la demande** ; « Demande envoyée. Consultez la boîte de réception de {`adresse`} et collez ci-dessous la licence reçue. » confirme l'envoi. La demande part vers Milvago AI, qui répond par e-mail avec le texte à coller ici. Cette licence gratuite est perpétuelle et lève toutes les limites du mode restreint décrites ci-dessous.
+Below this information, the instance owner sees a field to paste a new license's text and the **Save the license** button — "License saved." confirms it was saved. Any other reader instead sees the notice "Only the instance owner can change the license."
 
-[IMAGEAMETTREICI 02]
+On **Community**, the instance owner also sees, below that field, a **Request a free license** area: an e-mail address (prefilled with their own) and the **Send the request** button; "Request sent. Check the mailbox for {`address`} and paste the license you receive below." confirms it was sent. The request goes to Milvago AI, which replies by e-mail with the text to paste here. This free license is perpetual and lifts every limit of the restricted mode described below.
 
-### Mode restreint (Community sans licence)
+![Community license settings](/img/docs/en/administration-parametres-02.png)
 
-Tant qu'aucune licence n'est acceptée, une instance Community fonctionne en **mode restreint** : 5 postes au maximum (les postes révoqués ne comptent pas), le seul compte administrateur créé à l'installation, aucune gestion des rôles ni des membres — l'entrée **Rôles** disparaît de la navigation d'Administration —, aucun annuaire LDAP — la section **Annuaire LDAP** ci-dessous disparaît elle-même de cette page — et aucune connexion SSO. Un bandeau d'avertissement « Aucune licence » apparaît alors sur chaque page de la console, avec un lien pour ouvrir les paramètres. Inscrire un poste au-delà de la limite échoue avec « Cette instance a atteint sa limite de postes pour sa licence actuelle. »
+### Restricted mode (Community without a license)
 
-### Enterprise : expiration et blocage
+As long as no license is accepted, a Community instance runs in **restricted mode**: 5 devices at most (revoked ones do not count), the single administrator account created at setup, no role or member management — the **Roles** entry disappears from the Administration navigation —, no LDAP directory — the **LDAP directory** section below disappears from this page itself —, and no SSO — the **SSO** section disappears too, and SSO sign-in is refused. A warning banner "No license" then appears on every page of the console, with a link to open settings. Enrolling a device beyond the quota fails with "This instance has reached its device limit for its current license."
 
-En **Enterprise**, l'instance ne fonctionne jamais sans une licence valide qui lui est propre : une licence Community y est refusée avec « Il s'agit d'une licence Community ; cette instance est Enterprise. » La licence porte toujours une date d'expiration et un nombre maximum de postes (0 = illimité). Après l'expiration, l'instance entre dans une **période de grâce de 10 jours** : un bandeau « Licence bientôt expirée » reste affiché, la console continue de fonctionner normalement. Passé ce délai, la console entière est remplacée par le seul écran de licence — « Licence requise » — « Cette instance n'a pas de licence valide. Un propriétaire doit en saisir une ci-dessous pour continuer. » — et les agents sont refusés jusqu'à la saisie d'une nouvelle licence valide.
+### Enterprise: expiry and lockout
 
-### Licence liée à l'instance
+On **Enterprise**, the instance never runs without a valid license of its own: a Community license is refused there with "This is a Community license; this instance is Enterprise." The license always carries an expiry date and a maximum device count (0 = unlimited). After expiry, the instance enters a **10-day grace period**: a "License expiring" banner stays shown, the console keeps working normally. Past that delay, the entire console is replaced by the license screen alone — "License required" — "This instance has no valid license. An owner must enter one below to continue." — and agents are refused until a new, valid license is entered.
 
-Une licence est liée à l'identifiant de cette instance (affiché ci-dessus) : réinstaller Milvago sur une nouvelle base de données change cet identifiant et rend l'ancienne licence invalide ; il faut alors en obtenir une nouvelle.
+### License bound to the instance
 
-## Annuaire LDAP
+A license is bound to this instance's identifier (shown above): reinstalling Milvago on a new database changes that identifier and invalidates the old license; a new one must then be obtained.
 
-Présente avec la permission `directory.manage` (« Gérer l'annuaire LDAP ») et une licence hors mode restreint : dans une instance Community sans licence, cette section ne s'affiche pas. Un annuaire LDAP propre à l'organisation, matérialisé chez le fournisseur d'identité : type d'annuaire (Active Directory, et les conventions pré-remplies pour les autres, modifiables), URL de connexion `ldap://` ou `ldaps://`, DN de connexion, DN des utilisateurs, attributs, filtre, portée, délais, pagination. L'écran impose un transport vérifié — LDAPS ou StartTLS — avant toute transmission d'identifiants : « LDAP requires LDAPS or StartTLS », la validation le refuse sinon.
+## LDAP directory
 
-Le bouton **Tester la connexion** rejoue les deux étapes (« Connexion et authentification réussies. » ou l'étape en échec) ; **Enregistrer l'annuaire** active la connexion LDAP ; **Supprimer l'annuaire** prévient : « Les utilisateurs de cet annuaire ne pourront plus se connecter. » Tester, enregistrer et supprimer l'annuaire exigent chacun un second facteur vérifié à l'instant ; aucune de ces trois actions n'est accessible à une clé API.
+Present with the `directory.manage` permission ("Manage LDAP directory and SSO") and a license outside restricted mode: on a Community instance without a license, this section does not show up. An LDAP directory specific to the organization, materialized at the identity provider: directory type (Active Directory, and the pre-filled conventions for the others, editable), connection URL `ldap://` or `ldaps://`, bind DN, users DN, attributes, filter, scope, timeouts, pagination. The screen requires a verified transport — LDAPS or StartTLS — before any transmission of credentials: "LDAP requires LDAPS or StartTLS before any directory credentials are transmitted.", the validation refuses otherwise.
 
-Les comptes d'annuaire s'importent ensuite dans [Membres](membres.md).
+The **Test connection** button replays the two steps ("Connection and authentication succeeded." or the failed step); **Save directory** activates the LDAP connection; **Remove directory** warns: "Users of this directory will no longer be able to sign in." Testing, saving and removing the directory each require a second factor verified moments ago; none of these three actions is available to an API key.
+
+Directory accounts are then imported in [Members](membres.md).
 
 :::enterprise
 
-Créer, tester, modifier ou supprimer un annuaire est réservé à un propriétaire de l'organisation racine, pour l'organisation racine ou, après bascule vers elle, pour une organisation fille — la connexion de toute organisation consulte chaque annuaire du fournisseur d'identité partagé. Dans une organisation fille, les autres personnes voient à la place l'avis « Seul un propriétaire de l'organisation racine peut configurer un annuaire, car la connexion de toutes les organisations le consulte. » ou, quand un annuaire y est déjà configuré, « L'annuaire de cette organisation est configuré par un propriétaire de l'organisation racine, car la connexion de toutes les organisations le consulte. Ses utilisateurs s'importent dans Membres. »
+Creating, testing, changing or deleting a directory is reserved to an owner of the root organization, for the root organization or, after switching to it, for a child organization — every organization's sign-in consults every directory of the shared identity provider. In a child organization, other people instead see the notice "Only an owner of the root organization can configure a directory, because every organization's sign-in consults it." or, when one is already configured, "This organization's directory is configured by an owner of the root organization, because every organization's sign-in consults it. Its users can be imported in Members."
 
 :::
 
-## Clé de déploiement
+## SSO
 
-Présente avec la permission `installers.manage` (« Gérer les installeurs »). Voir [Déploiement](deploiement.md), qui la décrit en détail.
-
-## Inscription automatique des connecteurs
+Present under the same conditions as **LDAP directory**: the `directory.manage` permission and a license outside restricted mode. It configures sign-in with **Google Workspace** and **Microsoft Entra ID**: for each provider, the **Redirect URI** to register at the provider, the client ID, the client secret — never shown again, left empty to keep it — and the Google Workspace domain or the Microsoft Entra tenant that restricts who can sign in. **Save** and **Remove provider** each require a second factor verified moments ago, and neither is available to an API key. The full procedure is in [SSO (Google / Microsoft Entra ID)](../avance/sso.md).
 
 :::enterprise
 
-Section réservée à Enterprise, et au **propriétaire de l'organisation racine** : la décision s'écrit sur le fournisseur d'identité de l'instance, pas dans la base de Milvago — ce que l'écran affiche est ce qui est réellement appliqué.
+The providers are offered on the sign-in page of every organization: only an owner of the root organization can configure them. Anyone else sees "Single sign-on applies to every organization of this instance: only an owner of the root organization can configure it."
 
-Elle règle la façon dont un connecteur MCP obtient ses propres identifiants : « Un connecteur demande au fournisseur d'identité un client à lui, pour que personne n'ait à coller un identifiant. Fermé tant que vous ne l'ouvrez pas, et l'ouvrir nomme toujours les hôtes vers lesquels une connexion peut revenir. »
+:::
 
-- **Laisser un connecteur s'inscrire lui-même** — fermé par défaut.
-- **Hôtes autorisés à recevoir une connexion** — « Un hôte par ligne, sans schéma, port ni chemin — claude.ai, ou *.exemple.com. Une inscription est refusée si l'une des adresses demandées n'est pas sur ces hôtes : un code ne peut donc jamais être livré ailleurs. » Un hôte générique conserve au moins deux étiquettes après `*.` — `*.exemple.com` est accepté, `*.com` est refusé. Un état « ouvert à tous les hôtes » posé à la main chez le fournisseur d'identité est signalé comme tel, et ne peut pas être produit par cet écran.
-- **Plafond de clients inscrits** — « Une inscription qui dépasserait ce nombre est refusée. Cela borne l'encombrement, pas le risque. »
+## Deployment key
 
-Ce qui ne se négocie pas : « Une personne voit toujours un écran de consentement avant qu'un modèle n'atteigne quoi que ce soit, un client inscrit est limité à ses droits déclarés, et il ne lit jamais plus que les droits de celui qui se connecte. » Tout client public du fournisseur d'identité doit utiliser PKCE, connecteurs inscrits compris, et Milvago borne au démarrage la durée des connexions longues des connecteurs — sept jours sans usage, trente jours au plus — sans jamais allonger une durée déjà plus courte. Voir [Clés API et serveur MCP](../mon-profil/cles-api.md).
+Present with the `installers.manage` permission ("Manage installers"). See [Deployment](deploiement.md), which describes it in detail.
+
+## Connector self-registration
+
+:::enterprise
+
+Section reserved for Enterprise, and for the **root organization owner**: the decision is written on the identity provider of the instance, not in the Milvago database — what the screen shows is what is actually enforced.
+
+It sets the way an MCP connector obtains credentials of its own: "A connector asks the identity provider for a client of its own, so nobody has to paste an identifier. Closed until you open it, and opening it always names the hosts a sign-in may be returned to."
+
+- **Let a connector register itself** — off by default.
+- **Hosts allowed to receive a sign-in** — "One host per line, without scheme, port or path — claude.ai, or *.example.com. A registration is refused unless every address it asks for is on one of these hosts, so a code can never be delivered anywhere else." A wildcard host keeps at least two labels after `*.` — `*.example.com` is accepted, `*.com` is refused. A state "open to every host" set by hand at the identity provider is reported as such, and cannot be produced by this screen.
+- **Registered client ceiling** — "A registration that would exceed this number is refused. It bounds the clutter, not the risk."
+
+What is not negotiable: "A person always sees a consent screen before a model reaches anything, a registered client is limited to its declared rights, and it can never read more than the rights of whoever signs in. The declared client keeps working for a connector that asks for an identifier instead." Every public client of the identity provider must use PKCE, registered connectors included, and Milvago caps the duration of connectors' long-lived sign-ins at startup — seven days unused, thirty days at most — never lengthening an already shorter duration. See [API keys and MCP server](../mon-profil/cles-api.md).
 
 :::

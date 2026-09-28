@@ -1,101 +1,100 @@
-﻿---
+---
 sidebar_position: 2
-title: Groupes de postes
+title: Device groups
 ---
 
-# Groupes de postes
+# Device groups
 
-Les groupes de postes portent une politique Shadow AI commune à plusieurs postes d'un coup. Ils répondent à la question : comment appliquer la même dérogation à un ensemble de machines sans la ressaisir poste par poste.
+## Access this screen
 
-La ligne d'information sous le titre porte les deux règles de lecture : « Un groupe applique une même politique Shadow AI à tous les postes qu'il contient. La dérogation propre d'un poste l'emporte toujours sur son groupe. »
+In the sidebar, click **Fleet**, then **Groups**. It requires `devices.read` and is unavailable to aggregate-only readers.
 
-## Accéder à l’écran
+1. With `devices.manage`, click **New group**, enter the required name and optional description, then create it.
+2. Open its name, click **Add devices**, select devices and confirm **Add (N)**. A device in another group moves to this group; failures are reported per device.
+3. From the record, rename, remove, or delete and confirm. With `policy.manage`, open **Group policy**, save the required sections, and wait for the next sync. Usage sensitivity is shown only in Enterprise.
 
-Dans la barre latérale, cliquez sur **Parc**, puis sur **Groupes**. Il faut `devices.read` et une organisation qui n’est pas en consultation agrégée seule.
+Device groups carry a common Shadow AI policy to several devices at once. They answer the question: how to apply the same override to a set of machines without retyping it device by device.
 
-1. Avec `devices.manage`, cliquez sur **Nouveau groupe**, renseignez le nom obligatoire et la description facultative, puis cliquez sur **Créer le groupe**. Le groupe apparaît dans la liste.
-2. Cliquez sur son nom, puis sur **Ajouter des postes**; cochez les postes, cliquez sur **Ajouter (N)** et vérifiez le résultat dans la liste. Un poste déjà membre d’un autre groupe est déplacé; les refus éventuels sont affichés poste par poste.
-3. Depuis la fiche, cliquez sur **Retirer du groupe**, **Renommer** ou **Supprimer**, puis confirmez l’action. Un poste retiré ou un groupe supprimé revient à la politique de l’organisation.
-4. Avec `policy.manage`, ouvrez **Politique du groupe**, modifiez les sections voulues et enregistrez. La révision est distribuée à la prochaine synchronisation; **Sensibilité des usages** n’est affichée qu’en Enterprise.
+The information line under the title carries the two reading rules: "A group applies one Shadow AI policy to every device it contains. A device's own override still wins over its group."
 
-![Milvago - Groupes de postes](/img/docs/fr/fleet-groupes-01.png)
+![Milvago - Access this screen](/img/docs/en/fleet-groupes-01.png)
 
-## Qui voit quoi
+## Who sees what
 
 | Action | Condition |
 | --- | --- |
-| Voir les groupes et leurs fiches | droit `devices.read` |
-| Créer, renommer, supprimer, affecter des postes | droit `devices.manage` |
-| Régler la politique du groupe | droit `policy.manage` |
+| See the groups and their pages | `devices.read` right |
+| Create, rename, delete, assign devices | `devices.manage` right |
+| Set the group policy | `policy.manage` right |
 
-Les groupes existent dans les deux éditions : un groupe est un outil d'organisation du parc, pas une fonction d'inventaire.
+Groups exist in both editions: a group is a fleet organization tool, not an inventory function.
 
-## La chaîne de politique
+## The policy chain
 
-La politique effective d'un poste se lit en trois étages : **poste > groupe > organisation**. Un groupe n'écrase que les sections qu'il définit ; les sections laissées en héritage suivent l'organisation. La dérogation la plus proche du poste gagne : une dérogation propre au poste l'emporte sur son groupe.
+The effective policy of a device reads across three layers: **device > group > organization**. A group only overrides the sections it defines; the sections left in inheritance follow the organization. The override closest to the device wins: a device's own override wins over its group.
 
-Un poste n'appartient qu'à **un seul groupe** à la fois — pas de priorité entre groupes à arbitrer. Le retirer d'un groupe le ramène à la politique de l'organisation, et son historique est conservé.
+A device belongs to **only one group** at a time — no priority between groups to arbitrate. Removing it from a group returns it to the organization policy, and its history is preserved.
 
-## La liste des groupes
+## The group list
 
-Le tableau porte quatre colonnes :
+The table carries four columns:
 
-| Colonne | Contenu |
+| Column | Content |
 | --- | --- |
-| **Nom** | cliquable vers la fiche du groupe |
-| **Description** | texte libre, ou « — » |
-| **Postes** | nombre de postes membres |
-| **Actions** | « Renommer » et « Supprimer » pour qui a le droit de gestion ; « — » sinon |
+| **Name** | clickable to the group page |
+| **Description** | free text, or "—" |
+| **Devices** | number of member devices |
+| **Actions** | "Rename" and "Delete" for those with the management right; "—" otherwise |
 
-Un compteur affiche le nombre de groupes. À défaut de groupe, l'écran lit « Aucun groupe de postes ».
+A counter displays the number of groups. Failing any group, the screen reads "No device group yet".
 
-Le bouton « **Nouveau groupe** » ouvre un dialogue à deux champs : **Nom du groupe** (obligatoire) et **Description**. Deux noms ne diffèrent pas seulement par la casse, et la description reste courte — les deux bornes sont contrôlées à l'enregistrement.
+The "**New group**" button opens a two-field dialog: **Group name** (required) and **Description**. Two names do not differ by case only, and the description stays short — both bounds are checked on save.
 
-![Milvago - La liste des groupes](/img/docs/fr/fleet-groupes-02.png)
+![Milvago - The group list](/img/docs/en/fleet-groupes-02.png)
 
-## La fiche d'un groupe
+## The group page
 
-La fiche s'ouvre par le nom du groupe dans la liste. Elle porte deux onglets : **Informations**, toujours présent, et **Politique du groupe** avec le droit `policy.manage`.
+The page opens from the group name in the list. It carries two tabs: **Details**, always present, and **Group policy** with the `policy.manage` right.
 
-### Informations
+### Details
 
-La carte Informations réunit l'identifiant du groupe, sa description et son compte de postes. Sous la carte, le tableau des postes membres reprend les colonnes de la liste des postes — Poste (cliquable vers sa fiche), Plateforme, État, Dernier contact — plus l'action « **Retirer du groupe** », qui ramène le poste à la politique de l'organisation.
+The Details card gathers the group identifier, its description and its device count. Below the card, the member device table repeats the columns of the device list — Device (clickable to its page), Platform, Status, Last contact — plus the "**Remove from group**" action, which returns the device to the organization policy.
 
-Le tableau propose 10, 20, 50, 100 ou 200 postes par page et conserve l'accès à la première, à la dernière et aux pages voisines.
+The table offers 10, 20, 50, 100 or 200 devices per page and keeps the first, last and neighbouring pages within reach.
 
-![Milvago - Informations](/img/docs/fr/fleet-groupes-03.png)
+![Milvago - Details](/img/docs/en/fleet-groupes-03.png)
 
-### Affecter des postes
+### Assign devices
 
-Le bouton « **Ajouter des postes** » ouvre un panneau latéral listant les postes de l'organisation qui n'appartiennent pas encore au groupe. Chaque ligne porte une case à cocher, et un poste déjà membre d'un autre groupe affiche le nom de ce groupe : le déplacer est un changement à voir avant de le commettre. Le bouton de confirmation porte son effectif — « Ajouter (N) » — et reste inactif tant que rien n'est coché.
+The "**Add devices**" button opens a side panel listing the organization devices that do not yet belong to the group. Each row carries a checkbox, and a device already a member of another group displays that group's name: moving it is a change to see before committing it. The confirmation button carries its count — "Add (N)" — and stays inactive until something is checked.
 
-Ce panneau utilise la même pagination ; les postes cochés restent sélectionnés lors d'un changement de page.
+This panel uses the same pagination; checked devices remain selected when changing pages.
 
-Deux états vides sont énoncés tels quels :
+Two empty states are stated as they are:
 
-- aucun poste membre : « Aucun poste dans ce groupe » ;
-- plus aucun candidat : « Tous les postes appartiennent déjà à ce groupe. »
+- no member device: "No device in this group";
+- no candidate left: "All devices already belong to this group."
 
-L'affectation envoie une requête par poste : un refus est signalé poste par poste (« Mise à jour impossible pour : … ») au lieu d'interrompre les autres. Réaffecter à un poste le groupe qu'il porte déjà ne réécrit rien.
+Assignment sends one request per device: a refusal is reported device by device ("Could not update: …") instead of interrupting the others. Reassigning to a device the group it already carries rewrites nothing.
 
-Affecter un poste à un groupe dont la politique conserve le texte des requêtes et réponses exige la même vérification de second facteur fraîche que l'activation dans Shadow AI.
+Assigning a device to a group whose policy retains request and response text requires the same fresh second-factor verification as enabling it in Shadow AI.
 
-### Politique du groupe
+### Group policy
 
-L'onglet porte la **dérogation du groupe**. L'éditeur est le même que celui de [Shadow AI](../administration/shadow-ai.md), restreint aux sections qu'un groupe peut écraser : **Enrôlement & collecte**, **Services**, **Protections**, **Masquage local**, et en Enterprise **Sensibilité des usages**. Les sections laissées en héritage suivent l'organisation — la case « Hériter » la nomme.
+The tab carries the **group override**. The editor is the same as [Shadow AI](../administration/shadow-ai.md), restricted to the sections a group can override: **Enrollment & collection**, **Services**, **Protections**, **Local masking**, and in Enterprise **Usage sensitivity**. The sections left in inheritance follow the organization — the "Inherit" checkbox names it.
 
-L'en-tête de section affiche la portée (« Dérogation du groupe ») et la révision courante. Chaque enregistrement produit une nouvelle révision ; les installations la reçoivent à leur prochaine synchronisation, et l'application effective s'observe dans Monitoring.
+The section header displays the scope ("Group override") and the current revision. Each save produces a new revision; the installations receive it at their next synchronization, and the effective application is observed in Monitoring.
 
-![Milvago - Politique du groupe](/img/docs/fr/fleet-groupes-04.png)
+![Milvago - Group policy](/img/docs/en/fleet-groupes-04.png)
 
-## Révisions et anti-retour arrière
+## Revisions and no-rollback
 
-Chaque changement côté groupe — enregistrement de la politique, affectation, retrait, suppression — produit une révision plus récente, et la politique effective d'un poste en hérite. Un poste n'applique jamais une révision plus ancienne que celle qu'il détient : passer d'un groupe à un autre, puis revenir, ne fait que croître. Cette règle empêche qu'un poste bloqué sur une politique dépassée par un jeu de dates défavorables.
+Each change on the group side — policy save, assignment, removal, deletion — produces a newer revision, and the effective policy of a device inherits it. A device never applies a revision older than the one it holds: moving from one group to another, then back, only grows. This rule prevents a device from being blocked on a policy outdated by an unfavorable set of dates.
 
-## Supprimer un groupe
+## Delete a group
 
-La confirmation porte la conséquence exacte : « Les postes d'un groupe supprimé reviennent à la politique de l'organisation. Leur historique est conservé. » Les postes sont d'abord détachés — chacun reçoit une révision fraîche — puis le groupe disparaît avec sa politique. Le compte de postes du groupe figure dans la confirmation. Supprimer un groupe dont les postes reviendraient alors à conserver le texte des requêtes et réponses — l'organisation le conserve, le groupe ne le conservait pas — exige le même second facteur fraîchement vérifié que d'y affecter un poste.
+The confirmation carries the exact consequence: "The devices of a deleted group fall back to the organization policy. Their history is kept." The devices are detached first — each receives a fresh revision — then the group disappears with its policy. The group's device count appears in the confirmation. Deleting a group whose devices would then start retaining request and response text — the organization retains it, the group did not — requires the same fresh second-factor verification as assigning a device to such a group.
 
-![Milvago - Supprimer un groupe](/img/docs/fr/fleet-groupes-05.png)
+![Milvago - Delete a group](/img/docs/en/fleet-groupes-05.png)
 
-Voir aussi : [Postes](postes.md), [Shadow AI](../administration/shadow-ai.md).
+See also: [Devices](postes.md), [Shadow AI](../administration/shadow-ai.md).

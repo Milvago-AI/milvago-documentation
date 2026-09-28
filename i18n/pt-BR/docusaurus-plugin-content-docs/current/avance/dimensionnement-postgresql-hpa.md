@@ -16,7 +16,7 @@ O HPA adapta o número de pods à carga observada. PostgreSQL, os nós Kubernete
 | Manutenção | 1 em regime estável | Sem HPA; tarefas periódicas e observação global das exportações |
 | Migração | Job antes das cargas de trabalho | Aguardar sua conclusão bem-sucedida antes de iniciar a versão correspondente |
 
-As funções dedicadas evitam executar migrações e manutenção em cada pod da API. O Compose mantém a função combinada `all`. O procedimento, os segredos por função e a ordem de inicialização constam em [Implantação no Kubernetes](../installation/helm.md).
+As funções dedicadas evitam executar migrações e manutenção em cada pod da API. O Compose mantém a função combinada `all`.
 
 ## Compreender os dois sinais de HPA
 

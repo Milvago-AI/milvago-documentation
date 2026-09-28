@@ -1,0 +1,77 @@
+{
+  "Documentation": {
+    "message": "Documentation"
+  },
+  "docs.footer.start": {
+    "message": "Prendre en main"
+  },
+  "docs.footer.introduction": {
+    "message": "Présentation"
+  },
+  "docs.footer.requirements": {
+    "message": "Prérequis technique"
+  },
+  "docs.footer.installation": {
+    "message": "Installation"
+  },
+  "docs.footer.architecture": {
+    "message": "Architecture"
+  },
+  "docs.footer.security": {
+    "message": "Sécurité"
+  },
+  "docs.footer.manage": {
+    "message": "Administrer"
+  },
+  "docs.footer.devices": {
+    "message": "Postes et groupes"
+  },
+  "docs.footer.policies": {
+    "message": "Politiques Shadow AI"
+  },
+  "docs.footer.observability": {
+    "message": "Observabilité"
+  },
+  "docs.footer.profile": {
+    "message": "Mon profil"
+  },
+  "docs.footer.resources": {
+    "message": "Ressources"
+  },
+  "docs.footer.api": {
+    "message": "Clés API et serveur MCP"
+  },
+  "docs.footer.configuration": {
+    "message": "Configuration de l’agent"
+  },
+  "docs.footer.catalog": {
+    "message": "Catalogue de détection"
+  },
+  "docs.footer.advanced": {
+    "message": "Guides avancés"
+  },
+  "docs.footer.home": {
+    "message": "Accueil de la documentation"
+  },
+  "docs.footer.documentation": {
+    "message": "Documentation produit"
+  },
+  "docs.footer.description": {
+    "message": "Les guides pour déployer Milvago, comprendre les usages IA et administrer votre environnement."
+  },
+  "docs.footer.editions": {
+    "message": "Community & Enterprise"
+  },
+  "docs.footer.website": {
+    "message": "Découvrir Milvago"
+  },
+  "docs.footer.navigation": {
+    "message": "Navigation de la documentation"
+  },
+  "docs.footer.licences": {
+    "message": "Licences"
+  },
+  "docs.footer.top": {
+    "message": "Retour en haut"
+  }
+}

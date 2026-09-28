@@ -1,161 +1,159 @@
-﻿---
+---
 sidebar_position: 1
-title: Postes
+title: Devices
 ---
 
-# Postes
+# Devices
 
-L'écran **Postes** recense les appareils enrôlés auprès du serveur et répond à la question : quels postes remontent de l'information, et lesquels ont encore le droit de le faire. Il se trouve dans la section **Parc** de la navigation, avec [Groupes de postes](groupes.md).
+## Access this screen
 
-La ligne d'information sous le titre fixe le périmètre de l'agent, selon l'édition :
+In the sidebar, click **Fleet**, then **Devices**. It requires `devices.read` and is unavailable to aggregate-only readers.
 
-## Accéder à l’écran
+1. With `installers.manage`, click **Download agent**, choose Windows ZIP or Linux RPM, install it, return here and click **Refresh**. Approve a pending device with `devices.manage` to make it active when the enrollment rule permits it.
+2. Open a device name, then choose **Details**, **Device policy**, or, in Enterprise with `events.read`, **Local tools**. To change its group, click the group tag (or **No group**) and select the target; the revision applies at the next sync.
+3. **Approve**, **Revoke**, and **Delete** require `devices.manage` and confirmation. Select several rows then **Delete (N)** for bulk deletion; failures are reported per device.
 
-Dans la barre latérale, cliquez sur **Parc**, puis sur **Postes**. Il faut `devices.read` et une organisation qui n’est pas en consultation agrégée seule.
+The **Devices** screen lists the devices enrolled with the server and answers the question: which devices report information, and which still have the right to do so. It is located in the **Fleet** section of the navigation, with [Device groups](groupes.md).
 
-1. Avec `installers.manage`, cliquez sur **Télécharger l’agent**, choisissez **Windows MSI** ou **Linux RPM**, puis installez le paquet sur le poste. Revenez dans **Parc > Postes**, cliquez sur **Actualiser** et approuvez le poste s’il est en attente : il devient actif, ou reste en attente selon la règle d’enrôlement.
-2. Cliquez sur le nom d’un poste pour ouvrir sa fiche, puis sur **Informations**, **Politique du poste** ou, en Enterprise avec `events.read`, **Outils locaux**. Pour changer de groupe, cliquez sur l’étiquette de groupe (ou **Aucun groupe**) puis sur le groupe cible; la nouvelle révision est appliquée à la prochaine synchronisation.
-3. Avec `members.manage`, cliquez sur **Approuver**, **Révoquer** ou **Supprimer**, puis confirmez. Pour supprimer plusieurs postes, cochez-les dans la liste puis cliquez sur **Supprimer (N)** et confirmez; les éventuels échecs sont indiqués poste par poste.
+The information line under the title states the agent scope, according to the edition:
 
-- **Community** : « L'agent Community couvre les usages navigateur. Aucun inventaire d'applications installées n'est inclus. Un poste en attente ou révoqué ne peut pas envoyer d'événements. »
-- **Enterprise** : « L'agent Enterprise couvre le navigateur et l'inventaire ciblé des outils. Un poste en attente ou révoqué ne peut pas envoyer d'événements. »
+- **Community**: "The Community agent covers browser usage. Installed application inventory is not included. Pending or revoked devices cannot submit events."
+- **Enterprise**: "The Enterprise agent covers the browser and the targeted tool inventory. Pending or revoked devices cannot submit events."
 
-![Milvago - Postes](/img/docs/fr/fleet-postes-01.png)
+![Milvago - Access this screen](/img/docs/en/fleet-postes-01.png)
 
-## Qui voit quoi
+## Who sees what
 
 | Action | Condition |
 | --- | --- |
-| Voir la liste et les fiches | droit `devices.read`, et pas une consultation agrégée seule |
-| Télécharger l'agent | droit `installers.manage` |
-| Approuver, révoquer, supprimer | droit `members.manage` |
-| Changer le groupe d'un poste | droit `devices.manage` |
-| Régler la politique du poste | droit `policy.manage` |
+| See the list and the pages | `devices.read` right, and not an aggregate-only consultation |
+| Download the agent | `installers.manage` right |
+| Approve, revoke, delete | `devices.manage` right |
+| Change a device's group | `devices.manage` right |
+| Set the device policy | `policy.manage` right |
 
-## La liste des postes
+## The device list
 
-La section s'intitule **Postes enregistrés**, avec la règle de lecture « Une identité révocable par poste » : chaque poste détient sa propre identité, que la console peut retirer individuellement. Un compteur affiche le nombre de postes correspondant aux filtres.
+The section is titled **Registered devices**, with the reading rule "One revocable identity per device": each device holds its own identity, which the console can revoke individually. A counter displays the number of devices matching the filters.
 
-Le sélecteur **Par page** propose 10, 20, 50, 100 ou 200 postes. Les filtres s'appliquent à tout le parc avant la pagination, et les boutons numérotés donnent accès à la première, à la dernière et aux pages voisines.
+The **Per page** selector offers 10, 20, 50, 100 or 200 devices. Filters apply to the entire fleet before pagination, and the numbered controls provide access to the first, last and neighbouring pages.
 
-La barre de filtres n'apparaît que s'il existe au moins un poste. Elle porte trois critères cumulatifs :
+The filter bar only appears if there is at least one device. It carries three cumulative criteria:
 
-- **Nom du poste** — contient le texte saisi ;
-- **Utilisateur** — contient le texte saisi, sur le compte OS signalé ;
-- **Système** — liste déroulante des plateformes effectivement présentes dans le parc (« Tous les systèmes » par défaut).
+- **Device name** — contains the entered text;
+- **User** — contains the entered text, on the reported OS account;
+- **System** — dropdown of the platforms actually present in the fleet ("All systems" by default).
 
-![Milvago - La liste des postes](/img/docs/fr/fleet-postes-02.png)
+![Milvago - The device list](/img/docs/en/fleet-postes-02.png)
 
-Colonnes du tableau :
+Table columns:
 
-| Colonne | Contenu |
+| Column | Content |
 | --- | --- |
-| **Poste** | nom de machine cliquable vers la fiche, ou « Nom de machine indisponible » ; les premiers caractères de l'identifiant apparaissent dessous |
-| **Utilisateur** | compte OS connecté, ou « — » tant que rien n'a été signalé |
-| **Groupe** | étiquette cliquable vers le groupe, ou « — » |
-| **Plateforme** | système du poste, avec la version de l'agent en détail |
-| **État** | badge **En attente**, **Actif** ou **Révoqué** |
-| **Dernier contact** | horodatage du dernier signalement |
-| **Actions** | « Approuver » (poste en attente) et « Révoquer » (poste non révoqué) pour qui a le droit ; « — » sinon |
+| **Device** | machine name clickable to its page, or "Machine name unavailable"; the first characters of the identifier appear below |
+| **User** | logged-in OS account, or "—" until something has been reported |
+| **Group** | tag clickable to the group, or "—" |
+| **Platform** | device system, with the agent version in the detail |
+| **Status** | **Pending**, **Active** or **Revoked** badge |
+| **Last seen** | timestamp of the last report |
+| **Actions** | "Approve" (pending device) and "Revoke" (non-revoked device) for those with the right; "—" otherwise |
 
-Deux écrans vides distincts, qui ne disent pas la même chose :
+Two distinct empty screens, which do not say the same thing:
 
-- aucun poste du tout : « **Votre premier poste vous attend** » — « Téléchargez le MSI ou le RPM préconfiguré. Le poste apparaît automatiquement après installation et connexion. » ;
-- aucun poste correspondant aux filtres : « **Aucun poste ne correspond** » — « Modifiez les critères de recherche. »
+- no device at all: "**Your first device awaits you**" — "Download the Windows ZIP containing the MSI, script and provisioning file, or the Linux RPM. The device appears automatically after installation and connection.";
+- no device matching the filters: "**No device matches**" — "Change the search criteria."
 
-## Télécharger l'agent
+## Download the agent
 
-Le bouton « **Télécharger l'agent** » ouvre un dialogue de téléchargement seulement : il ne crée rien, l'organisation détient déjà une clé de déploiement. Trois garde-fous, dans l'ordre du code :
+The "**Download the agent**" button opens a download-only dialog: it creates nothing, the organization already holds a deployment key. Three safeguards, in code order:
 
-1. **URL publique confirmée** : sans elle, le dialogue affiche un encadré d'avertissement — « Définissez et confirmez l'URL HTTPS publique dans Administration → Paramètres avant de télécharger un installateur. Les agents se connecteront à cette URL. » — ou demande l'intervention d'un propriétaire quand l'URL n'est pas modifiable.
-2. **Clé de déploiement active** : si la clé a été révoquée, l'encadré « Aucune clé de déploiement active » invite à la faire tourner dans Administration → Paramètres.
-3. **Mode d'approbation annoncé avant le téléchargement** :
-   - approbation manuelle — encadré ambre « Approbation manuelle active » : « Chaque poste installé apparaîtra en attente et ne transmettra rien avant votre approbation dans Postes. » Un poste en attente ne reçoit aucune politique : à partir de l'installation de l'agent, et jusqu'à l'approbation, **aucun accès aux plateformes IA** n'est permis sur ce poste — l'extension échoue en fermeture et scelle la surface IA couverte, au lieu de la laisser ouverte par défaut ;
-   - approbation selon le réseau — « Un poste installé depuis un réseau autorisé transmet immédiatement ; les autres restent en attente d'approbation. »
+1. **Public URL confirmed**: without it, the dialog displays a warning box — "Set and confirm the public HTTPS URL in Administration → Settings before downloading an installer. Agents will connect to that URL." — or requests the intervention of an owner when the URL cannot be edited.
+2. **Active deployment key**: if the key has been revoked, the box "No active deployment key" invites you to rotate it in Administration → Settings.
+3. **Approval mode announced before the download**:
+   - manual approval — amber box "Manual approval is on": "Every installed device will appear as pending and will report nothing until you approve it in Devices." A pending device receives no policy: from the moment the agent is installed, and until approval, **no access to AI platforms** is permitted on that device — the extension fails closed and seals the covered AI surface, rather than leaving it open by default;
+   - approval by network — "Approval depends on the network": "A device installed from an allowed network reports immediately; the others stay pending approval."
 
-Le dialogue propose deux paquets côte à côte : **Windows MSI** (service Windows pour tout le poste) et **Linux RPM** (service systemd pour tout le poste). Le paquet porte la clé de déploiement de l'organisation ; après installation, le poste s'inscrit une seule fois et conserve son état dans un cache chiffré. La version réellement téléchargée est rappelée en pied de tuile.
+The dialog offers **Windows ZIP** (one download containing the MSI, installation script and this organization's provisioning JSON) and **Linux RPM** (systemd service for the whole device). If your account uses a second factor, the Windows download resumes automatically after verification. The Linux RPM still carries the deployment key. After installation, the device enrolls once and keeps its state in an encrypted cache. The downloaded version is shown under the tile.
 
-Le même paquet vaut pour toute l'organisation : faire tourner la clé de déploiement invalide immédiatement les installateurs déjà distribués.
+The MSI inside each Windows ZIP is identical for every organization; the provisioning JSON is specific to this organization. Protect the ZIP and JSON. Rotating the deployment key invalidates earlier Windows provisioning files and Linux RPMs, while enrolled devices remain active.
 
-![Milvago - Télécharger l'agent](/img/docs/fr/fleet-postes-03.png)
+![Milvago - Download the agent](/img/docs/fr/fleet-postes-03.png)
 
-## La fiche d'un poste
+## The device page
 
-Ouvrir un poste dans la liste affiche sa fiche. La ligne d'information sous le titre résume le contenu : « Identité révocable du poste, dérogations et observations locales. »
+Opening a device in the list displays its page. The information line under the title summarizes the content: "Revocable device identity, overrides and local observations."
 
-Les actions de la fiche dépendent de l'état : « Approuver » sur un poste en attente, « Révoquer » sur tout poste non révoqué, « Supprimer » dans tous les cas pour qui a le droit. Des onglets s'ajoutent quand leurs conditions sont réunies :
+The page actions depend on the status: "Approve" on a pending device, "Revoke" on any non-revoked device, "Delete" in all cases for those with the right. Tabs are added when their conditions are met:
 
-- **Informations** — toujours présent ;
-- **Politique du poste** — droit `policy.manage`, dans les deux éditions ;
-- **Outils locaux** — Enterprise, avec un accès d'analyste.
+- **Details** — always present;
+- **Device policy** — `policy.manage` right, in both editions;
+- **Local tools** — Enterprise, with an analyst access.
 
-![Milvago - La fiche d'un poste](/img/docs/fr/fleet-postes-04.png)
+![Milvago - The device page](/img/docs/en/fleet-postes-04.png)
 
-### Informations
+### Details
 
-| Champ | Contenu |
+| Field | Content |
 | --- | --- |
-| **Identifiant** | identifiant unique du poste, en police à chasse fixe |
-| **Plateforme** | système signalé par l'agent |
-| **Agent** | version de l'agent installée |
-| **Mise à jour** | badge « À mettre à jour », « En attente », « Appliqué » ou « Indisponible », avec la date du dernier signalement quand elle existe |
-| **Utilisateur connecté** | compte OS au moment du signalement, ou « Non signalé » |
-| **Domaine déclaré** | domaine de machine déclaré à l'inscription et son type (Active Directory, Entra ID, realm Linux), ou absent si le poste n'en a déclaré aucun — cas des agents antérieurs à la version 0.5.45 |
-| **Groupe** | étiquette d'affectation, détaillée ci-dessous |
-| **Collecteurs natifs** | Enterprise uniquement : état de chaque collecteur d'inventaire, version, dernier succès, arborescences ignorées et modifications de configuration gérée détectées |
-| **Extensions navigateur** | présence vivante de l'extension par navigateur, détaillée ci-dessous |
-| **État** | En attente / Actif / Révoqué |
-| **Dernier contact** | horodatage |
+| **Identifier** | unique identifier of the device, in a monospaced font |
+| **Platform** | system reported by the agent |
+| **Agent** | version of the installed agent |
+| **Update** | "To update", "Pending", "Applied" or "Unavailable" badge, with the date of the last report when it exists |
+| **Logged-in user** | OS account at the time of the report, or "Not reported" |
+| **Declared domain** | machine domain declared at enrollment and its kind (Active Directory, Entra ID, Linux realm), or absent if the device declared none — the case for agents older than version 0.5.45 |
+| **Group** | assignment tag, detailed below |
+| **Native collectors** | Enterprise only: status of each inventory collector, version, last success, ignored trees and detected managed configuration changes |
+| **Browser extensions** | live presence of the extension per browser, detailed below |
+| **Status** | Pending / Active / Revoked |
+| **Last seen** | timestamp |
 
-![Milvago - Informations](/img/docs/fr/fleet-postes-05.png)
+![Milvago - Details](/img/docs/en/fleet-postes-05.png)
 
-#### Le groupe d'un poste
+#### A device's group
 
-La ligne Groupe se lit en deux temps. Fermée, elle montre l'affectation courante — l'étiquette du groupe, cliquable vers sa fiche, ou « Aucun groupe » — suivie du lien « Ouvrir le groupe ». Un clic sur l'étiquette transforme la ligne en liste de choix : une étiquette par groupe de l'organisation, plus « Aucun groupe » pour détacher le poste. Cliquer le groupe déjà porté referme la ligne sans rien enregistrer.
+The Group line reads in two steps. Closed, it shows the current assignment — the group tag, clickable to its page, or "No group" — followed by the "Open the group" link. A click on the tag turns the line into a select list: one tag per group of the organization, plus "No group" to detach the device. Clicking the group already carried closes the line without saving anything.
 
-#### Les extensions navigateur
+#### The browser extensions
 
-Un navigateur est présenté **actif** seulement si son extension a parlé à l'agent récemment ; tout contact plus ancien est daté (« Silencieuse depuis » avec la date) plutôt que présenté comme présent. La règle sépare deux situations que la colonne Utilisateur ne peut pas distinguer : une extension désactivée par l'utilisateur, et un poste qui ne sert simplement pas d'outils d'IA. À défaut de tout signalement, la ligne lit « Aucune extension signalée ».
+A browser is presented as **active** only if its extension talked to the agent recently; any older contact is dated ("Silent since" with the date) rather than presented as present. The rule separates two situations the User column cannot distinguish: an extension disabled by the user, and a device that simply does not use AI tools. Failing any report, the line reads "No extension reported".
 
-### Politique du poste
+### Device policy
 
-L'onglet porte la **dérogation du poste** à la politique de l'organisation — ou à celle de son groupe. L'éditeur est le même que celui de [Shadow AI](../administration/shadow-ai.md), restreint aux sections qu'un poste peut écraser : **Enrôlement & collecte**, **Services**, **Protections**, **Masquage local**, et en Enterprise **Sensibilité des usages**. Les sections laissées en héritage suivent le groupe s'il existe, sinon l'organisation — la case « Hériter » nomme l'écran dont la section est héritée.
+The tab carries the **device override** of the organization policy — or of its group's. The editor is the same as [Shadow AI](../administration/shadow-ai.md), restricted to the sections a device can override: **Enrollment & collection**, **Services**, **Protections**, **Local masking**, and in Enterprise **Usage sensitivity**. The sections left in inheritance follow the group if there is one, otherwise the organization — the "Inherit" checkbox names the screen the section is inherited from.
 
-L'en-tête de section affiche la portée (« Dérogation du poste ») et la révision courante. Chaque enregistrement produit une nouvelle révision, distribuée aux postes à leur prochaine synchronisation ; l'application effective s'observe dans Monitoring.
+The section header displays the scope ("Device override") and the current revision. Each save produces a new revision, distributed to the devices at their next synchronization; the effective application is observed in Monitoring.
 
 :::enterprise
 
-La section **Sensibilité des usages** n'existe dans l'éditeur que si l'édition sert cette capacité : sans elle, la section n'est pas affichée du tout, plutôt qu'une grille inutilisable.
+The **Usage sensitivity** section only exists in the editor if the edition serves that capability: without it, the section is not displayed at all, rather than an unusable grid.
 
 :::
 
-![Milvago - Politique du poste](/img/docs/fr/fleet-postes-06.png)
+![Milvago - Device policy](/img/docs/en/fleet-postes-06.png)
 
-### Outils locaux
+### Local tools
 
 :::enterprise
 
-Cet onglet n'existe qu'en Enterprise, pour un accès d'analyste. Il liste les applications locales observées sur ce poste par le module d'inventaire : outil, type d'observation (processus, exécutable, installation, extension, port), première et dernière observation.
+This tab only exists in Enterprise, for an analyst access. It lists the local applications observed on this device by the inventory module: tool, type of observation (process, executable, installation, extension, port), first and last observation.
 
-Deux règles de lecture, assumées par l'écran lui-même :
+Two reading rules, owned by the screen itself:
 
-- les observations « ne prouvent pas l'utilisation d'un outil » ;
-- « une présence locale détectée est distincte d'un événement navigateur ou d'un prompt émis » — une application installée n'est pas un usage.
+- the observations "do not prove the use of a tool";
+- "a detected local presence is distinct from a browser event or from a prompt sent" — an installed application is not a usage.
 
-À défaut d'observation, l'écran l'énonce : « Aucun outil local signalé », et les observations du module d'inventaire apparaîtront ici.
+Failing any observation, the screen states it: "No local tool reported", and the observations of the inventory module will appear here.
 
 :::
 
-![Milvago - Outils locaux](/img/docs/fr/fleet-postes-07.png)
+## Approve, revoke, delete
 
-## Approuver, révoquer, supprimer
+Three different actions, not to be confused:
 
-Trois actions différentes, à ne pas confondre :
+- **Approve**: grant access. Reserved for the pending device; the device moves to the active state and starts transmitting.
+- **Revoke**: cut access while keeping the history. The confirmation states it: the device "will lose access to event submission and new policies. A new enrollment will be required to restore access."
+- **Delete**: go further than revocation, permanently. The confirmation carries the full text: "Deletion removes the device identity: it immediately loses the right to report, exactly as if revoked, and its agent drops its local queue. It is permanent and goes further than revocation: the device disappears from the console along with its events, its policy override and its local observations. Revocation stops reporting but keeps the history." Deleting a device requires a second factor verified moments ago and is never available to an API key, because deletion erases its whole history — events and any retained request/response text included. While the device still holds retained text, deleting it also requires the right to purge content (`content.purge`, owner-only by default); otherwise the server refuses with "This device still has retained prompt text: deleting it requires the right to purge content."
 
-- **Approuver** : donner accès. Réservée au poste en attente ; le poste passe à l'état actif et commence à transmettre.
-- **Révoquer** : couper l'accès en conservant l'historique. La confirmation l'énonce : le poste « perdra son accès à l'envoi d'événements et aux nouvelles politiques. Un nouvel enrôlement sera nécessaire pour rétablir son accès. »
-- **Supprimer** : aller plus loin que la révocation, définitivement. La confirmation porte le texte complet : « La suppression retire l'identité du poste : il perd immédiatement le droit d'envoyer, comme s'il était révoqué, et son agent abandonne sa file locale. Elle est définitive et va plus loin qu'une révocation : le poste disparaît de la console avec ses événements, sa dérogation de politique et ses observations locales. La révocation, elle, coupe l'envoi en conservant l'historique. » Supprimer un poste exige un second facteur vérifié à l'instant et n'est jamais accessible à une clé API, car la suppression efface tout son historique — événements et texte des requêtes et réponses conservé compris. Tant que le poste porte encore du texte conservé, sa suppression exige aussi le droit de purger les contenus (`content.purge`, réservé au propriétaire par défaut) ; sinon le serveur refuse avec « Ce poste porte encore du texte de prompt conservé : le supprimer exige le droit de purger les contenus. »
+![Milvago - Approve, revoke, delete](/img/docs/en/fleet-postes-08.png)
 
-![Milvago - Approuver, révoquer, supprimer](/img/docs/fr/fleet-postes-08.png)
-
-La suppression fonctionne aussi en masse : cocher plusieurs postes dans la liste affiche le bouton « Supprimer (N) », et la confirmation liste les noms (dix affichés, puis « et N autres »). Chaque poste est supprimé par une requête propre : un échec est signalé poste par poste (« Suppression impossible pour : … ») au lieu d'interrompre toute la sélection, et les succès sont comptés à part.
+Deletion also works in bulk: checking several devices in the list displays the "Delete (N)" button, and the confirmation lists the names (ten displayed, then "and N others"). Each device is deleted by its own request: a failure is reported device by device ("Could not delete: …") instead of interrupting the whole selection, and the successes are counted apart.

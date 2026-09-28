@@ -1,105 +1,102 @@
-﻿---
+---
 sidebar_position: 2
 title: Conversations
 ---
 
 # Conversations
 
-Le journal des conversations regroupe les échanges Shadow AI observés sur les postes de l'organisation : qui a parlé à quel service, depuis quel poste, avec quel résultat (observé, bloqué, masqué). Il répond à la question « **quoi** » que la vue d'ensemble laisse ouverte après le « combien ».
+## Access this screen
 
-La ligne d'information sous le titre définit le grain de la lecture : une conversation regroupe les enregistrements d'un même échange sur un même poste ; un enregistrement sans identifiant de conversation reste isolé.
+In the sidebar, click **Monitoring**, then **Conversations**. This screen requires `events.read` and is unavailable to aggregate-only readers.
 
-## Accéder à l’écran
+1. Choose **24 h**, **7 d**, **30 d**, or **Custom**, enter criteria and click **Apply**. The table returns to page one with that scope.
+2. Open a row to read its thread; use **Load earlier messages** when needed. Save the current scope with **Save this view**, a name, and optionally organisation sharing.
+3. Choose JSON or CSV then click **Export**. The file exactly matches the filters; **Synthesis report** opens the same scope in a new tab. Revealed identities require `identity.reveal`.
 
-Dans la barre latérale, cliquez sur **Supervision**, puis sur **Conversations**. Il faut `events.read` et une organisation qui n’est pas en consultation agrégée seule.
+The conversation log gathers the Shadow AI exchanges observed on the organization's devices: who spoke to which service, from which device, with what outcome (observed, blocked, masked). It answers the "**what**" question that the overview leaves open after the "how much".
 
-1. Choisissez 24 h, 7 jours, 30 jours ou **Personnalisée**; renseignez les champs voulus puis cliquez sur **Appliquer**. Le tableau revient à la première page et ne montre que le périmètre choisi.
-2. Cliquez sur une ligne pour ouvrir le fil, puis sur **Charger les messages précédents** si nécessaire. Cliquez sur **Réinitialiser** pour revenir aux dernières 24 h.
-3. Pour réutiliser le périmètre, cliquez sur **Enregistrer cette vue**, nommez-la, choisissez éventuellement **Partager avec l’organisation**, puis enregistrez. Les propriétaires et administrateurs peuvent remplacer ou supprimer une vue partagée.
-4. Choisissez JSON ou CSV puis **Exporter**; le fichier reprend exactement les filtres. **Rapport de synthèse** ouvre le rapport du même périmètre dans un nouvel onglet. L’option d’identité révélée n’apparaît qu’avec `identity.reveal`.
+The information line under the title defines the grain of the reading: a conversation groups the records of a single exchange on a single device; a record without a conversation identifier remains isolated.
 
-![Milvago - Conversations](/img/docs/fr/monitoring-conversations-01.png)
+![Milvago - Access this screen](/img/docs/en/monitoring-conversations-01.png)
 
-## La barre de filtres
+## The filter bar
 
-Elle est affichée d'emblée, sans bouton « Affiner ». Elle porte :
+It is displayed right away, without a "Refine filters" button. It carries:
 
-- la **période**, en segments directs (24 h, 7 jours, 30 jours) ou personnalisée (du / au, les deux bornes étant obligatoires et ordonnées) ;
-- les **identifiants** : personne (acteur) et poste ;
-- les **dimensions d'usage** : navigateur ou application, service, modèle, et une recherche plein texte ;
-- l'**action** (observée, bloquée, redirigée) et la **nature** (prompt, réponse, navigation) ;
-- la présence d'une **pièce jointe**.
+- the **period**, as direct segments (24 h, 7 d, 30 d) or custom (from / to, both bounds required and ordered);
+- the **identifiers**: person (actor) and device;
+- the **usage dimensions**: browser or application, service, model, and a full-text search;
+- the **action** (observed, blocked, redirected) and the **nature** (prompt, response, navigation);
+- the presence of an **attachment**.
 
-![Milvago - La barre de filtres](/img/docs/fr/monitoring-conversations-02.png)
+![Milvago - The filter bar](/img/docs/en/monitoring-conversations-02.png)
 
-Les **vues enregistrées** complètent la barre : une vue porte un nom, peut être **partagée avec l'organisation** (alors gérable par les Propriétaires et Admins), et l'appliquer réinitialise la pagination. Changer un filtre ramène toujours à la page 1.
+**Saved views** complete the bar: a view carries a name, can be **shared with the organization** (then manageable by Owners and Admins), and applying it resets the pagination. Changing a filter always returns to page 1.
 
-## Le tableau
+## The table
 
-Chaque ligne est une conversation, et la ligne entière l'ouvre — avec un vrai bouton dans la première cellule pour la navigation clavier. Colonnes :
+Each row is a conversation, and the whole row opens it — with a real button in the first cell for keyboard navigation. Columns:
 
-| Colonne | Contenu |
+| Column | Content |
 | --- | --- |
-| **Outil / service** | le fournisseur (bouton d'ouverture) et l'outil précis (navigateur ou application locale) |
-| **Modèle** | le modèle utilisé, et son effort de raisonnement le cas échéant ; « inconnu » quand rien n'a pu être observé |
-| **Poste** | nom de machine, ou « nom de machine indisponible » ; l'identifiant du poste est visible au survol |
-| **Personne** | voir la règle d'attribution ci-dessous |
-| **Dernière activité** | avec l'heure de début de l'échange |
-| **Messages** | prompts + réponses échangés |
-| **Fichiers joints** | badge ambre « avec pièce jointe » — un document parti avec la conversation |
-| **Action** | badge rouge « N bloqué(s) », badge ambre « N redirigé(s) », sinon statut observé |
-| **Sensibilité** | Enterprise uniquement (voir plus bas) |
+| **Tool / service** | the provider (open button) and the precise tool (browser or local application) |
+| **Model** | the model used, and its reasoning effort where applicable; "Unknown" when nothing could be observed |
+| **Device** | machine name, or "machine name unavailable"; a truncated 8-character device identifier is always shown, hover reveals the full identifier |
+| **Person** | see the attribution rule below |
+| **Last activity** | with the start time of the exchange |
+| **Messages** | prompts + responses exchanged |
+| **Attachments** | amber badge "With a file" — a document sent with the conversation |
+| **Action** | red badge "N blocked", amber badge "N redirected", otherwise observed status |
+| **Sensitivity** | Enterprise only (see below) |
 
-![Milvago - Le tableau](/img/docs/fr/monitoring-conversations-03.png)
+![Milvago - The table](/img/docs/en/monitoring-conversations-03.png)
 
-### La règle d'attribution des personnes
+### The person attribution rule
 
-La colonne Personne applique la même règle dans la liste, dans le fil et dans le détail, et la formule est honnête sur ce qu'elle sait :
+The Person column applies the same rule in the list, in the filter and in the detail, and the formula is honest about what it knows:
 
-1. Une **association OIDC vérifiée** nomme la personne, avec la mention « personne vérifiée ».
-2. À défaut, le **compte OS** derrière le navigateur ou l'outil est affiché *à titre informatif* — et dit comme tel. Pour un outil natif, c'est le profil collecté par l'application.
-3. À défaut, si le serveur sait qu'une personne existe sans dire qui (pseudonymat), la cellule lit « pseudonymisé » ; sans aucune piste, « non attribué ». Le mot « non attribué » ne désigne pas un compte masqué : il désigne l'absence totale de piste.
+1. A **verified OIDC association** names the person, with the mention "Verified person".
+2. Failing that, the **OS account** behind the browser or the tool is displayed *for information only* — and said as such. For a native tool, it is the profile collected by the application.
+3. Failing that, if the server knows a person exists without saying who (pseudonymity), the cell reads "Pseudonymised"; with no lead at all, "Unattributed". The word "Unattributed" does not denote a masked account: it denotes the total absence of a lead.
 
-Un outil présent sur un poste ne permet jamais d'inférer son utilisateur.
+A tool present on a device never allows inferring its user.
 
-## Le fil d'une conversation
+## The thread of a conversation
 
-Ouvrir une conversation déplie un dialogue plein écran : résumé de l'échange (personne, outil, modèle, début, dernière activité, nombre de messages) en tête, puis les messages rendus du plus ancien au plus récent, comme l'échange a eu lieu.
+Opening a conversation unfolds a full-screen dialog: summary of the exchange (person, tool, model, start, last activity, number of messages) at the top, then the messages rendered from oldest to newest, as the exchange took place.
 
-![Milvago - Le fil d'une conversation](/img/docs/fr/monitoring-conversations-04.png)
+![Milvago - The thread of a conversation](/img/docs/en/monitoring-conversations-04.png)
 
-- Le fil se **charge par pages** : « Charger les messages précédents » remonte dans le temps. Chaque page est une requête indépendante — si un droit de révélation d'identité expire, les pages suivantes ne portent plus la donnée révélée, au lieu d'un tampon qui la garderait au-delà de son échéance.
-- Le texte des messages est un texte **brut**, sélectionnable et copiable, jamais réécrit ni interprété. Un clic sur la bulle ouvre son détail, sauf si un texte est en cours de sélection (sinon surligner pour relire ouvrirait un dialogue au relâchement) ; la bulle s'ouvre aussi avec Entrée ou Espace lorsqu'elle a le focus ; sa petite icône de détail reste accessible au clavier.
+- The thread **loads by pages**: "Load earlier messages" goes back in time. Each page is an independent request — if an identity reveal right expires, later pages no longer carry the revealed data, instead of a buffer that would keep it beyond its expiry.
+- The message text is **plain** text, selectable and copyable, never rewritten or interpreted. A click on the bubble opens its detail, unless text is being selected (otherwise highlighting to reread would open a dialog on release); the focused bubble also opens with Enter or Space, and its small detail icon remains keyboard accessible.
 
-### Ce que montre une bulle
+### What a bubble shows
 
-- **PROMPT CACHÉ / RÉPONSE CACHÉE**, avec la cause nommée : « lecture non autorisée » (droit manquant), « texte non conservé » (la collecte du texte est désactivée ou le contenu purgé), « identité non levée ».
-- Les **fichiers joints** sont listés avec une icône par type — lue dans l'extension du nom, la seule information disponible : aucun octet de fichier n'est jamais lu.
-- Un envoi **accompagné d'un fichier** produit deux enregistrements (le fichier part chez le fournisseur dès l'attachement) ; à l'affichage, la pièce jointe rejoint la bulle de son message — un pliage d'affichage seulement, chaque enregistrement gardant son horodatage et son détail.
-- Une bulle **bloquée** porte le motif du refus, nommé et pas brut : « refusé par la politique du modèle », « modèle non identifiable », « contrôle local indisponible ».
-- Les **navigations** apparaissent comme des lignes de repère dans le fil, cliquables vers leur détail.
+- **HIDDEN REQUEST / HIDDEN RESPONSE**, with the cause named: "reading not authorized" (missing right), "text not retained" (text collection is disabled or the content was purged), "identity not revealed".
+- The **attachments** are listed with an icon per type — read from the file name extension, the only information available: no file byte is ever read.
+- A send **accompanied by a file** produces two records (the file goes to the provider as soon as it is attached); on display, the attachment joins the bubble of its message — a display fold only, each record keeping its timestamp and its detail.
+- A **blocked** bubble carries the reason of the refusal, named and not raw: "Model denied by policy", "Model could not be identified", "Local control unavailable".
+- The **navigations** appear as landmark lines in the thread, clickable to their detail.
 
-![Milvago - Ce que montre une bulle](/img/docs/fr/monitoring-conversations-05.png)
+![Milvago - What a bubble shows](/img/docs/en/monitoring-conversations-05.png)
 
-### Le détail d'un enregistrement
+### The detail of a record
 
-Le détail ne concerne qu'un sens — un envoi **ou** une réponse — et son titre le nomme. Il réunit : horodatage, personne, poste, source (navigateur ou application locale), service et modèle, action, motif de refus le cas échéant, plateforme, nombre de caractères, catégories détectées, fichiers joints, révision de politique appliquée, URL, identifiants de conversation et de corrélation.
+The detail concerns only one direction — a send **or** a response — and its title names it. It gathers: timestamp, person, device, source (browser or local application), service and model, action, refusal reason where applicable, platform, character count, detected categories, attachments, applied policy revision, URL, conversation and correlation identifiers.
 
-Le texte conservé, s'il existe, s'affiche avec l'avis **« cette lecture de contenu a été auditée »** : toute consultation d'un texte stocké est tracée. Sans droit de lecture explicite, l'écran montre un encadré qui le dit au lieu d'un cadre vide.
+The stored text, if any, is displayed with the notice **"This content read has been audited."**: every consultation of a stored text is traced. Without an explicit reading right, the screen shows a box saying so instead of an empty frame.
 
-<img className="mv-doc-image--compact" src="/img/docs/fr/monitoring-conversations-06.png" alt="Milvago - Le détail d'un enregistrement" />
+<img className="mv-doc-image--compact" src="/img/docs/en/monitoring-conversations-06.png" alt="Milvago - The detail of a record" />
 
-## Exports et pagination
+## Exports and pagination
 
-- Les **exports** contiennent les métadonnées correspondant exactement aux filtres courants ; les textes éventuels exigent un droit de lecture explicite, et chaque consultation est auditée. La mention figure sous le tableau, pas dans une notice enfouie.
-- La **pagination** est numérotée (première et dernière page toujours atteignables, ellipsis sur les sauts) avec un sélecteur de taille de page en haut à droite et le compte total des résultats. À zéro résultat, l'écran propose d'élargir la période ou de retirer un filtre.
+- The **exports** contain the metadata corresponding exactly to the current filters; any texts require an explicit reading right, and every consultation is audited. The mention appears under the table, not buried in a disclaimer.
+- The **pagination** is numbered (first and last pages always reachable, ellipsis on jumps) with a page-size selector at the top right and the total result count. At zero results, the screen suggests widening the period or removing a filter.
 
-![Milvago - Exports et pagination](/img/docs/fr/monitoring-conversations-07.png)
+![Milvago - Exports and pagination](/img/docs/en/monitoring-conversations-07.png)
 
 :::enterprise
 
-Le filtre et la colonne de **sensibilité des usages** sont réservés à Enterprise : Community ne les affiche jamais, sur le journal comme sur la carte. En Enterprise, un événement sensible porte un badge ambre, et les contenus masqués portent les libellés des règles de masquage qui les ont détectés.
+The filter and the column of **usage sensitivity** are reserved for Enterprise: Community never displays them, in the log as in the map. In Enterprise, a sensitive event carries an amber badge, and masked contents carry the labels of the masking rules that detected them.
 
 :::
-
-![Milvago - Exports et pagination](/img/docs/fr/monitoring-conversations-08.png)

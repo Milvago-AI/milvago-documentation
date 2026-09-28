@@ -18,7 +18,7 @@ La página **Mi perfil** permite a cada persona conectada a Milvago Community o 
 
 En la barra lateral, haga clic en su bloque de usuario, abajo a la izquierda. En móvil, abra primero el menú y luego haga clic en ese mismo bloque.
 
-[IMAGEAMETTREICI 01]
+![Milvago - Acceder a la pantalla](/img/docs/en/mon-profil-profil-01.png)
 
 ## Identidad
 
@@ -28,7 +28,7 @@ Una cuenta local puede modificar su nombre y apellido y guardar el perfil. Para 
 
 La lista **Idioma de la consola** está disponible para todos los tipos de cuenta: Français, English, Español y Português (Brasil). Con **Predeterminado**, la consola sigue primero una elección explícita ya guardada en este navegador y luego el idioma preferido del navegador; si no se solicita ninguno de los cuatro idiomas, se muestra en inglés. Haga clic en **Guardar mi perfil** para aplicar la elección a la cuenta y a la sesión actual.
 
-[IMAGEAMETTREICI 02]
+![Milvago - Identidad](/img/docs/en/mon-profil-profil-02.png)
 
 ## Seguridad y acceso
 
@@ -44,8 +44,10 @@ Cuando el segundo factor está **sin configurar**, el botón **Configurar mi seg
 
 **Mi perfil** permanece abierto en su pestaña: vuelva a él después de gestionar los autenticadores en el proveedor de identidad y su estado se actualizará. Las acciones para modificar la dirección de correo y la contraseña también vuelven automáticamente a **Mi perfil**.
 
+Si utiliza **¿Olvidó su contraseña?** en la página de inicio de sesión, el enlace enviado por correo le permite establecer una nueva contraseña. El autenticador ya configurado para la cuenta se conserva y seguirá siendo obligatorio en el siguiente inicio de sesión.
+
 En una instancia de demostración de solo lectura, estos botones están ocultos y un aviso lo indica.
 
-[IMAGEAMETTREICI 03]
+![Milvago - Seguridad y acceso](/img/docs/en/mon-profil-profil-03.png)
 
 Gestione sus claves personales en [Claves de API y servidor MCP](cles-api.md).

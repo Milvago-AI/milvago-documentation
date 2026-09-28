@@ -7,7 +7,7 @@ title: Configuração do agente
 
 O agente configura-se por um arquivo **TOML**, `milvago.toml`, escrito pelo instalador e editado pelo administrador. Ele é **regulado em alguns segundos, sem reiniciar o serviço**: o arquivo é relido no máximo uma vez a cada 5 segundos.
 
-[IMAGEAMETTREICI 01]
+![Milvago - Configuração do agente (Windows / Linux)](/img/docs/fr/avance-agent-configuration-01.png)
 
 ## Alterar a configuração
 
@@ -154,7 +154,7 @@ Cada regra de validação fecha uma via de desvio:
 - **Somente leitura, nunca escrita**: um arquivo ausente ou danificado resolve para os padrões documentados, jamais para uma tentativa de escrita que a conta de serviço não tem o direito de fazer. Uma configuração quebrada pode portanto **abaixar a verbosidade, jamais afrouxar o TLS**.
 - **O TLS de uma instalação antiga não é reinterpretado**: a verbosidade de uma instalação anterior (`state\milvago.conf`, chave `log_level`) sobrevive à atualização, mas esse arquivo jamais portou uma seção TLS e nunca pode se tornar um ajuste de confiança.
 
-[IMAGEAMETTREICI 02]
+![Milvago - O que o arquivo recusa, e por quê](/img/docs/fr/avance-agent-configuration-02.png)
 
 ## Auto-atualização sob uma ferramenta de implantação (Windows)
 
@@ -204,7 +204,7 @@ Quais ferramentas de clonagem realmente alteram esses identificadores ainda est�
 
 | | Windows | Linux |
 | --- | --- | --- |
-| Serviço | `Milvago Agent Logger Community` / `… Enterprise`, conta NetworkService, SID próprio do serviço nas pastas ProgramData | `systemd` de sistema, usuário `milvago-agent` |
+| Serviço | nome exibido `Milvago Agent Logger Community` / `Milvago Agent Logger Enterprise`; nome de serviço inalterado, `Milvago Agent Logger Community` / `Milvago Agent Logger`, conta NetworkService, SID próprio do serviço nas pastas ProgramData | `systemd` de sistema, usuário `milvago-agent` |
 | Estado criptografado | `config` e `logs` são **irmãos** do diretório `state` | `logs` continua **filho** do diretório de estado (`/var/lib`); `config` fica agora separado, sob `/etc` |
 | Arquivo | `config\milvago.toml`, Administradores + SYSTEM em escrita, serviço em leitura | `milvago.toml`, root em escrita, grupo `milvago-agent` em leitura (modo `0640`) |
 

@@ -1,60 +1,60 @@
-﻿---
+---
 sidebar_position: 4
-title: Confidentialité
+title: Privacy
 ---
 
-# Confidentialité
+# Privacy
 
-## Accéder à l’écran
+## Open the page
 
-Dans la barre latérale, cliquez sur **Administration**, puis sur **Confidentialité**. Vous devez disposer de `settings.manage` pour modifier les réglages ; avec le seul droit d’effacement d’identité, seul le renouvellement des alias est accessible.
+In the sidebar, click **Administration**, then **Privacy**. You need `settings.manage` to change settings; with only the identity-erasure permission, only alias rotation is available.
 
-1. Modifiez les réglages concernés.
-2. Saisissez un motif d’au moins 8 caractères.
-3. Cliquez sur **Enregistrer** et validez la vérification MFA si elle est demandée.
-4. De retour dans la console, vérifiez que les nouvelles valeurs sont affichées ; elles sont appliquées sans ressaisir les champs.
+1. Change the relevant settings.
+2. Enter a reason of at least 8 characters.
+3. Click **Save** and complete MFA verification when requested.
+4. Back in the console, verify that the new values are displayed; they are applied without re-entering the fields.
 
-L'écran Confidentialité répond à la question « **jusqu'où la plateforme identifie-t-elle les personnes** ». Il règle la pseudonymisation par défaut, l'agrégation des rapports, la conservation des liens d'identité et les partages vers l'éditeur. L'accès exige la permission `settings.manage` (« Gérer les paramètres ») ; un compte qui ne porte que le droit d'effacer une identité voit ici la seule rotation d'alias.
+The Privacy screen answers the question "**how far the platform identifies people**". It sets pseudonymization by default, the aggregation of reports, the retention of identity links and the publisher shares. Access requires the `settings.manage` permission ("Manage settings"); an account that only carries the right to erase an identity sees here the alias rotation only.
 
-Toute modification exige un **motif écrit** d'au moins 8 caractères — « Ce motif est conservé dans le journal d'audit. » — et une **authentification multifacteur récente** : si elle manque, le serveur refuse et la console redirige vers la vérification, puis applique la modification au retour sans la faire ressaisir.
+Every change requires a **written reason** of at least 8 characters — "This reason is kept in the audit log." — and a **recent multi-factor authentication**: when it is missing, the server refuses and the console redirects to the verification, then applies the change on return without asking to re-enter it.
 
-![Milvago - Confidentialité](/img/docs/fr/administration-confidentialite-01.png)
+![Milvago - Open the page](/img/docs/en/administration-confidentialite-01.png)
 
-## Les réglages
+## The settings
 
-- **Pseudonymisation par défaut** — affiche par défaut un alias dans les vues individuelles. Une levée d’identité autorisée reste possible.
-- **Rapports agrégés uniquement** — active le mode rapports agrégés et désactive l’accès individuel aux usages.
-- **Seuil d’agrégation** — de 1 à 100 : les groupes de rapport sous le seuil de personnes distinctes sont masqués.
-- **Conservation des liens d’identité (jours)** — de 7 à 365 jours pour l’association personne-événements ; au-delà, une levée d’identité devient impossible.
-- **Justification de conservation prolongée** — justifie la conservation des événements réglée dans Paramètres au-delà de 180 jours. Elle est requise au-delà de cette durée et ne la modifie pas.
-- **Attribut OIDC de l’équipe** — le nom exact de l’attribut OIDC d’équipe, pas un nom d’équipe ; il sert à répartir les rapports.
+- **Pseudonymous by default** — shows an alias by default in individual views. An authorized identity reveal can still be possible.
+- **Aggregate reports only** — enables aggregate reports and disables individual access to usage.
+- **Aggregation threshold** — from 1 to 100: report groups below the distinct-person threshold are hidden.
+- **Identity link retention days** — from 7 to 365 days for the person-to-event association; after that, identity reveal is impossible.
+- **Reason for extended retention** — justifies event retention set in Settings beyond 180 days. It is required above that duration and does not change it.
+- **OIDC team claim** — the exact OIDC team claim name, not a team name; it distributes reports.
 
 :::enterprise
 
-**Imposer aux organisations filles** — une organisation mère peut imposer à sa descendance uniquement la pseudonymisation, le mode agrégé, le seuil et la durée des liens d’identité. Les partages et la rotation des alias restent propres à chaque organisation. Les champs imposés sont verrouillés chez les filles.
+**Enforce for child organizations** — a parent organization can enforce only pseudonymization, aggregate mode, the threshold and identity link retention across its descendants. Sharing and alias rotation remain specific to each organization. The enforced fields are locked in child organizations.
 
 :::
 
-![Milvago - Les réglages](/img/docs/fr/administration-confidentialite-02.png)
+![Milvago - The settings](/img/docs/en/administration-confidentialite-02.png)
 
-## Renouveler les alias
+## Rotating the aliases
 
-Un alias permet de relier les événements d’une même personne sans montrer son nom. La rotation change les alias de **l’organisation actuellement sélectionnée**, par exemple après la diffusion d’un export pseudonymisé. Elle ne se propage pas aux organisations filles et ne supprime pas les événements.
+An alias links events from the same person without showing their name. Rotation changes the aliases of **the currently selected organization**, for example after a pseudonymous export has been shared. It does not propagate to child organizations or delete events.
 
-La **rotation des alias** recalcule les pseudonymes de toutes les personnes et révoque les levées d'identité actives. Elle exige le droit d'effacement d'identité, un motif écrit, et porte son propre avertissement : « Recalculer les alias et révoquer les levées actives. La rotation ne garantit pas l'anonymat ; les données déjà exportées et les corrélations restent possibles. » La confirmation lit « Alias recalculés : N. Levées actives révoquées. »
+The **alias rotation** recalculates the pseudonyms of all people and revokes the active identity reveals. It requires the identity-erasure right, a written reason, and carries its own warning: "Recalculate aliases and revoke active reveals. Rotation does not guarantee anonymity; previously exported data and correlations remain possible." The confirmation reads "Aliases recalculated: N. Active reveals revoked."
 
-## La levée d'identité, ailleurs dans la console
+## Identity lift, elsewhere in the console
 
-La rotation n'est qu'un côté de l'équilibre : une identité se **lève** depuis le détail d'une conversation (15 minutes, motif obligatoire, lecture auditée) et se **recompose** seule à l'échéance des liens d'identité. Voir [Conversations](../monitoring/conversations.md).
+Rotation is only one side of the balance: an identity is **lifted** from the detail of a conversation (15 minutes, mandatory reason, audited read) and **recomposes** itself alone at the expiry of the identity links. See [Conversations](../monitoring/conversations.md).
 
-## Les partages éditeur
+## Publisher sharing
 
-Tout compte disposant de `settings.manage` voit le panneau **Partages éditeur**. Il permet de choisir séparément :
+Any account with `settings.manage` sees the **Publisher sharing** panel. It lets the account choose separately:
 
-- **Importer automatiquement le catalogue éditeur** — importe le catalogue signé si une connexion est configurée. Ce choix n’apparaît que pour l’organisation racine et vaut pour toute l’instance. Il n’envoie pas de télémétrie à lui seul.
-- **Partager la santé des détecteurs** — consentement propre à l’organisation, qui partage leur état agrégé par fournisseur et révision, sans texte des conversations.
-- **Partager les effectifs du parc** — consentement propre à l’organisation, qui partage seulement les effectifs de postes inscrits et actifs sur 30 jours, sans noms de postes.
+- **Automatically import the publisher catalogue** — imports the signed catalogue when a connection is configured. This choice appears only for the root organization and applies to the whole instance. It does not send telemetry on its own.
+- **Share detector health** — organization-specific consent that shares aggregate detector status by provider and revision, without conversation text.
+- **Share fleet counts** — organization-specific consent that shares two numbers: enrolled devices, and devices active in the last 30 days, without device names.
 
-Les aperçus et les états sont réservés au propriétaire de l’instance.
+Previews and statuses are reserved for the instance owner.
 
-Voir [Connexion au service éditeur](../avance/service-editeur.md) pour la configuration serveur.
+See [Connect to the publisher service](../avance/service-editeur.md) for server configuration.

@@ -7,7 +7,7 @@ title: Instancia de demostración
 
 Una instancia de demostración publica el producto en Internet: cualquiera puede visitarlo con un identificador simple, sin poder modificar nada, con datos que se mueven cada cinco minutos. Se apoya en dos variables de entorno y una pila Docker dedicada.
 
-[IMAGEAMETTREICI 01]
+![Milvago - Instancia de demostración](/img/docs/en/avance-demo-instance-01.png)
 
 ## Poner la demostración en servicio
 
@@ -29,16 +29,16 @@ La **ingestión de los dispositivos** (`/v1`, `/v2`, `/v3`) queda voluntariament
 
 `compose.demo.yaml` es una pila autónoma, distinta del compose principal: ningún puerto publicado salvo los del **proxy**, sin instancia Community, y todo lo que no es el proxy está cortado de Internet. Cuatro capas hacen respetar la lectura sola:
 
-1. **La arista**: solo pasan `GET`/`HEAD`, más la desconexión; los caminos de ingestión, `/mcp`, `/metrics` y `/ext` responden 404 públicamente.
+1. **La arista**: solo pasan `GET`/`HEAD`, más la desconexión; los caminos de ingestión, `/metrics` y `/ext` responden 404 públicamente. `/mcp` es el único punto de entrada público para una máquina: solo acepta `POST` — cualquier otro método ahí también responde 404 — reenviado a la aplicación, siempre sujeto a su propia credencial de solo lectura o token OAuth.
 2. **El servidor**: `MILVAGO_DEMO_READONLY`.
-3. **El rol**: un rol `demo` en lectura (`overview.read`, `events.read`, `devices.read`, `members.read`, `content.read`, `reports.aggregate`), ningún permiso de gestión — la consola oculta por lo tanto todas las acciones.
+3. **El rol**: un rol `demo` con ocho permisos de lectura — `overview.read`, `events.read`, `devices.read`, `members.read`, `content.read`, `reports.aggregate`, `policy.manage`, `audit.read`. `policy.manage` es lo que habilita la lectura de las pantallas de configuración de Shadow AI y de la lista de candidatos de Discovery; la consola sigue ocultando toda acción que escriba, y las otras tres capas la rechazan de todos modos.
 4. **La identidad**: cambio de contraseña y registro desactivados — de lo contrario, un visitante cambia la contraseña compartida y bloquea a los siguientes.
 
-[IMAGEAMETTREICI 02]
+![Milvago - La pila](/img/docs/en/avance-demo-instance-02.png)
 
 ## Ningún agente descargable
 
-Una demostración muestra el producto; **no distribuye un agente** capaz de registrar una máquina real. Las rutas de instalador y de clave de despliegue exigen un permiso que el rol no porta, y la arista rechaza explícitamente los caminos de extensiones e instaladores con 404 — una regla que no depende ni del rol, ni del contenido de la imagen. Consecuencia asumida: las páginas de ajustes Shadow AI y Discovery no son visibles; los **datos** lo son.
+Una demostración muestra el producto; **no distribuye un agente** capaz de registrar una máquina real. Las rutas de instalador y de clave de despliegue exigen un permiso que el rol no porta, y la arista rechaza explícitamente los caminos de extensiones e instaladores con 404 — una regla que no depende ni del rol, ni del contenido de la imagen. Consecuencia asumida: las pantallas de configuración de Shadow AI y la lista de candidatos de Discovery son visibles, en solo lectura, gracias a `policy.manage`; las pantallas que requieren un permiso de escritura `*.manage` que el rol no porta — Ajustes, Miembros, Roles, Organizaciones, Directorio LDAP — permanecen ocultas.
 
 ## Los datos de demostración
 
@@ -49,4 +49,4 @@ El generador aprovisiona lo que una credencial de aparato no puede alcanzar, lue
 - Una flota sintética por defecto de 25 dispositivos, un cuarto nativos (los dos canales de recolección lado a lado), sin ningún nombre de persona.
 - Doce temas rotan en una hora — pico de cargas de archivos bloqueadas, secretos detectados, plataforma no cubierta, modelo rechazado… — por lo tanto un visitante que se queda ve la **forma** cambiar, no solo los contadores subir.
 
-[IMAGEAMETTREICI 03]
+![Milvago - Los datos de demostración](/img/docs/en/avance-demo-instance-03.png)

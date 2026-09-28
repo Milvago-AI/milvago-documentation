@@ -1,70 +1,74 @@
-﻿---
+---
 sidebar_position: 2
-title: Rôles
+title: Roles
 ---
 
-# Rôles
+# Roles
 
-## Accéder à l’écran
+## Open the page
 
-Dans la barre latérale, cliquez sur **Administration**, puis sur **Rôles**. Vous devez disposer de `roles.manage` ; dans les rôles intégrés, ce droit est porté par le Propriétaire.
+In the sidebar, click **Administration**, then **Roles**. You need `roles.manage` to see the screen — among built-in roles, only the Owner has this permission. Creating, editing or deleting a role, and listing who holds one, go further still: the server requires the Owner role itself.
 
-1. Cliquez sur **Nouveau rôle**.
-2. Saisissez son nom et cochez les permissions à accorder.
-3. Cliquez sur **Enregistrer**.
-4. Vérifiez que le rôle apparaît dans la liste avec les permissions choisies.
+1. Click **New role**.
+2. Enter its name and select the permissions to grant.
+3. Click **Save**.
+4. Verify that the role appears in the list with the selected permissions.
 
-L'écran Rôles répond à la question « **qui a le droit de faire quoi** ». Il définit les rôles de l'organisation et, pour chacun, l'ensemble de permissions qu'il accorde. L'accès exige la permission `roles.manage` — dans les rôles intégrés, seul le Propriétaire la porte ; sans elle, l'écran affiche « Accès réservé au propriétaire ».
+The Roles screen answers the question "**who is allowed to do what**". It defines the organization's roles and, for each of them, the set of permissions it grants. Access requires the `roles.manage` permission — among the built-in roles, only the Owner carries it; without it, the screen shows "Owner access required". Managing roles is reserved to the Owner role by name, not merely by permission: the server checks that the caller's role is `owner`, so `roles.manage` is no longer offered when building a custom role — granting it to one would have no effect.
 
-## Le principe : des permissions, pas des libellés
+## The principle: permissions, not labels
 
-Les autorisations sont portées par des **permissions** vérifiées par le serveur à chaque appel, jamais par le nom d'un rôle. Un rôle n'est qu'un ensemble nommé de permissions : lui donner un nom flatteur ne lui donne aucun droit supplémentaire, et une édition déclarée par le client n'accorde jamais d'autorisation.
+Authorization is carried by **permissions** verified by the server on every call, never by the name of a role. A role is only a named set of permissions: giving it a flattering name grants it no extra rights, and an edition declared by the client never grants authorization.
 
-Les permissions du catalogue, et leur libellé dans la console :
+The permissions of the catalog, and their label in the console:
 
-| Permission | Libellé |
+| Permission | Label |
 | --- | --- |
-| `overview.read` | Vue d'ensemble |
-| `events.read` | Événements & cartographie |
-| `devices.read` | Voir les postes |
-| `devices.manage` | Gérer les postes |
-| `members.read` | Voir les membres |
-| `members.manage` | Gérer les membres |
-| `roles.manage` | Gérer les rôles |
-| `observability.manage` | Gérer l'observabilité |
-| `settings.manage` | Gérer les paramètres |
-| `policy.manage` | Gérer la politique (Shadow AI) |
-| `installers.manage` | Gérer les installeurs |
-| `content.read` | Lire les contenus |
-| `content.purge` | Purger les contenus conservés |
-| `audit.read` | Journal d'audit |
-| `organizations.manage` | Gérer les organisations |
-| `directory.manage` | Gérer l'annuaire LDAP |
+| `overview.read` | Overview |
+| `events.read` | Events & cartography |
+| `devices.read` | View devices |
+| `devices.manage` | Manage devices |
+| `members.read` | View members |
+| `members.manage` | Manage members |
+| `roles.manage` | Manage roles |
+| `settings.manage` | Manage settings |
+| `policy.manage` | Manage policy (Shadow AI) |
+| `installers.manage` | Manage installers |
+| `content.read` | Read content |
+| `content.purge` | Purge retained content |
+| `audit.read` | Audit log |
+| `organizations.manage` | Manage organizations |
+| `directory.manage` | Manage LDAP directory and SSO |
+| `reports.aggregate` | Read aggregated reports |
+| `identity.reveal` | Reveal identities |
+| `identity.erase` | Erase identities and renew aliases |
+| `observability.manage` | Manage observability (Enterprise only) |
 
-![Milvago - Le principe : des permissions, pas des libellés](/img/docs/fr/administration-roles-01.png)
+![Milvago - The principle: permissions, not labels](/img/docs/en/administration-roles-01.png)
 
-## Rôles intégrés et rôles personnalisés
+## Built-in and custom roles
 
-Trois rôles intégrés existent dans toute organisation, portés avec la mention « intégré » et en lecture seule :
+Four built-in roles exist in every organization, carried with the "built-in" mention and in read-only:
 
-- **Propriétaire** (`owner`) : toutes les permissions du catalogue.
-- **Administrateur** (`admin`) : les permissions d'exploitation, sans `roles.manage`, `audit.read`, `organizations.manage` ni `directory.manage`.
-- **Lecteur** (`viewer`) : vue d'ensemble, événements et postes en lecture.
+- **Owner** (`owner`): all the permissions of the catalog.
+- **Administrator** (`admin`): the operating permissions — overview, events, devices (view and manage), members (view and manage), settings, policy, installers, content (read), and aggregated reports — without `roles.manage`, `observability.manage`, `content.purge`, `audit.read`, `organizations.manage`, `directory.manage`, `identity.reveal` or `identity.erase`.
+- **Viewer** (`viewer`): overview, events and devices in read, and aggregated reports.
+- **Reporter** (`reporter`): overview and aggregated reports only, the narrowest built-in role. Unlike the first three, `reporter` has no dedicated display name yet: role pickers show it as the raw name "reporter".
 
-Le bouton « Nouveau rôle » crée un rôle personnalisé : un nom, et les permissions cochées une à une. À la création comme à l'édition, rien n'est précoché — un rôle commence sans autorisation et s'élargit délibérément. Un nom déjà pris est signalé avant l'enregistrement.
+The "New role" button creates a custom role: a name, and the permissions checked one by one. At creation as at editing, nothing is pre-checked — a role starts without authorization and widens deliberately. A name already taken is reported before saving.
 
-Les rôles intégrés ne se modifient pas ; les rôles personnalisés portent « Modifier » et « Supprimer », ce dernier désactivé sur votre propre rôle (« Vous ne pouvez pas supprimer votre propre rôle. »).
+Built-in roles are not modified; custom roles carry "Edit" and "Delete", the latter disabled on your own role ("You cannot delete the role you currently hold.").
 
-![Milvago - Rôles intégrés et rôles personnalisés](/img/docs/fr/administration-roles-02.png)
+![Milvago - Built-in and custom roles](/img/docs/en/administration-roles-02.png)
 
-## Supprimer un rôle encore attribué
+## Deleting a role still assigned
 
-Une suppression refusée parce que des membres portent encore le rôle ouvre un dialogue dédié : « Le rôle « … » ne peut pas être supprimé tant qu'il est attribué. » Il liste les porteurs et offre deux sorties, sans quitter la page : **Réattribuer** chaque membre à un autre rôle, ou **Retirer l'accès**. Tant que des membres portent le rôle, le bouton « Supprimer le rôle » reste bloqué (« Des membres portent encore ce rôle. ») ; plus aucun porteur, il s'ouvre.
+A deletion refused because members still hold the role opens a dedicated dialog: "The role "…" cannot be deleted while it is assigned. Reassign or remove the members below, then retry the deletion." It lists the holders and offers two ways out, without leaving the page: **Reassign** each member to another role, or **Remove access**. As long as members hold the role, the "Delete role" button stays blocked ("Members still hold this role."); with no holder left, it opens.
 
-Un membre sans droit de gestion des membres voit la liste des porteurs mais pas leurs actions, avec l'avis qui le renvoie à un gestionnaire des membres.
+A member without the member-management right sees the list of holders but not their actions, with the notice that refers them to a member manager.
 
 :::enterprise
 
-En Enterprise, la liste des membres d'un rôle et les réattributions portent sur votre sous-arbre d'organisations ; le rôle lui-même reste propre à chaque organisation. Les permissions `organizations.manage` (arbre d'organisations) et `directory.manage` (annuaire LDAP) ne servent qu'en multi-organisations.
+In Enterprise, the member list of a role and the reassignments cover the current organization only; the role itself remains specific to each organization. The `organizations.manage` (organization tree) and `directory.manage` (LDAP directory) permissions only serve in multi-organization setups.
 
 :::

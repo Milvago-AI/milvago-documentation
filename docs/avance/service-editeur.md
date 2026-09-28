@@ -1,32 +1,32 @@
 ---
 sidebar_position: 6
-title: Connecter Milvago au service éditeur
+title: Connect Milvago to the publisher service
 ---
 
-# Connecter Milvago au service éditeur
+# Connect Milvago to the publisher service
 
-La connexion se configure sur le **serveur Milvago**. Demandez à l'exploitant du service éditeur l'adresse du service, le jeton de connexion propre à votre instance et sa clé publique de vérification.
+The connection is configured on the **Milvago server**. Ask the publisher service operator for the service address, the connection credential for your instance and its public verification key.
 
-## Configurer le serveur
+## Configure the server
 
-Fournissez ensemble ces trois variables d'environnement au conteneur du serveur Milvago :
+Provide these three environment variables together to the Milvago server container:
 
-- `MILVAGO_PUBLISHER_URL` — l'origine HTTPS du service, sans chemin ni paramètres d'URL ;
-- `MILVAGO_PUBLISHER_CREDENTIAL` — le jeton de connexion fourni pour votre instance, d'au moins 32 caractères ;
-- `MILVAGO_PUBLISHER_PUBLIC_KEY` — la clé publique Ed25519 fournie pour ce service, encodée en base64 (32 octets une fois décodée).
+- `MILVAGO_PUBLISHER_URL` — the HTTPS origin of the service, without a path or URL parameters;
+- `MILVAGO_PUBLISHER_CREDENTIAL` — the connection credential issued for your instance, with at least 32 characters;
+- `MILVAGO_PUBLISHER_PUBLIC_KEY` — the Ed25519 public key issued for this service, base64-encoded (32 bytes once decoded).
 
-Ces valeurs sont transmises par votre déploiement, puis prises en compte au démarrage du serveur. Elles ne se saisissent pas dans la console. Si l'URL est fournie sans les deux autres valeurs valides, le serveur refuse de démarrer. Ne publiez pas le jeton dans la documentation ou dans un fichier versionné.
+Your deployment supplies these values, and the server reads them at startup. They are not entered in the console. If the URL is supplied without the other two valid values, the server refuses to start. Do not publish the connection credential in documentation or a versioned file.
 
-**Community requiert aussi ce credential.** Aucun ID client distinct n'est à renseigner : le service associe le credential à l'édition et fournit à Community uniquement les règles de détection ChatGPT et Claude.
+Milvago Community also requires these three variables, but no separate client ID is entered. The publisher service uses the connection credential to select the appropriate catalogue; in Community, that catalogue contains ChatGPT and Claude only.
 
-## Choisir les fonctions dans la console
+## Choose features in the console
 
-1. Connectez-vous avec le droit `settings.manage` et une MFA fraîche.
-2. Dans le menu latéral, ouvrez **Administration → Confidentialité**.
-3. Dans **Partages éditeur**, cochez les choix adaptés : **Importer automatiquement le catalogue éditeur**, **Partager la santé des détecteurs** ou **Partager les effectifs du parc**.
-4. Saisissez le motif demandé, puis sélectionnez **Enregistrer**. L’import automatique du catalogue n’est proposé qu’à l’organisation racine.
-5. Si vous êtes propriétaire de l’instance, consultez l’aperçu du service éditeur affiché sous ces choix.
+1. Sign in with `settings.manage` and fresh MFA.
+2. In the side navigation, open **Administration → Privacy**.
+3. Under **Publisher sharing**, select the relevant choices: **Automatically import the publisher catalogue**, **Share detector health**, or **Share fleet counts**.
+4. Enter the required reason, then select **Save**. Automatic catalogue import is offered only to the root organization.
+5. If you are the instance owner, review the publisher service preview shown below these choices.
 
-La connexion serveur seule n'active pas ces choix.
+The server connection alone does not enable these choices.
 
-Voir [Confidentialité](../administration/confidentialite.md) pour les droits et les réglages de l'écran.
+See [Privacy](../administration/confidentialite.md) for the screen permissions and settings.

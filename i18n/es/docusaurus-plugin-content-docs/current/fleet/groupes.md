@@ -15,9 +15,9 @@ En la barra lateral, haga clic en **Parque > Grupos**. Requiere `devices.read` y
 
 Los grupos de dispositivos llevan una política Shadow AI común a varios dispositivos de golpe. Responden a la pregunta: cómo aplicar la misma excepción a un conjunto de máquinas sin reescribirla dispositivo por dispositivo.
 
-La línea de información bajo el título lleva las dos reglas de lectura: « Un grupo aplica una misma política Shadow AI a todos los dispositivos que contiene. La excepción propia de un dispositivo siempre prevalece sobre su grupo. »
+La línea de información bajo el título lleva las dos reglas de lectura: « Un grupo aplica una misma política de Shadow AI a todos los dispositivos que contiene. La excepción propia de un dispositivo siempre prevalece sobre la de su grupo. »
 
-[IMAGEAMETTREICI 01]
+![Milvago - Acceder a esta pantalla](/img/docs/en/fleet-groupes-01.png)
 
 ## Quién ve qué
 
@@ -46,23 +46,23 @@ La tabla lleva cuatro columnas:
 | **Dispositivos** | número de dispositivos miembros |
 | **Acciones** | « Renombrar » y « Eliminar » para quien tenga el derecho de gestión; « — » si no |
 
-Un contador muestra el número de grupos. A falta de grupo, la pantalla lee « Ningún grupo de dispositivos ».
+Un contador muestra el número de grupos. A falta de grupo, la pantalla lee « Aún no hay grupos de dispositivos ».
 
 El botón « **Nuevo grupo** » abre un diálogo con dos campos: **Nombre del grupo** (obligatorio) y **Descripción**. Dos nombres no difieren solo por mayúsculas y minúsculas, y la descripción queda corta — ambas cotas se controlan en el guardado.
 
-[IMAGEAMETTREICI 02]
+![Milvago - La lista de grupos](/img/docs/en/fleet-groupes-02.png)
 
 ## La ficha de un grupo
 
-La ficha se abre por el nombre del grupo en la lista. Lleva dos pestañas: **Información**, siempre presente, y **Política del grupo** con el derecho `policy.manage`.
+La ficha se abre por el nombre del grupo en la lista. Lleva dos pestañas: **Detalles**, siempre presente, y **Política del grupo** con el derecho `policy.manage`.
 
-### Información
+### Detalles
 
-La tarjeta Información reúne el identificador del grupo, su descripción y su recuento de dispositivos. Bajo la tarjeta, la tabla de los dispositivos miembros retoma las columnas de la lista de dispositivos — Dispositivo (pulsable hacia su ficha), Plataforma, Estado, Último contacto — más la acción « **Retirar del grupo** », que devuelve el dispositivo a la política de la organización.
+La tarjeta Detalles reúne el identificador del grupo, su descripción y su recuento de dispositivos. Bajo la tarjeta, la tabla de los dispositivos miembros retoma las columnas de la lista de dispositivos — Dispositivo (pulsable hacia su ficha), Plataforma, Estado, Última conexión — más la acción « **Retirar del grupo** », que devuelve el dispositivo a la política de la organización.
 
 La tabla ofrece 10, 20, 50, 100 o 200 dispositivos por página y mantiene accesibles la primera página, la última y las páginas vecinas.
 
-[IMAGEAMETTREICI 03]
+![Milvago - Detalles](/img/docs/en/fleet-groupes-03.png)
 
 ### Asignar dispositivos
 
@@ -75,7 +75,7 @@ Dos estados vacíos se enuncian tal cual:
 - ningún dispositivo miembro: « Ningún dispositivo en este grupo »;
 - ningún candidato restante: « Todos los dispositivos pertenecen ya a este grupo. »
 
-La asignación envía una consulta por dispositivo: un rechazo se señala dispositivo por dispositivo (« Actualización imposible para: … ») en lugar de interrumpir a los demás. Reasignar a un dispositivo el grupo que ya porta no reescribe nada.
+La asignación envía una consulta por dispositivo: un rechazo se señala dispositivo por dispositivo (« No se pudo actualizar: … ») en lugar de interrumpir a los demás. Reasignar a un dispositivo el grupo que ya porta no reescribe nada.
 
 Asignar un dispositivo a un grupo cuya política conserva el texto de las solicitudes y las respuestas exige la misma verificación de segundo factor reciente que activarlo en Shadow AI.
 
@@ -85,7 +85,7 @@ La pestaña lleva la **excepción del grupo**. El editor es el mismo que el de [
 
 El encabezado de sección muestra el alcance (« Excepción del grupo ») y la revisión actual. Cada guardado produce una nueva revisión; las instalaciones la reciben en su próxima sincronización, y la aplicación efectiva se observa en Monitoring.
 
-[IMAGEAMETTREICI 04]
+![Milvago - Política del grupo](/img/docs/en/fleet-groupes-04.png)
 
 ## Revisiones y anti-retroceso
 
@@ -95,6 +95,6 @@ Cada cambio del lado del grupo — guardado de la política, asignación, retiro
 
 La confirmación lleva la consecuencia exacta: « Los dispositivos de un grupo eliminado vuelven a la política de la organización. Su historial se conserva. » Los dispositivos se desvinculan primero — cada uno recibe una revisión fresca — luego el grupo desaparece con su política. El recuento de dispositivos del grupo figura en la confirmación. Eliminar un grupo cuyos dispositivos pasarían entonces a conservar el texto de las solicitudes y las respuestas — la organización lo conserva, el grupo no lo conservaba — exige la misma verificación de segundo factor reciente que asignar un dispositivo a un grupo así.
 
-[IMAGEAMETTREICI 05]
+![Milvago - Eliminar un grupo](/img/docs/en/fleet-groupes-05.png)
 
 Véase también: [Dispositivos](postes.md), [Shadow AI](../administration/shadow-ai.md).

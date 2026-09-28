@@ -1,29 +1,29 @@
-﻿---
+---
 sidebar_position: 6
-title: Journal d'audit
+title: Audit log
 ---
 
-# Journal d'audit
+# Audit log
 
-## Accéder à l’écran
+## Open the page
 
-Dans la barre latérale, cliquez sur **Administration**, puis sur **Journal d’audit**. Vous devez disposer de `audit.read`.
+In the sidebar, click **Administration**, then **Audit log**. You need `audit.read`.
 
-1. Cliquez sur **Actualiser**.
-2. Vérifiez que le tableau se recharge ; s’il n’existe aucune entrée visible dans votre périmètre, l’écran affiche « Aucune action journalisée ».
+1. Click **Refresh**.
+2. Verify that the table reloads, or that it reports no entries are visible.
 
-Le journal d'audit répond à la question « **qui a fait quoi** » sur la plateforme. Il trace les actions d'administration : changement de rôle, retrait d'accès, modification de politique, suppression d'un poste, rotation d'une clé, modification de la confidentialité — cette dernière avec le motif écrit qui l'a autorisée.
+The audit log answers the question "**who did what**" on the platform. It traces the administrative actions: role change, access removal, policy change, device deletion, key rotation, privacy change — the latter with the written reason that authorized it, shown in the **Reason** column.
 
-L'accès exige la permission `audit.read` — dans les rôles intégrés, seul le Propriétaire la porte ; sans elle, l'écran affiche « Accès réservé au propriétaire ».
+Access requires the `audit.read` permission — among the built-in roles, only the Owner carries it; without it, the screen shows "Owner access required".
 
-## Le tableau
+## The table
 
-Chaque ligne porte quatre colonnes : **Date**, **Auteur**, **Action** (code pointé, tel que `directory.update` ou `role.change`), **Cible** (identifiant technique, en police monospace). À vide, l'écran lit « Aucune action journalisée » ; le bouton « Actualiser » recharge la liste.
+Every row carries five columns: **Date**, **Actor**, **Action** (dotted code, such as `directory.update` or `member.role`), **Target** (technical identifier, in monospace font), and **Reason** — the written reason that authorized a privacy change or an identity reveal, empty for every other action. When empty, the screen reads "No actions logged"; the "Refresh" button reloads the list.
 
-![Milvago - Le tableau](/img/docs/fr/administration-audit-01.png)
+![Milvago - The table](/img/docs/en/administration-audit-01.png)
 
-## En ajout seul, par construction
+## Append-only, by construction
 
-La ligne sous le titre le dit : « Journal serveur en ajout seul. » Ce n'est pas une politique d'interface, c'est un déclencheur en base : toute modification ou suppression d'une ligne d'audit est refusée par PostgreSQL lui-même, donc inéludable même par un rôle runtime compromis. Un administrateur ne peut pas raccourcir la trace de ses propres actions.
+The line under the title says it: "Append-only server log." It is not an interface policy, it is a database trigger: any change or deletion of an audit row is refused by PostgreSQL itself, hence unavoidable even by a compromised runtime role. An administrator cannot shorten the trace of their own actions.
 
-La **rétention** suit le même principe : le plancher de 730 jours est gravé dans le déclencheur, pas dans un réglage. Les purges automatiques ne touchent que des lignes plus vieilles que ce plancher — la rétention n'est pas configurable, et c'est le but.
+**Retention** follows the same principle: the 730-day floor is engraved in the trigger, not in a setting. The automatic purges only touch rows older than that floor — retention is not configurable, and that is the purpose.

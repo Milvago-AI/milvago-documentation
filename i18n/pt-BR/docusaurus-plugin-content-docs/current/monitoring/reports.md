@@ -17,26 +17,26 @@ O Reports é a vista de síntese **agregada e publicada** dos usos: semanas comp
 
 Ele exige a permissão `reports.aggregate` — é a única tela do Monitoring acessível a um leitor de agregados sem leitura dos dispositivos nem das conversas.
 
-[IMAGEAMETTREICI 01]
+![Milvago - Acessar esta tela](/img/docs/en/monitoring-reports-01.png)
 
 ## Duas distribuições de uma mesma semana
 
 Cada semana publicada lê-se segundo dois eixos, colocados lado a lado:
 
 - **Equipes** — o atributo OIDC portado pelas pessoas (configurado em Privacidade);
-- **Grupos de dispositivos** — a distribuição Fleet > Grupos.
+- **Grupos** — a distribuição Parque > Grupos.
 
-A aba só aparece se a distribuição existe realmente; se nem o atributo de equipe nem os grupos existem, um aviso o diz e propõe onde agir: "todas as linhas saem como não atribuído — preencha o atributo de equipe em Privacidade, ou crie grupos no Parque".
+A aba só aparece se a distribuição existe realmente; se nem o atributo de equipe nem os grupos existem, um aviso o diz e propõe onde agir: "Nenhum atributo OIDC de equipe está configurado e nenhum grupo de máquinas existe, portanto todas as linhas aparecem como não atribuídas. Defina o atributo de equipe em Privacidade ou crie grupos em Parque."
 
-[IMAGEAMETTREICI 02]
+![Milvago - Duas distribuições de uma mesma semana](/img/docs/en/monitoring-reports-02.png)
 
-Uma semana publicada **antes** da existência da distribuição por grupos não a porta: a tela exibe "sem distribuição por grupo de dispositivos para esta semana" em vez de um zero enganador — a ausência do dado nunca vale "zero requisição".
+Uma semana publicada **antes** da existência da distribuição por grupos não a porta: a tela exibe "Não há divisão por grupo de máquinas para esta semana: ela foi publicada antes de essa divisão existir, e um relatório publicado nunca é recalculado." em vez de um zero enganador — a ausência do dado nunca vale "zero solicitação".
 
 ## Tabela ou cartão
 
-Cada semana lê-se em **tabela** (equipe ou grupo, ferramenta, serviço, modelo, requisições, respostas, temas) ou em **cartografia**: o mesmo diagrama em fitas que a Cartografia do Monitoring, onde cada equipe (ou grupo) torna-se o ponto de partida dos fluxos. A seleção de um nó é possível, sem codificação de sensibilidade.
+Cada semana lê-se em **tabela** (equipe ou grupo, ferramenta, serviço, modelo, solicitações, respostas, titulares distintos) ou em **cartografia**: o mesmo diagrama em fitas que a Cartografia do Monitoring, onde cada equipe (ou grupo) torna-se o ponto de partida dos fluxos. A seleção de um nó é possível, sem codificação de sensibilidade.
 
-[IMAGEAMETTREICI 03]
+![Milvago - Tabela ou cartão](/img/docs/en/monitoring-reports-03.png)
 
 ## O que o k-anonimato faz às linhas
 
@@ -44,14 +44,14 @@ Uma linha (equipe ou grupo, ferramenta, serviço, modelo) só é publicada quand
 
 As linhas que superam o limite continuam exibidas. Uma semana incompleta leva o selo **Linhas ocultas**, e um aviso acima das semanas explica o motivo. Feche-o com o X: a escolha fica salva no seu navegador, o selo permanece em cada semana afetada e o link **Por que há linhas ocultas?** reabre a explicação. Uma linha ausente nunca é um zero: o que é omitido é sinalizado como omitido.
 
-[IMAGEAMETTREICI 04]
+![Milvago - O que o k-anonimato faz às linhas](/img/docs/en/monitoring-reports-04.png)
 
 ## Export
 
-O botão de exportação produz um **CSV** de todas as semanas segundo a distribuição corrente: semana, equipe (ou grupo), ferramenta, serviço, modelo, requisições, respostas, temas. O arquivo abre corretamente no Excel sem assistente de importação (BOM UTF-8, separador anunciado), e os valores vindos de um token de identidade ou de um campo do console são neutralizados contra a injeção de fórmulas — uma célula começando por `=`, `+`, `-`, `@` nunca é interpretada.
+O botão de exportação produz um **CSV** de todas as semanas segundo a distribuição corrente: semana, equipe (ou grupo), ferramenta, serviço, modelo, solicitações, respostas, titulares distintos. O arquivo abre corretamente no Excel sem assistente de importação (BOM UTF-8, separador anunciado), e os valores vindos de um token de identidade ou de um campo do console são neutralizados contra a injeção de fórmulas — uma célula começando por `=`, `+`, `-`, `@` nunca é interpretada.
 
-[IMAGEAMETTREICI 05]
+![Milvago - Export](/img/docs/en/monitoring-reports-05.png)
 
-A zero semana publicada, a tela lê "Dados insuficientes": os agregados se acumulam com as publicações, eles não se retrocalculam.
+A zero semana publicada, a tela lê "Dados insuficientes para publicar": os agregados se acumulam com as publicações, eles não se retrocalculam.
 
-[IMAGEAMETTREICI 06]
+![Milvago - Export](/img/docs/en/monitoring-reports-06.png)

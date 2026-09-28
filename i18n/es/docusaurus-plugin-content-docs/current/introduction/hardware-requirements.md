@@ -18,13 +18,21 @@ Esta página presenta los componentes y recursos que se deben prever para desple
 | Acceso | Nombres DNS y HTTPS para Milvago y el proveedor de identidad |
 | Almacenamiento temporal | Directorio escribible para preparar instaladores y actualizaciones |
 
-Los archivos de despliegue hacen referencia a **PostgreSQL 18.3** y **Keycloak 26.7.4**. Compruebe la compatibilidad de las versiones al actualizar estos componentes. Para un host ARM64, compruebe antes la disponibilidad de una imagen compatible con esta arquitectura.
+Los archivos de despliegue hacen referencia a **PostgreSQL 18.4** y **Keycloak 26.7.4**. Compruebe la compatibilidad de las versiones al actualizar estos componentes. Para un host ARM64, compruebe antes la disponibilidad de una imagen compatible con esta arquitectura.
 
 Milvago no aloja ningún modelo de lenguaje: **no se necesita GPU ni acelerador de IA**. La consola está integrada en el servidor y no necesita un servicio Node.js en producción. Los sistemas destinatarios de las exportaciones Enterprise, como un recopilador OTLP o un SIEM, se dimensionan por separado.
 
 ## Dimensionar CPU y memoria
 
 Dimensione conjuntamente **Milvago, PostgreSQL y Keycloak**, así como el sistema host y el motor de contenedores. Estos servicios pueden compartir una máquina o alojarse por separado.
+
+| Entorno | vCPU | RAM | Espacio en disco |
+| --- | ---: | ---: | ---: |
+| Laboratorio | 1 | 2 GB | 50 GB |
+| Producción, menos de 1.000 puestos | 2 | 4 GB | 150 GB |
+| Producción, a partir de 1.000 puestos | 4 | 8 GB | 300 GB |
+
+Estos valores son puntos de partida para un host compartido. Ajústelos según el número de eventos enviados por cada puesto, el período de retención y los picos de actividad. Mantenga el almacenamiento de PostgreSQL en SSD, como se indica en la sección [Almacenamiento y retención](#almacenamiento-y-retención).
 
 | Componente | Factores que deben tenerse en cuenta |
 | --- | --- |
@@ -48,36 +56,9 @@ Añada los contenidos conservados, inventarios, auditorías e índices si no est
 
 Las copias de seguridad deben disponer de un almacenamiento distinto y de un procedimiento de restauración comprobado. Mantenga espacio libre para las migraciones y los picos de escritura; una purga de datos no reduce necesariamente de inmediato el tamaño del volumen PostgreSQL.
 
-## Docker y Kubernetes
-
-### Despliegue por contenedores
+## Despliegue con Docker
 
 Para una instalación de producción, configure TLS, los nombres DNS, Keycloak en modo de producción, el relé SMTP, los secretos y los volúmenes persistentes. El archivo Compose proporcionado utiliza Keycloak en `start-dev` y un servidor de correo de prueba: adapte estos servicios antes de ponerlos en producción.
-
-### Despliegue en Kubernetes
-
-El manifiesto `deploy/kubernetes/milvago.yaml` proporciona la API, el mantenimiento y sus Services internos. PostgreSQL, Keycloak, el Ingress HTTPS, los secretos y los volúmenes persistentes deben aprovisionarse por separado. En Enterprise, `deploy/kubernetes/exports.yaml` proporciona las exportaciones y su HPA independiente. El [chart Helm](../installation/helm.md) todavía no está disponible.
-
-Las cargas de trabajo tienen los siguientes valores iniciales:
-
-| Parámetro | Valor del manifiesto |
-| --- | --- |
-| API: réplicas iniciales / HPA | 1 / 1 a 4 |
-| API: CPU solicitada / límite | 100 mCPU / 500 mCPU |
-| API: memoria solicitada / límite | 128 MiB / 384 MiB |
-| Exportaciones Enterprise: HPA | 1 a 4, independiente |
-| Mantenimiento | 1 réplica estable |
-
-Estos parámetros se refieren a las cargas de trabajo de Milvago. Ajuste los recursos a su carga; no constituyen el dimensionamiento completo de la plataforma. Reserve también la capacidad necesaria para los servicios Kubernetes, otras cargas de trabajo y los reinicios. Los [requests y limits](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) determinan la ubicación y el encuadre de los recursos de los contenedores.
-
-Para preparar el despliegue:
-
-- Utilice [volúmenes persistentes](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) y copias de seguridad para las bases de datos de Milvago y Keycloak.
-- Configure las URL públicas, los certificados TLS y los secretos estables de cifrado y firma.
-- El manifiesto ya proporciona un volumen temporal escribible `emptyDir` de 128 MiB en `/tmp`. Conserve este límite o ajústelo de forma consciente si personaliza la carga de trabajo.
-- Conserve las sondas de inicio, disponibilidad y vida, y supervise los reinicios, la memoria y la limitación de CPU.
-
-Las cuotas se comparten y se controlan en PostgreSQL: el HPA de la API puede funcionar de 1 a 4 réplicas, mientras que el HPA de las exportaciones Enterprise es independiente y el mantenimiento se mantiene en una réplica estable. Añadir réplicas no compensa una base saturada y aumenta las conexiones y el trabajo SQL. Consulte [Dimensionar PostgreSQL y el autoscaling](../avance/dimensionnement-postgresql-hpa.md).
 
 ## Puestos equipados con el agente
 

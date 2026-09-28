@@ -18,7 +18,7 @@ A tela Privacidade responde à pergunta "**até onde a plataforma identifica as 
 
 Toda alteração exige um **motivo escrito** de no mínimo 8 caracteres — "Este motivo fica registrado no log de auditoria." — e uma **autenticação de duplo fator recente**: na falta dela, o servidor recusa e o console redireciona para a verificação, e então aplica a alteração ao voltar, sem exigir que ela seja redigitada.
 
-[IMAGEAMETTREICI 01]
+![Milvago - Acessar a tela](/img/docs/en/administration-confidentialite-01.png)
 
 ## Os ajustes
 
@@ -35,7 +35,7 @@ Toda alteração exige um **motivo escrito** de no mínimo 8 caracteres — "Est
 
 :::
 
-[IMAGEAMETTREICI 02]
+![Milvago - Os ajustes](/img/docs/en/administration-confidentialite-02.png)
 
 ## Renovar os aliases
 
@@ -53,7 +53,7 @@ Qualquer conta com `settings.manage` vê o painel **Dados compartilhados com o e
 
 - **Importar automaticamente o catálogo do editor** — importa o catálogo assinado se houver uma conexão configurada. Essa opção aparece somente para a organização raiz e vale para toda a instância. Ela não envia telemetria por si só.
 - **Compartilhar a saúde dos detectores** — consentimento próprio da organização que compartilha o estado agregado dos detectores por fornecedor e revisão, sem texto das conversas.
-- **Compartilhar as contagens do parque** — consentimento próprio da organização que compartilha apenas as contagens de dispositivos inscritos e ativos em 30 dias, sem nomes de dispositivos.
+- **Compartilhar as contagens do parque** — consentimento próprio da organização que compartilha duas contagens distintas: os dispositivos inscritos, e os dispositivos ativos nos últimos 30 dias, sem nomes de dispositivos.
 
 As prévias e os estados são reservados ao proprietário da instância.
 

@@ -17,19 +17,19 @@ As chaves de API encontram-se na página **Meu perfil**, sob o bloco "Segurança
 
 ## Criar uma chave
 
-O botão "Nova chave de API" abre o diálogo de criação, limitado a 5 chaves ativas por conta ("Limite de 5 chaves ativas atingido"). Quatro ajustes:
+O botão "Nova chave de API" abre o diálogo de criação, limitado a 5 chaves ativas por conta ("Limite de 5 chaves ativas atingido: revogue uma para continuar."). Quatro ajustes:
 
 - **Nome da chave** — uma frase humana, por exemplo "Exportação SIEM".
 - **Período de validade** — 30, 90 ou 365 dias; além disso, a chave expira e a tela a marca "Expirada".
 - **Permissões** — a lista de direitos que **você** possui, nada pré-marcado, e nada que o servidor não lhe concederia: "Limitadas às suas próprias permissões e recalculadas a cada chamada: a chave perde uma permissão assim que você a perde."
 - **Permitir a leitura do conteúdo dos prompts** — uma caixa à parte, que só se apresenta se a sua instância a propõe: "Ative apenas se a ferramenta precisar: sem esta caixa, a chave vê apenas metadados."
 
-[IMAGEAMETTREICI 01]
+![Milvago - Criar uma chave](/img/docs/en/mon-profil-cles-api-01.png)
 
 Dois avisos se apresentam no momento em que a decisão é tomada, não depois:
 
 - Marcar `installers.manage` ("Gerenciar os instaladores") lê "Esta permissão sobrevive à chave": "Uma chave que pode baixar o instalador consegue ler a chave de implantação da organização, que não expira. A capacidade de inscrever dispositivos sobreviverá, portanto, a esta chave: para retirá-la, faça a rotação da chave de implantação em Configurações."
-- Na Enterprise, ativar a leitura do conteúdo lê "O texto dos prompts poderá sair para um LLM externo": "Esta chave também abre o servidor MCP. Um modelo conectado com ela poderá ler o texto que seus usuários enviaram, e esse texto será transmitido ao provedor daquele modelo."
+- Na Enterprise, ativar a leitura do conteúdo lê "O texto dos prompts poderá sair para um LLM externo": "Esta chave também abre o servidor MCP. Um modelo conectado com ela poderá ler o texto que seus usuários enviaram, e esse texto será transmitido ao provedor daquele modelo. Sem esta caixa, a mesma ferramenta vê apenas metadados."
 
 A chave secreta é exibida **uma única vez**, em um diálogo que sobrevive ao recarregamento da lista: "Copie esta chave agora: ela não será exibida novamente, a ninguém." Se você a perder, revogue a chave e crie outra.
 
@@ -37,7 +37,7 @@ A chave secreta é exibida **uma única vez**, em um diálogo que sobrevive ao r
 
 Colunas: **Nome** (com o badge âmbar "Conteúdo" se a chave lê os conteúdos), **Permissões** (até duas por extenso, além disso um badge "N permissões" com o detalhe ao passar o mouse), **Criada**, **Expiração** ("Expira em N dias", "Expira amanhã", ou "Expirada"), **Último uso** ("Nunca utilizada" caso contrário). **Revogar** pede confirmação e surte efeito imediatamente: "Qualquer ferramenta que use "…" deixará de se autenticar imediatamente. Isso é definitivo."
 
-[IMAGEAMETTREICI 02]
+![Milvago - A tabela de chaves](/img/docs/en/mon-profil-cles-api-02.png)
 
 :::enterprise
 

@@ -1,51 +1,53 @@
-﻿---
+---
 sidebar_position: 1
-title: Configurer mon profil
+title: Configure my profile
 ---
 
-# Configurer mon profil
+# Configure my profile
 
-## Accéder à l’écran
+## Open the page
 
-Dans la barre latérale, cliquez sur votre bloc utilisateur en bas à gauche, puis sur **Mon profil**. Sur mobile, ouvrez d’abord le menu. Cette page est disponible dans Milvago Community et Milvago Enterprise, sans permission d’administration particulière.
+Click your user block at the bottom left of the sidebar, then **My profile**; on mobile, open the menu first.
 
-1. Renseignez les champs d’identité qui sont modifiables.
-2. Choisissez la **Langue de la console**.
-3. Cliquez sur **Enregistrer mon profil**.
-4. Vérifiez la confirmation « Profil enregistré. » ; les changements s’appliquent au compte et à la session en cours.
+1. Complete the editable identity fields.
+2. Choose the **Console language**.
+3. Click **Save my profile**.
+4. Verify the "Profile saved." confirmation; the changes apply to the account and current session.
 
-La page **Mon profil** permet à chaque personne connectée à Milvago Community ou Milvago Enterprise de consulter son identité et de choisir la langue de sa console.
+The **My profile** page lets every signed-in person in Milvago Community or Milvago Enterprise view their identity and choose their console language.
 
-Dans la barre latérale, cliquez sur votre bloc utilisateur, en bas à gauche. Sur mobile, ouvrez d'abord le menu, puis cliquez sur ce même bloc.
+In the sidebar, click your user block at the bottom left. On mobile, open the menu first, then click the same block.
 
-![Milvago - Configurer mon profil](/img/docs/fr/mon-profil-profil-01.png)
+![Milvago - Open the page](/img/docs/en/mon-profil-profil-01.png)
 
-## Identité
+## Identity
 
-Le bloc **Identité** affiche le prénom, le nom, l'adresse e-mail et le type de compte : Local, SSO ou LDAP. L'adresse e-mail est affichée en lecture seule.
+The **Identity** block shows the first name, last name, email address, and account type: Local, SSO, or LDAP. The email address is displayed as read-only.
 
-Un compte local peut modifier son prénom et son nom, puis enregistrer le profil. Pour un compte SSO ou LDAP, ces champs viennent du fournisseur d'identité et ne sont pas modifiables dans Milvago.
+A local account can edit its first and last names, then save the profile. For an SSO or LDAP account, those fields come from the identity provider and cannot be changed in Milvago.
 
-La liste **Langue de la console** est disponible pour tous les types de compte : Français, English, Español et Português (Brasil). Avec le choix **Par défaut**, la console suit d'abord un choix explicite déjà mémorisé dans ce navigateur, puis la langue préférée du navigateur ; si aucune des quatre langues n'est demandée, elle s'affiche en anglais. Cliquez sur **Enregistrer mon profil** pour appliquer le choix au compte et à la session en cours.
+The **Console language** list is available for every account type: Français, English, Español, and Português (Brasil). With **Default**, the console first follows an explicit choice already saved in this browser, then the browser's preferred language; when none of the four languages is requested, it is shown in English. Click **Save my profile** to apply the choice to the account and current session.
 
-![Milvago - Identité](/img/docs/fr/mon-profil-profil-02.png)
+![Milvago - Identity](/img/docs/en/mon-profil-profil-02.png)
 
-## Sécurité et accès
+## Security and access
 
-Le bloc **Sécurité et accès** indique l'état du second facteur : **état inconnu** lorsqu'il ne peut pas être obtenu, **configuré** ou **non configuré**.
+The **Security and access** block shows the second-factor status: **unknown status** when it cannot be retrieved, **configured**, or **not configured**.
 
-Les actions proposées dépendent du type de compte :
+The available actions depend on the account type:
 
-- **Local** : modifier l'adresse e-mail, modifier le mot de passe et gérer le second facteur.
-- **LDAP** : gérer le second facteur, qui peut être configuré localement.
-- **SSO** : le nom, l'adresse e-mail, le mot de passe et le second facteur sont gérés par le fournisseur d'identité.
+- **Local**: change the email address, change the password, and manage the second factor.
+- **LDAP**: manage the second factor, which can be configured locally.
+- **SSO**: the name, email address, password, and second factor are managed by the identity provider.
 
-Lorsque le second facteur est **non configuré**, le bouton **Configurer mon second facteur** ouvre directement son enrôlement chez le fournisseur d'identité dans l'onglet courant. À la fin de l'enrôlement, vous revenez automatiquement à **Mon profil**. Lorsqu'il est **configuré** ou que son état est **inconnu**, le bouton **Gérer mes seconds facteurs** ouvre dans un nouvel onglet l'espace sécurisé du fournisseur d'identité, où vous pouvez consulter vos authentificateurs, en ajouter ou en supprimer.
+When the second factor is **not configured**, the **Configure my second factor** button opens direct enrollment with the identity provider in the current tab. Once enrollment is complete, you return automatically to **My profile**. When it is **configured** or its status is **unknown**, the **Manage my second factors** button opens the identity provider's secure area in a new tab, where you can view, add, or remove authenticators.
 
-**Mon profil** reste ouvert dans son onglet : revenez-y après la gestion chez le fournisseur d'identité ; son état est alors actualisé. Les actions de modification de l'adresse e-mail et du mot de passe reviennent elles aussi automatiquement à **Mon profil**.
+**My profile** remains open in its tab: return to it after managing authenticators with the identity provider, and its status refreshes. The actions to change the email address and password also return automatically to **My profile**.
 
-Dans une instance de démonstration en lecture seule, ces boutons sont masqués et un message l'indique.
+If you use **Forgot password** on the sign-in page, the email link lets you set a new password. An authenticator already configured for the account remains in place and is still required at the next sign-in.
 
-![Milvago - Sécurité et accès](/img/docs/fr/mon-profil-profil-03.png)
+In a read-only demo instance, these buttons are hidden and a notice explains this.
 
-Les clés personnelles se gèrent dans [Clés API et serveur MCP](cles-api.md).
+![Milvago - Security and access](/img/docs/en/mon-profil-profil-03.png)
+
+Manage personal keys in [API keys and MCP server](cles-api.md).

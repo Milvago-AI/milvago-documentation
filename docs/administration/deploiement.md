@@ -1,56 +1,54 @@
-﻿---
+---
 sidebar_position: 9
-title: Déploiement
+title: Deployment
 ---
 
-# Déploiement
+# Deployment
 
-## Accéder au déploiement
+## Open deployment settings
 
-Il n’existe pas d’entrée de navigation **Déploiement**. Pour gérer une clé, cliquez sur **Administration**, puis sur **Paramètres**, et ouvrez **Clé de déploiement**. En Enterprise : **Administration** > **Organisations** > l’organisation concernée > **Clé de déploiement**. Vous devez disposer de `installers.manage` (« Gérer les installeurs »).
+There is no **Deployment** navigation entry. Click **Administration** > **Settings** > **Deployment key**; in Enterprise, you can also use **Administration** > **Organizations** > the relevant organization > **Deployment key**. You need `installers.manage`.
 
-1. Cliquez sur **Générer une clé**, **Faire tourner** ou **Révoquer**, selon l’état affiché.
-2. Lisez l’avertissement qui précise l’effet sur les installateurs déjà distribués.
-3. Confirmez l’action.
-4. Vérifiez l’état et la date de dernière rotation dans le panneau ; les postes déjà inscrits ne sont pas modifiés.
+1. Click **Generate a key**, **Rotate**, or **Revoke**, according to the displayed state.
+2. Read the warning describing the effect on installers already distributed.
+3. Confirm the action.
+4. Verify the state and last rotation date in the panel; enrolled devices are unchanged.
 
-Cette page décrit comment les **postes** sont enrôlés : la clé de déploiement qui autorise l'inscription, les installateurs qui la portent, et ce qui arrive à un poste après son installation. Pour l'installation de la plateforme elle-même (serveur, base, images), voir [Installation des composants](../installation/composants.md).
+This page describes how **devices** are enrolled: the deployment key that authorizes the enrollment, the installation files that deliver it, and what happens to a device after its installation. For the installation of the platform itself (server, database, images), see [Installing the components](../installation/composants.md).
 
-## La clé de déploiement
+## The deployment key
 
-« Une clé aléatoire propre à cette organisation, portée par chaque installateur téléchargé. Elle n'est jamais affichée : elle n'autorise que l'inscription d'un poste, et chaque poste reçoit ensuite ses propres identifiants. » Le panneau, dans [Paramètres](parametres.md) — et en Enterprise, sur la page de chaque [organisation](organisations.md) — montre ce qui existe, jamais le secret : état, création, dernière rotation, compteur d'installations.
+A deployment key authorizes a device enrollment. In Windows deployments, the key is in a separate provisioning file; the MSI has no organization secret. The current Linux RPM still carries the key. Each device receives its own credentials after enrollment. The panel in [Settings](parametres.md), and on each [organization](organisations.md) page in Enterprise, shows the key state, creation date, last rotation and installation count.
 
-Trois actions, chacune avec sa confirmation :
+- **Generate a key** or **Rotate**: then download a new Windows ZIP. Previously distributed provisioning files and Linux RPMs can no longer enroll devices. Enrolled devices are unchanged.
+- **Revoke**: no new device can enroll until a new key is generated. Enrolled devices are unchanged.
 
-- **Générer une clé** / **Faire tourner** — « Un nouvel installateur sera nécessaire : tous les MSI et RPM déjà distribués cesseront immédiatement d'installer de nouveaux postes. Les postes déjà inscrits ne sont pas modifiés. »
-- **Révoquer** — « Plus aucune installation ne sera possible dans cette organisation tant qu'une nouvelle clé n'aura pas été générée. Les postes déjà inscrits ne sont pas modifiés. »
+![Milvago - The deployment key](/img/docs/fr/administration-deploiement-01.png)
 
-À l'état sans clé, l'écran l'énonce : « Aucune clé active. Aucun installateur ne peut inscrire de poste dans cette organisation tant qu'une clé n'a pas été générée. »
+## Downloading the agent
 
-![Milvago - La clé de déploiement](/img/docs/fr/administration-deploiement-01.png)
+Confirm the **public HTTPS URL** in [Settings](parametres.md), then click **Windows ZIP**. One archive contains the immutable MSI, its matching PowerShell script, and this organization's provisioning JSON. The download requires `installers.manage`. If your account uses a second factor, a fresh verification may be required; after verification the ZIP downloads automatically. The ZIP and JSON contain a deployment token: protect them until they are deleted or the key is rotated or revoked.
 
-## Télécharger l'agent
+Extract `milvago-windows-package.zip` into a restricted folder. In that folder, run the script as an administrator:
 
-Le téléchargement des installateurs — Windows MSI, Linux RPM, tous deux services pour tout le poste — est bloqué tant que l'**URL HTTPS publique** n'est pas confirmée dans [Paramètres](parametres.md) : « Définissez et confirmez l'URL HTTPS publique dans Administration → Paramètres avant de télécharger un installateur. Les agents se connecteront à cette URL. »
+```powershell
+powershell.exe -NoProfile -File .\milvago-windows-install.ps1 -MsiPath .\milvago-windows-installer.msi -ProvisionPath .\milvago-provision.json
+```
 
-Le dialogue rappelle trois choses :
+The three filenames below are the names inside the ZIP. Keep the files together after extraction.
 
-- « Le paquet porte la clé de déploiement de cette organisation. Après installation, le poste s'inscrit une seule fois et conserve son état dans un cache chiffré. L'extension navigateur doit aussi être distribuée par votre administrateur. »
-- Selon le **mode d'approbation** choisi dans la politique Shadow AI : sous approbation manuelle, « Chaque poste installé apparaîtra en attente et ne transmettra rien avant votre approbation dans Postes. » ; en approbation selon le réseau, « Un poste installé depuis un réseau autorisé transmet immédiatement ; les autres restent en attente d'approbation. »
-- « Le même paquet vaut pour toute l'organisation. La clé de déploiement se gère dans Administration → Paramètres : la faire tourner invalide immédiatement les installateurs déjà distribués. »
+The script checks the MSI against its release hash, verifies the publisher's Authenticode signature when a signing certificate is configured, stages the MSI and JSON with SYSTEM/Administrators access, runs Windows Installer, then removes the staging files. Opening the MSI alone cannot enroll a new device because it contains no organization key. Local packages made before the signing certificate is available have no Authenticode signature; qualify them only in a controlled test environment.
 
-La version de l'installateur téléchargé est confirmée après le téléchargement. Si la clé a été révolquée entre-temps, le téléchargement échoue avec l'avis qui renvoie à la rotation : « La clé de cette organisation a été révoquée. Faites-la tourner dans Administration → Paramètres pour reprendre les déploiements. »
+Linux still downloads an organization-specific RPM. Manual and network approval continue to apply after installation. The browser extension must also be distributed.
 
-![Milvago - Télécharger l'agent](/img/docs/fr/administration-deploiement-02.png)
+## After installation
 
-## Après l'installation
-
-Un poste inscrit demande son approbation selon le mode choisi, puis reçoit la politique Shadow AI et ses révisions suivantes. Les mises à jour de l'agent passent par des installateurs signés ; l'écran d'un poste expose son état de mise à jour, et la section « Exploitation » de [Shadow AI](shadow-ai.md) règle parc pilote et versions suspendues quand elle est ouverte au diagnostic.
+An enrolled device asks for its approval according to the chosen mode, then receives the Shadow AI policy and its following revisions. The agent updates go through signed installers; the screen of a device exposes its update state, and the "Operations" section of [Shadow AI](shadow-ai.md) sets pilot fleet and paused versions when it is open to diagnostics.
 
 :::enterprise
 
-En Enterprise multi-organisations, chaque organisation porte **sa propre** clé de déploiement. L'administrateur d'une organisation mère la fait tourner ou la révoque depuis la page de la fille, sans basculer dans son contexte — c'est le premier bloc de cette page.
+In multi-organization Enterprise, each organization carries **its own** deployment key. The administrator of a parent organization rotates or revokes it from the child's page, without switching to its context — this is the first block of this page.
 
-Les images Docker Enterprise embarquent le MSI signé et son manifeste de mise à jour ; le serveur sert le MSI figé de son répertoire d'installateurs, jamais un paquet reconstruit localement. L'ordre des builds, les clés et la vérification de l'empreinte servie relèvent des procédures de fabrication de l'agent Windows.
+The Enterprise Docker images embed the immutable MSI, its release-specific deployment script and a signed update manifest. The server serves the same MSI bytes to every organization. The build order, the keys and the check of the served fingerprint belong to the build procedures of the Windows agent.
 
 :::
