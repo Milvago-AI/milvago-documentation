@@ -49,8 +49,6 @@ On a read-only instance, the actions do not appear rather than promising buttons
 
 At **zero candidates, the screen is a normal state, not a failure**: the screen shows "No candidate domain observed", with a link that re-enables discovery — "Candidate discovery is off by default. Turn it on under Shadow AI, AI platforms, for devices to report the AI domains they reach that this catalogue does not cover." The switch goes through the privacy route, with its written reason and its fresh MFA.
 
-![Milvago - Candidate domains](/img/docs/en/monitoring-discovery-04.png)
-
 ## Who reached this domain?
 
 Each row opens a dialog titled with the platform or domain name itself; a notice inside reads **"Machines that reached this domain over the last N days. Detector reports are purged after that, so an older visit is no longer counted here."**, alongside a search (machine name or device identifier, what a reader coming from a device page carries), the number of observations per device and the latest date.
@@ -64,5 +62,3 @@ A single dialog answers the same question from both tables, because a reader ask
 The "reached by devices" dialog and the OS accounts column only exist in Enterprise: in Community, the rows remain plain text rather than carrying a control that would answer 404. The catalog also carries the discovery hygiene rule: the domains of the covered providers — after narrowing to the served edition — never appear in Discovery, and a platform masked by the organization leaves it while keeping its visits recorded.
 
 :::
-
-![Milvago - Who reached this domain?](/img/docs/en/monitoring-discovery-06.png)

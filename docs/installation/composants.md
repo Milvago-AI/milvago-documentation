@@ -43,12 +43,12 @@ The Enterprise factory catalog covers **nine providers**. Model controls and usa
 
 The Windows agent is distributed as an immutable MSI. Its update manifest is signed; Authenticode signing of the MSI awaits the publisher certificate:
 
-1. Download the Windows ZIP from the console. It contains the immutable MSI, the matching installation script and this organization's provisioning JSON. If a second factor is enabled on your account, the download resumes after fresh verification.
+1. Download the Windows ZIP from the console. It contains the immutable MSI, the matching installation script, this organization's provisioning JSON and a `README.md` with the exact command. If a second factor is enabled on your account, the console asks for a new verification when the last one is more than 5 minutes old, then the download resumes.
 2. Extract the ZIP and run the script as administrator with the MSI and JSON paths. The service runs under a local account and relays policies to the extension via loopback channels. Protect and delete the ZIP and JSON when no longer needed.
 
 Updates are distributed by the Docker image containing the MSI and its manifest: rebuild and redeploy the image, then verify the fingerprint of the MSI actually served, the signature and the announced version. Application on the devices depends on the configured update policy.
 
-![Milvago - Windows agent](/img/docs/fr/installation-composants-02.png)
+![Milvago - Windows agent](/img/docs/en/fleet-postes-03.png)
 
 ## Console
 

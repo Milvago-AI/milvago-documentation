@@ -28,8 +28,6 @@ Chaque semaine publiée se lit selon deux axes, mis côte à côte :
 
 L'onglet n'apparaît que si la répartition existe réellement ; si ni l'attribut d'équipe ni les groupes n'existent, un avertissement le dit et propose où agir : « Aucun attribut OIDC d'équipe n'est configuré et aucun groupe de postes n'existe : toutes les lignes ressortent en non attribué. Renseignez l'attribut d'équipe dans Confidentialité, ou créez des groupes dans Parc. »
 
-![Milvago - Deux répartitions d'une même semaine](/img/docs/fr/monitoring-reports-02.png)
-
 Une semaine publiée **avant** l'existence de la répartition par groupes n'en porte pas : l'écran affiche « Pas de répartition par groupe de postes pour cette semaine : elle a été publiée avant l'existence de cette répartition, et un rapport publié n'est jamais recalculé. » plutôt qu'un zéro trompeur — l'absence de la donnée ne vaut jamais « zéro requête ».
 
 ## Tableau ou carte

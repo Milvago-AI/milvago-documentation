@@ -7,7 +7,7 @@ title: Agent configuration
 
 The agent is configured by a **TOML** file, `milvago.toml`, written by the installer and edited by the administrator. It is **applied within a few seconds, without restarting the service**: the file is re-read at most once every 5 seconds.
 
-![Milvago - Agent configuration (Windows / Linux)](/img/docs/fr/avance-agent-configuration-01.png)
+![Milvago - Agent configuration (Windows / Linux)](/img/docs/en/fleet-postes-03.png)
 
 ## Change the configuration
 
@@ -153,8 +153,6 @@ Each validation rule closes a hijacking path:
 - **Unknown fields refused** (`deny_unknown_fields`): a typo in a parameter name does not become an ignored value.
 - **Read-only, never written**: a missing or damaged file resolves to the documented defaults, never to a write attempt the service account has no right to make. A broken configuration can therefore **lower the verbosity, never loosen TLS**.
 - **The TLS of an old install is not reinterpreted**: the verbosity of a previous installation (`state\milvago.conf`, `log_level` key) survives the update, but that file never carried a TLS section and can never become a trust setting.
-
-![Milvago - What the file refuses, and why](/img/docs/fr/avance-agent-configuration-02.png)
 
 ## Self-update under a deployment tool (Windows)
 

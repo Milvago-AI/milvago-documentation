@@ -27,7 +27,7 @@ A chave de implantação autoriza o registro de um dispositivo. No Windows, ela 
 
 ## Baixar o agente
 
-Confirme a **URL HTTPS pública** em [Configurações](parametres.md) e clique em **Windows ZIP**. Um único arquivo contém o MSI imutável, o script PowerShell correspondente e o JSON de provisionamento desta organização. O download exige `installers.manage`. Se sua conta usar um segundo fator, uma nova verificação poderá ser solicitada; o ZIP será baixado automaticamente após o retorno. O ZIP e o JSON contêm um token de implantação: proteja-os até excluí-los ou girar ou revogar a chave.
+Confirme a **URL HTTPS pública** em [Configurações](parametres.md) e clique em **Windows ZIP**. Um único arquivo contém o MSI imutável, o script PowerShell correspondente, o JSON de provisionamento desta organização e um `README.md` com o comando de instalação. O download exige `installers.manage`. Se sua conta usar um segundo fator, o ZIP exige uma verificação com menos de 5 minutos: o console a solicita novamente se necessário e o ZIP é baixado automaticamente. Uma chave de API nunca pode baixá-lo; o RPM Linux não pede nova verificação. O ZIP e o JSON contêm um token de implantação: proteja-os até excluí-los ou girar ou revogar a chave.
 
 Extraia `milvago-windows-package.zip` em uma pasta protegida. Nessa pasta, execute o script como administrador:
 
@@ -35,7 +35,7 @@ Extraia `milvago-windows-package.zip` em uma pasta protegida. Nessa pasta, execu
 powershell.exe -NoProfile -File .\milvago-windows-install.ps1 -MsiPath .\milvago-windows-installer.msi -ProvisionPath .\milvago-provision.json
 ```
 
-Os três nomes de arquivos abaixo são os incluídos no ZIP. Mantenha os arquivos extraídos juntos.
+Os três caminhos no comando apontam para arquivos do ZIP. Mantenha-os juntos após a extração. Os dois parâmetros do script são obrigatórios; sem eles, o PowerShell solicita `MsiPath` e `ProvisionPath`. O `README.md` incluído repete as etapas de instalação.
 
 O script verifica o hash do MSI, confere a assinatura Authenticode do editor quando um certificado de assinatura está configurado, armazena o MSI e o JSON com acesso exclusivo de SYSTEM e administradores, executa o Windows Installer e remove os arquivos temporários. Abrir apenas o MSI não registra um dispositivo novo porque ele não contém a chave da organização. Os pacotes locais gerados antes da disponibilidade do certificado não têm assinatura Authenticode; use-os somente em um ambiente de teste controlado.
 

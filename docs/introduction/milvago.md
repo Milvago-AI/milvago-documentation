@@ -37,5 +37,3 @@ An edition declared by the client never grants authorization: the guards are ser
 ## The tone
 
 Sober, factual, precise. Empty states and errors are visible and explained, never disguised; no fictional data is presented as real. The promise: **see accurately, act with confidence**.
-
-![Milvago - The tone](/img/docs/en/introduction-milvago-02.png)

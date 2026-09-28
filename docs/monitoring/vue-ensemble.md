@@ -42,7 +42,7 @@ If devices await approval **and** you have the right to approve them, an alert b
 
 If **no device** is registered, the page shows the three steps of the first journey, with a shortcut link to each screen:
 
-1. **Download the agent** — the package (MSI or RPM) is served by the server.
+1. **Download the agent** — the server serves the Windows ZIP (MSI, installation script and provisioning file) or the Linux RPM.
 2. **Approve the first device** — a device appears as pending after its installation, according to the organization's approval policy.
 3. **Configure services** — in Shadow AI, choose the AI services observed, blocked or redirected.
 

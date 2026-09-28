@@ -27,7 +27,7 @@ A deployment key authorizes a device enrollment. In Windows deployments, the key
 
 ## Downloading the agent
 
-Confirm the **public HTTPS URL** in [Settings](parametres.md), then click **Windows ZIP**. One archive contains the immutable MSI, its matching PowerShell script, and this organization's provisioning JSON. The download requires `installers.manage`. If your account uses a second factor, a fresh verification may be required; after verification the ZIP downloads automatically. The ZIP and JSON contain a deployment token: protect them until they are deleted or the key is rotated or revoked.
+Confirm the **public HTTPS URL** in [Settings](parametres.md), then click **Windows ZIP**. One archive contains the immutable MSI, its matching PowerShell script, this organization's provisioning JSON, and a `README.md` with the installation command. The download requires `installers.manage`. If your account uses a second factor, the ZIP requires a verification less than 5 minutes old: the console asks for it again when needed, then the ZIP downloads automatically. An API key can never download it; the Linux RPM asks for no new verification. The ZIP and JSON contain a deployment token: protect them until they are deleted or the key is rotated or revoked.
 
 Extract `milvago-windows-package.zip` into a restricted folder. In that folder, run the script as an administrator:
 
@@ -35,7 +35,7 @@ Extract `milvago-windows-package.zip` into a restricted folder. In that folder, 
 powershell.exe -NoProfile -File .\milvago-windows-install.ps1 -MsiPath .\milvago-windows-installer.msi -ProvisionPath .\milvago-provision.json
 ```
 
-The three filenames below are the names inside the ZIP. Keep the files together after extraction.
+The three paths in the command refer to files inside the ZIP. Keep them together after extraction. The two script parameters are required; running it without them prompts for `MsiPath` and `ProvisionPath`. The included `README.md` repeats the installation steps.
 
 The script checks the MSI against its release hash, verifies the publisher's Authenticode signature when a signing certificate is configured, stages the MSI and JSON with SYSTEM/Administrators access, runs Windows Installer, then removes the staging files. Opening the MSI alone cannot enroll a new device because it contains no organization key. Local packages made before the signing certificate is available have no Authenticode signature; qualify them only in a controlled test environment.
 

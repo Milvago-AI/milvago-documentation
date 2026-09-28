@@ -35,8 +35,6 @@ O seletor **Por página** oferece 10, 20, 50, 100 ou 200 membros. O contador abr
 | **Organização** | nome da organização de afiliação, ou "—" |
 | **Ações** | veja abaixo |
 
-![Milvago - A tabela de membros](/img/docs/en/administration-membres-02.png)
-
 Vazia, a tela lê "Nenhum membro visível": isso descreve o que seus direitos permitem ver, não uma organização sem usuários.
 
 ## As ações por membro

@@ -73,7 +73,7 @@ Le bouton « **Télécharger l'agent** » ouvre un dialogue de téléchargement 
    - approbation manuelle — encadré ambre « Approbation manuelle active » : « Chaque poste installé apparaîtra en attente et ne transmettra rien avant votre approbation dans Postes. » Un poste en attente ne reçoit aucune politique : à partir de l'installation de l'agent, et jusqu'à l'approbation, **aucun accès aux plateformes IA** n'est permis sur ce poste — l'extension échoue en fermeture et scelle la surface IA couverte, au lieu de la laisser ouverte par défaut ;
    - approbation selon le réseau — « Un poste installé depuis un réseau autorisé transmet immédiatement ; les autres restent en attente d'approbation. »
 
-Le dialogue propose **Windows ZIP** (un téléchargement réunissant le MSI, le script d’installation et le JSON de provisionnement de cette organisation) et **Linux RPM** (service systemd pour tout le poste). Si votre compte utilise un second facteur, le téléchargement Windows reprend automatiquement après vérification. Le RPM Linux porte encore la clé de déploiement. Après installation, le poste s’inscrit une seule fois et conserve son état dans un cache chiffré. La version téléchargée est indiquée sous la tuile.
+Le dialogue propose **Windows ZIP** (un téléchargement réunissant le MSI, le script d’installation et le JSON de provisionnement de cette organisation) et **Linux RPM** (service systemd pour tout le poste). Si votre compte utilise un second facteur, le ZIP Windows n'est fourni que si ce facteur a été vérifié dans les 5 dernières minutes ; sinon, la console le redemande, puis le téléchargement reprend automatiquement. Un compte sans second facteur télécharge directement, et une clé API ne peut jamais télécharger le ZIP. Le RPM Linux ne demande pas de nouvelle vérification et porte encore la clé de déploiement. Après installation, le poste s’inscrit une seule fois et conserve son état dans un cache chiffré. La version téléchargée est indiquée sous la tuile.
 
 Le MSI inclus dans chaque ZIP Windows est identique pour toutes les organisations ; le JSON de provisionnement est propre à cette organisation. Protégez le ZIP et le JSON. La rotation de la clé invalide les anciens fichiers de provisionnement Windows et les RPM Linux, sans toucher aux postes déjà inscrits.
 
@@ -106,8 +106,6 @@ Les actions de la fiche dépendent de l'état : « Approuver » sur un poste en 
 | **Extensions navigateur** | présence vivante de l'extension par navigateur, détaillée ci-dessous |
 | **État** | En attente / Actif / Révoqué |
 | **Dernier contact** | horodatage |
-
-![Milvago - Informations](/img/docs/fr/fleet-postes-05.png)
 
 #### Le groupe d'un poste
 

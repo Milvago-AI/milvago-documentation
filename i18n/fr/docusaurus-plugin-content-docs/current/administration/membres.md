@@ -37,8 +37,6 @@ Le sélecteur **Par page** propose 10, 20, 50, 100 ou 200 membres. Le compteur p
 | **Organisation** | nom de l'organisation d'affiliation, ou « — » |
 | **Actions** | voir ci-dessous |
 
-![Milvago - Le tableau des membres](/img/docs/fr/administration-membres-02.png)
-
 À vide, l'écran lit « Aucun membre visible » : cela décrit ce que vos droits laissent voir, pas une organisation sans utilisateur.
 
 ## Les actions par membre

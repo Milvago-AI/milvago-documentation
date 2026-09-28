@@ -28,8 +28,6 @@ Una cuenta local puede modificar su nombre y apellido y guardar el perfil. Para 
 
 La lista **Idioma de la consola** está disponible para todos los tipos de cuenta: Français, English, Español y Português (Brasil). Con **Predeterminado**, la consola sigue primero una elección explícita ya guardada en este navegador y luego el idioma preferido del navegador; si no se solicita ninguno de los cuatro idiomas, se muestra en inglés. Haga clic en **Guardar mi perfil** para aplicar la elección a la cuenta y a la sesión actual.
 
-![Milvago - Identidad](/img/docs/en/mon-profil-profil-02.png)
-
 ## Seguridad y acceso
 
 El bloque **Seguridad y acceso** muestra el estado del segundo factor: **estado desconocido** cuando no se puede obtener, **configurado** o **sin configurar**.

@@ -48,8 +48,6 @@ En una instancia en solo lectura, las acciones no aparecen en lugar de prometer 
 
 A **cero candidatos, la pantalla es un estado normal, no un fallo**: la pantalla muestra « No se ha observado ningún dominio candidato », con un enlace que reactiva el descubrimiento — « El descubrimiento de dominios candidatos está desactivado de forma predeterminada. Actívelo en Shadow AI, Plataformas de IA, para que los equipos informen de los dominios de IA a los que acceden y que este catálogo no cubre. » El interruptor atraviesa la ruta de confidencialidad, con su motivo escrito y su MFA reciente.
 
-![Milvago - Dominios candidatos](/img/docs/en/monitoring-discovery-04.png)
-
 ## ¿Quién alcanzó este dominio?
 
 Cada línea abre un diálogo titulado con el nombre de la plataforma o del dominio mismo; un aviso dentro dice **« Equipos que alcanzaron este dominio en los últimos N días. Los informes del detector se purgan después, así que una visita anterior ya no se cuenta aquí. »**, con una búsqueda (nombre de máquina o identificador de dispositivo, lo que porta un lector llegado de una ficha de dispositivo), el número de observaciones por dispositivo y la última fecha.
@@ -63,5 +61,3 @@ Un solo diálogo responde a la misma pregunta desde las dos tablas, porque un le
 El diálogo de los equipos que alcanzaron una plataforma y la columna Cuentas del sistema solo existen en Enterprise: en Community, las líneas quedan en texto plano en lugar de llevar un control que respondería 404. El catálogo porta también la regla de higiene del descubrimiento: los dominios de los proveedores cubiertos — tras la reducción a la edición servida — nunca aparecen en Discovery, y una plataforma oculta por la organización sale de ella manteniendo sus visitas registradas.
 
 :::
-
-![Milvago - ¿Quién alcanzó este dominio?](/img/docs/en/monitoring-discovery-06.png)

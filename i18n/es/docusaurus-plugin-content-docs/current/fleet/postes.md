@@ -73,11 +73,11 @@ El botón « **Descargar el agente** » abre un diálogo de descarga solamente: 
    - aprobación manual — recuadro ámbar « La aprobación manual está activada »: « Cada dispositivo instalado aparecerá como pendiente y no informará de nada hasta que lo apruebe en Dispositivos. » Un dispositivo en espera no recibe ninguna política: desde la instalación del agente y hasta la aprobación, **ningún acceso a las plataformas de IA** está permitido en ese dispositivo: la extensión falla cerrada y sella la superficie de IA cubierta, en lugar de dejarla abierta por defecto;
    - aprobación según la red — « La aprobación depende de la red »: « Un dispositivo instalado desde una red autorizada informa de inmediato; los demás quedan pendientes de aprobación. »
 
-El diálogo ofrece **Windows ZIP** (una descarga con el MSI, el script de instalación y el JSON de aprovisionamiento de esta organización) y **Linux RPM** (servicio systemd para todo el equipo). Si su cuenta utiliza un segundo factor, la descarga de Windows se reanuda automáticamente tras la verificación. El RPM de Linux aún contiene la clave de despliegue. Tras la instalación, el equipo se inscribe una sola vez y conserva su estado en una caché cifrada. La versión descargada aparece bajo la tarjeta.
+El diálogo ofrece **Windows ZIP** (una descarga con el MSI, el script de instalación y el JSON de aprovisionamiento de esta organización) y **Linux RPM** (servicio systemd para todo el equipo). Si su cuenta utiliza un segundo factor, el ZIP de Windows solo se entrega si ese factor se verificó en los últimos 5 minutos; de lo contrario, la consola lo vuelve a pedir y la descarga se reanuda automáticamente. Una cuenta sin segundo factor descarga directamente, y una clave API nunca puede descargar el ZIP. El RPM de Linux no pide una nueva verificación y aún contiene la clave de despliegue. Tras la instalación, el equipo se inscribe una sola vez y conserva su estado en una caché cifrada. La versión descargada aparece bajo la tarjeta.
 
 El MSI incluido en cada ZIP de Windows es idéntico para todas las organizaciones; el JSON es específico de esta organización. Proteja el ZIP y el JSON. Rotar la clave invalida los archivos de aprovisionamiento Windows y RPM Linux anteriores, sin afectar a los equipos inscritos.
 
-![Milvago - Descargar el agente](/img/docs/fr/fleet-postes-03.png)
+![Milvago - Descargar el agente](/img/docs/es/fleet-postes-03.png)
 
 ## La ficha de un dispositivo
 
@@ -106,8 +106,6 @@ Las acciones de la ficha dependen del estado: « Aprobar » sobre un dispositivo
 | **Extensiones de navegador** | presencia viva de la extensión por navegador, detallada abajo |
 | **Estado** | En espera / Activo / Revocado |
 | **Última conexión** | marca de tiempo |
-
-![Milvago - Detalles](/img/docs/en/fleet-postes-05.png)
 
 #### El grupo de un dispositivo
 

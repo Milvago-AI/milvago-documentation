@@ -28,8 +28,6 @@ Un compte local peut modifier son prénom et son nom, puis enregistrer le profil
 
 La liste **Langue de la console** est disponible pour tous les types de compte : Français, English, Español et Português (Brasil). Avec le choix **Par défaut**, la console suit d'abord un choix explicite déjà mémorisé dans ce navigateur, puis la langue préférée du navigateur ; si aucune des quatre langues n'est demandée, elle s'affiche en anglais. Cliquez sur **Enregistrer mon profil** pour appliquer le choix au compte et à la session en cours.
 
-![Milvago - Identité](/img/docs/fr/mon-profil-profil-02.png)
-
 ## Sécurité et accès
 
 Le bloc **Sécurité et accès** indique l'état du second facteur : **état inconnu** lorsqu'il ne peut pas être obtenu, **configuré** ou **non configuré**.

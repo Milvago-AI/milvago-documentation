@@ -28,8 +28,6 @@ A local account can edit its first and last names, then save the profile. For an
 
 The **Console language** list is available for every account type: Français, English, Español, and Português (Brasil). With **Default**, the console first follows an explicit choice already saved in this browser, then the browser's preferred language; when none of the four languages is requested, it is shown in English. Click **Save my profile** to apply the choice to the account and current session.
 
-![Milvago - Identity](/img/docs/en/mon-profil-profil-02.png)
-
 ## Security and access
 
 The **Security and access** block shows the second-factor status: **unknown status** when it cannot be retrieved, **configured**, or **not configured**.

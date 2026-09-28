@@ -45,12 +45,12 @@ El catálogo de fábrica Enterprise cubre **nueve proveedores**. El control de m
 
 El agente de Windows se distribuye como MSI inmutable. Su manifiesto de actualización está firmado; la firma Authenticode del MSI espera el certificado del editor:
 
-1. Descargue el ZIP de Windows desde la consola. Contiene el MSI inmutable, el script de instalación correspondiente y el JSON de aprovisionamiento de esta organización. Si su cuenta tiene activado un segundo factor, la descarga se reanuda después de una nueva verificación.
+1. Descargue el ZIP de Windows desde la consola. Contiene el MSI inmutable, el script de instalación correspondiente, el JSON de aprovisionamiento de esta organización y un `README.md` con el comando exacto. Si su cuenta tiene activado un segundo factor, la consola pide una nueva verificación cuando la última tiene más de 5 minutos y luego la descarga se reanuda.
 2. Extraiga el ZIP y ejecute el script como administrador con las rutas del MSI y el JSON. El servicio se ejecuta bajo una cuenta local y transmite políticas a la extensión por canales loopback. Proteja y elimine el ZIP y el JSON cuando ya no sean necesarios.
 
 Las actualizaciones se distribuyen mediante la imagen Docker que contiene el MSI y su manifiesto: reconstruir y volver a poner en servicio la imagen, luego verificar la huella del MSI efectivamente servido, la firma y la versión anunciada. La aplicación en los dispositivos depende de la política de actualización configurada.
 
-![Milvago - Agente Windows](/img/docs/fr/installation-composants-02.png)
+![Milvago - Agente Windows](/img/docs/es/fleet-postes-03.png)
 
 ## Consola
 
