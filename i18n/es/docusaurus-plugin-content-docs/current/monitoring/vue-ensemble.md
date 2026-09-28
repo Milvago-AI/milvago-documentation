@@ -42,7 +42,7 @@ Si hay dispositivos en espera de aprobación **y** usted tiene el derecho de apr
 
 Si **ningún dispositivo** está registrado, la página muestra los tres pasos del primer recorrido, con un enlace de atajo hacia cada pantalla:
 
-1. **Descargar el agente** — el paquete (MSI o RPM) es servido por el servidor.
+1. **Descargar el agente** — el servidor proporciona el ZIP de Windows (MSI, script de instalación y archivo de aprovisionamiento) o el RPM de Linux.
 2. **Aprobar el primer dispositivo** — un dispositivo aparece en espera tras su instalación, según la política de aprobación de la organización.
 3. **Configurar los servicios** — en Shadow AI, elegir los servicios de IA observados, bloqueados o redirigidos.
 

@@ -27,7 +27,7 @@ La clave de despliegue autoriza la inscripción de un dispositivo. En Windows se
 
 ## Descargar el agente
 
-Confirme la **URL HTTPS pública** en [Ajustes](parametres.md) y haga clic en **Windows ZIP**. Un solo archivo contiene el MSI inmutable, su script de PowerShell, el JSON de aprovisionamiento de esta organización y un `README.md` con el comando de instalación. La descarga requiere `installers.manage`. Si su cuenta utiliza un segundo factor, puede solicitarse una nueva verificación; el ZIP se descargará automáticamente al regresar. El ZIP y el JSON contienen un token de despliegue: protéjalos hasta eliminarlos o rotar o revocar la clave.
+Confirme la **URL HTTPS pública** en [Ajustes](parametres.md) y haga clic en **Windows ZIP**. Un solo archivo contiene el MSI inmutable, su script de PowerShell, el JSON de aprovisionamiento de esta organización y un `README.md` con el comando de instalación. La descarga requiere `installers.manage`. Si su cuenta utiliza un segundo factor, el ZIP exige una verificación de menos de 5 minutos: la consola la vuelve a pedir si hace falta y el ZIP se descarga automáticamente. Una clave API nunca puede descargarlo; el RPM de Linux no pide una nueva verificación. El ZIP y el JSON contienen un token de despliegue: protéjalos hasta eliminarlos o rotar o revocar la clave.
 
 Extraiga `milvago-windows-package.zip` en una carpeta protegida. Allí, ejecute el script como administrador:
 

@@ -37,5 +37,3 @@ Una edición declarada por el cliente nunca otorga autorización: las guardias e
 ## El tono
 
 Sobrio, factual, preciso. Los estados vacíos y los errores son visibles y explicados, nunca disimulados; ningún dato ficticio se presenta como real. La promesa: **ver con precisión, actuar con confianza**.
-
-![Milvago - El tono](/img/docs/en/introduction-milvago-02.png)

@@ -59,8 +59,6 @@ This section exists only at the organization level: neither a group nor a device
 
 The section description carries the edition limit: "Community connects the extension to the open Rust bridge. Local application conversations remain an Enterprise capability."
 
-![Milvago - Browser collection](/img/docs/en/administration-shadow-ai-02.png)
-
 ## Services
 
 "The catalog and allowed domains come from the server. An enabled service does not imply exhaustive interface coverage." Each covered service carries:

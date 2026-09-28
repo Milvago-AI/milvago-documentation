@@ -50,8 +50,6 @@ Sur une instance en lecture seule, les actions n'apparaissent pas plutôt que de
 
 À **zéro candidat, l'écran est un état normal, pas un échec** : l'écran affiche « Aucun domaine candidat observé », avec un lien qui réactive la découverte — « La découverte des domaines candidats est désactivée par défaut. Activez-la dans Shadow AI, Plateformes IA, pour que les postes signalent les domaines d'IA qu'ils atteignent et que ce catalogue ne couvre pas. » L'interrupteur traverse la route de confidentialité, avec son motif écrit et sa MFA fraîche.
 
-![Milvago - Domaines candidats](/img/docs/fr/monitoring-discovery-04.png)
-
 ## Qui a atteint ce domaine ?
 
 Chaque ligne ouvre un dialogue titré avec le nom de la plateforme ou du domaine lui-même ; un encadré à l'intérieur porte **« Postes ayant atteint ce domaine sur les N derniers jours. Les relevés du détecteur sont purgés au-delà : une visite plus ancienne n'est plus comptée ici. »**, avec une recherche (nom de machine ou identifiant de poste, ce que porte un lecteur venu d'une fiche de poste), le nombre d'observations par poste et la dernière date.
@@ -65,5 +63,3 @@ Un seul dialogue répond à la même question depuis les deux tables, parce qu'u
 Le dialogue « atteint par les postes » et la colonne Comptes OS n'existent qu'en Enterprise : en Community, les lignes restent en texte plein plutôt que de porter un contrôle qui répondrait 404. Le catalogue porte aussi la règle d'hygiène de la découverte : les domaines des fournisseurs couverts — après réduction à l'édition servie — n'apparaissent jamais dans Discovery, et une plateforme masquée par l'organisation en sort tout en gardant ses visites enregistrées.
 
 :::
-
-![Milvago - Qui a atteint ce domaine ?](/img/docs/fr/monitoring-discovery-06.png)

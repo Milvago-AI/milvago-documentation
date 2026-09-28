@@ -59,8 +59,6 @@ Esta seção só existe no nível da organização: nem um grupo, nem um disposi
 
 A descrição da seção carrega o limite da edição: "O Community conecta a extensão à ponte Rust aberta. As conversas de aplicações locais continuam sendo um recurso Enterprise."
 
-![Milvago - Coleta no navegador](/img/docs/en/administration-shadow-ai-02.png)
-
 ## Serviços
 
 "O catálogo e os domínios autorizados vêm do servidor. Um serviço ativado não implica cobertura exaustiva da interface." Cada serviço coberto porta:

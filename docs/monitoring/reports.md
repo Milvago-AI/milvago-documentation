@@ -28,8 +28,6 @@ Each published week reads along two axes, placed side by side:
 
 The tab only appears if the breakdown actually exists; if neither the team attribute nor the groups exist, a warning says so and suggests where to act: "No OIDC team attribute is configured and no device group exists, so every row reads as unattributed. Set the team attribute in Privacy, or create groups under Fleet."
 
-![Milvago - Two breakdowns of the same week](/img/docs/en/monitoring-reports-02.png)
-
 A week published **before** the device group breakdown existed does not carry it: the screen displays "No breakdown by device group for this week: it was published before this breakdown existed, and a published report is never recomputed." rather than a misleading zero — the absence of the data never means "zero requests".
 
 ## Table or map

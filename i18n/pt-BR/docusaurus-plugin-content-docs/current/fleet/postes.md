@@ -73,11 +73,11 @@ O botão "**Baixar o agente**" abre um diálogo de download apenas: ele não cri
    - aprovação manual — quadro âmbar "A aprovação manual está ativada": "Cada dispositivo instalado aparecerá como pendente e não reportará nada até que você o aprove em Dispositivos." Um dispositivo em espera não recebe nenhuma política: a partir da instalação do agente e até a aprovação, **nenhum acesso às plataformas de IA** é permitido nesse dispositivo — a extensão falha fechada e sela a superfície de IA coberta, em vez de deixá-la aberta por padrão;
    - aprovação segundo a rede — "A aprovação depende da rede": "Um dispositivo instalado a partir de uma rede autorizada reporta imediatamente; os demais ficam pendentes de aprovação."
 
-O diálogo oferece **Windows ZIP** (um download com o MSI, o script de instalação e o JSON de provisionamento desta organização) e **Linux RPM** (serviço systemd para todo o dispositivo). Se sua conta usar um segundo fator, o download do Windows será retomado automaticamente após a verificação. O RPM Linux ainda contém a chave de implantação. Após a instalação, o dispositivo se registra uma única vez e mantém o estado em um cache criptografado. A versão baixada aparece abaixo do cartão.
+O diálogo oferece **Windows ZIP** (um download com o MSI, o script de instalação e o JSON de provisionamento desta organização) e **Linux RPM** (serviço systemd para todo o dispositivo). Se sua conta usar um segundo fator, o ZIP do Windows só é entregue se esse fator tiver sido verificado nos últimos 5 minutos; caso contrário, o console o solicita novamente e o download é retomado automaticamente. Uma conta sem segundo fator baixa diretamente, e uma chave de API nunca pode baixar o ZIP. O RPM Linux não pede nova verificação e ainda contém a chave de implantação. Após a instalação, o dispositivo se registra uma única vez e mantém o estado em um cache criptografado. A versão baixada aparece abaixo do cartão.
 
 O MSI incluído em cada ZIP do Windows é idêntico para todas as organizações; o JSON é específico desta organização. Proteja o ZIP e o JSON. Girar a chave invalida os arquivos de provisionamento Windows e RPM Linux anteriores, sem afetar os dispositivos registrados.
 
-![Milvago - Baixar o agente](/img/docs/fr/fleet-postes-03.png)
+![Milvago - Baixar o agente](/img/docs/pt-BR/fleet-postes-03.png)
 
 ## A ficha de um dispositivo
 
@@ -106,8 +106,6 @@ As ações da ficha dependem do estado: "Aprovar" em um dispositivo em espera, "
 | **Extensões de navegador** | presença viva da extensão por navegador, detalhada abaixo |
 | **Estado** | Em espera / Ativo / Revogado |
 | **Última conexão** | horário |
-
-![Milvago - Detalhes](/img/docs/en/fleet-postes-05.png)
 
 #### O grupo de um dispositivo
 

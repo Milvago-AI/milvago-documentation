@@ -28,8 +28,6 @@ Uma conta local pode alterar nome e sobrenome e salvar o perfil. Para uma conta 
 
 A lista **Idioma do console** está disponível para todos os tipos de conta: Français, English, Español e Português (Brasil). Com **Padrão**, o console segue primeiro uma escolha explícita já salva neste navegador e depois o idioma preferido do navegador; se nenhum dos quatro idiomas for solicitado, ele será exibido em inglês. Clique em **Salvar meu perfil** para aplicar a escolha à conta e à sessão atual.
 
-![Milvago - Identidade](/img/docs/en/mon-profil-profil-02.png)
-
 ## Segurança e acesso
 
 O bloco **Segurança e acesso** mostra o estado do segundo fator: **status desconhecido** quando não é possível obtê-lo, **configurado** ou **não configurado**.

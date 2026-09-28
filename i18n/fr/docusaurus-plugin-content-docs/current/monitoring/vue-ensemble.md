@@ -44,7 +44,7 @@ Si des postes attendent l'approbation **et** que vous avez le droit de les appro
 
 Si **aucun poste** n'est enregistré, la page montre les trois étapes du premier parcours, avec un lien de raccourci vers chaque écran :
 
-1. **Télécharger l'agent** — le paquet (MSI ou RPM) est servi par le serveur.
+1. **Télécharger l'agent** — le serveur fournit le ZIP Windows (MSI, script d'installation et fichier de provisionnement) ou le RPM Linux.
 2. **Approuver le premier poste** — un poste apparaît en attente après son installation, selon la politique d'approbation de l'organisation.
 3. **Configurer les services** — dans Shadow AI, choisir les services d'IA observés, bloqués ou redirigés.
 

@@ -27,7 +27,7 @@ La clé de déploiement autorise l'inscription d'un poste. Sous Windows, elle se
 
 ## Télécharger l'agent
 
-Confirmez l'**URL HTTPS publique** dans [Paramètres](parametres.md), puis cliquez sur **Windows ZIP**. Une seule archive contient le MSI immuable, son script PowerShell, le JSON de provisionnement de cette organisation et un `README.md` avec la commande d’installation. Le téléchargement exige `installers.manage`. Si votre compte utilise un second facteur, une nouvelle vérification peut être demandée ; le ZIP se télécharge automatiquement à son retour. Le ZIP et le JSON contiennent un jeton de déploiement : protégez-les jusqu'à leur suppression ou à la rotation ou révocation de la clé.
+Confirmez l'**URL HTTPS publique** dans [Paramètres](parametres.md), puis cliquez sur **Windows ZIP**. Une seule archive contient le MSI immuable, son script PowerShell, le JSON de provisionnement de cette organisation et un `README.md` avec la commande d’installation. Le téléchargement exige `installers.manage`. Si votre compte utilise un second facteur, le ZIP exige une vérification de moins de 5 minutes : la console la redemande si besoin, puis le ZIP se télécharge automatiquement. Une clé API ne peut jamais le télécharger ; le RPM Linux ne demande pas de nouvelle vérification. Le ZIP et le JSON contiennent un jeton de déploiement : protégez-les jusqu'à leur suppression ou à la rotation ou révocation de la clé.
 
 Extrayez `milvago-windows-package.zip` dans un dossier protégé. Dans ce dossier, exécutez le script en administrateur :
 

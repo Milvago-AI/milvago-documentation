@@ -28,8 +28,6 @@ Cada semana publicada lê-se segundo dois eixos, colocados lado a lado:
 
 A aba só aparece se a distribuição existe realmente; se nem o atributo de equipe nem os grupos existem, um aviso o diz e propõe onde agir: "Nenhum atributo OIDC de equipe está configurado e nenhum grupo de máquinas existe, portanto todas as linhas aparecem como não atribuídas. Defina o atributo de equipe em Privacidade ou crie grupos em Parque."
 
-![Milvago - Duas distribuições de uma mesma semana](/img/docs/en/monitoring-reports-02.png)
-
 Uma semana publicada **antes** da existência da distribuição por grupos não a porta: a tela exibe "Não há divisão por grupo de máquinas para esta semana: ela foi publicada antes de essa divisão existir, e um relatório publicado nunca é recalculado." em vez de um zero enganador — a ausência do dado nunca vale "zero solicitação".
 
 ## Tabela ou cartão

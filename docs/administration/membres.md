@@ -35,8 +35,6 @@ The **Per page** selector offers 10, 20, 50, 100 or 200 members. The counter cov
 | **Organization** | name of the affiliation organization, or "—" |
 | **Actions** | see below |
 
-![Milvago - The members table](/img/docs/en/administration-membres-02.png)
-
 When empty, the screen reads "No visible members": this describes what your rights let you see, not an organization without users.
 
 ## The per-member actions

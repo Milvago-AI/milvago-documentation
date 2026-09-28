@@ -61,8 +61,6 @@ Cette section n'existe qu'au niveau de l'organisation : ni un groupe, ni un post
 
 La description de section porte la limite d'édition : « Community associe l'extension au pont Rust ouvert. Les conversations d'applications locales restent une capacité Enterprise. »
 
-![Milvago - Collecte navigateur](/img/docs/fr/administration-shadow-ai-02.png)
-
 ## Services
 
 « Le catalogue et les domaines autorisés viennent du serveur. Un service activé n'implique pas une couverture exhaustive de son interface. » Chaque service couvert porte :

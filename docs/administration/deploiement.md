@@ -27,7 +27,7 @@ A deployment key authorizes a device enrollment. In Windows deployments, the key
 
 ## Downloading the agent
 
-Confirm the **public HTTPS URL** in [Settings](parametres.md), then click **Windows ZIP**. One archive contains the immutable MSI, its matching PowerShell script, this organization's provisioning JSON, and a `README.md` with the installation command. The download requires `installers.manage`. If your account uses a second factor, a fresh verification may be required; after verification the ZIP downloads automatically. The ZIP and JSON contain a deployment token: protect them until they are deleted or the key is rotated or revoked.
+Confirm the **public HTTPS URL** in [Settings](parametres.md), then click **Windows ZIP**. One archive contains the immutable MSI, its matching PowerShell script, this organization's provisioning JSON, and a `README.md` with the installation command. The download requires `installers.manage`. If your account uses a second factor, the ZIP requires a verification less than 5 minutes old: the console asks for it again when needed, then the ZIP downloads automatically. An API key can never download it; the Linux RPM asks for no new verification. The ZIP and JSON contain a deployment token: protect them until they are deleted or the key is rotated or revoked.
 
 Extract `milvago-windows-package.zip` into a restricted folder. In that folder, run the script as an administrator:
 

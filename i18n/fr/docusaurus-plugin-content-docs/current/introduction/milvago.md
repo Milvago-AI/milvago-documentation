@@ -37,5 +37,3 @@ Une édition déclarée par le client n'accorde jamais d'autorisation : les gard
 ## Le ton
 
 Sobre, factuel, précis. Les états vides et les erreurs sont visibles et expliqués, jamais maquillés ; aucune donnée fictive n'est présentée comme réelle. La promesse : **voir juste, agir avec confiance**.
-
-![Milvago - Le ton](/img/docs/fr/introduction-milvago-02.png)

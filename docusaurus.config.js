@@ -16,6 +16,19 @@ const config = {
 
   onBrokenLinks: 'throw',
 
+  // Umami analytics, proxied first-party under /s/ by the production server.
+  // Only added when UMAMI_WEBSITE_ID is set at build time; data-domains keeps other hosts uncounted.
+  scripts: process.env.UMAMI_WEBSITE_ID
+    ? [
+        {
+          src: '/s/script.js',
+          defer: true,
+          'data-website-id': process.env.UMAMI_WEBSITE_ID,
+          'data-domains': 'docs.milvago.ai',
+        },
+      ]
+    : [],
+
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'fr', 'es', 'pt-BR'],

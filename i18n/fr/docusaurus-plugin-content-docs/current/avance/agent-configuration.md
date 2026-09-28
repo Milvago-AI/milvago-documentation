@@ -7,7 +7,7 @@ title: Configuration de l'agent
 
 L'agent se configure par un fichier **TOML**, `milvago.toml`, écrit par l'installateur et édité par l'administrateur. Il est **réglé en quelques secondes, sans redémarrer le service** : le fichier est relu au plus une fois toutes les 5 secondes.
 
-![Milvago - Configuration de l'agent (Windows / Linux)](/img/docs/fr/avance-agent-configuration-01.png)
+![Milvago - Configuration de l'agent (Windows / Linux)](/img/docs/fr/fleet-postes-03.png)
 
 ## Modifier la configuration
 
@@ -153,8 +153,6 @@ Chaque règle de validation ferme une voie de détournement :
 - **Champs inconnus refusés** (`deny_unknown_fields`) : une coquille dans un nom de paramètre ne devient pas une valeur ignorée.
 - **Lecture seule, jamais d'écriture** : un fichier absent ou endommagé résout vers les défauts documentés, jamais vers une tentative d'écriture que le compte de service n'a pas le droit de faire. Une configuration cassée peut donc **abaisser la verbosité, jamais desserrer TLS**.
 - **Le TLS d'un ancien install n'est pas réinterprété** : la verbosité d'une installation antérieure (`state\milvago.conf`, clé `log_level`) survit à la mise à jour, mais ce fichier n'a jamais porté de section TLS et ne peut jamais devenir un réglage de confiance.
-
-![Milvago - Ce que le fichier refuse, et pourquoi](/img/docs/fr/avance-agent-configuration-02.png)
 
 ## Auto-mise à jour sous un outil de déploiement (Windows)
 

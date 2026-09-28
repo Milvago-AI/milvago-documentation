@@ -37,5 +37,3 @@ Uma edição declarada pelo cliente jamais concede autorização: as guardas est
 ## O tom
 
 Sóbrio, factual, preciso. Os estados vazios e os erros são visíveis e explicados, jamais maquiados; nenhum dado fictício é apresentado como real. A promessa: **ver com precisão, agir com confiança**.
-
-![Milvago - O tom](/img/docs/en/introduction-milvago-02.png)

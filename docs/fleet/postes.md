@@ -73,11 +73,11 @@ The "**Download the agent**" button opens a download-only dialog: it creates not
    - manual approval — amber box "Manual approval is on": "Every installed device will appear as pending and will report nothing until you approve it in Devices." A pending device receives no policy: from the moment the agent is installed, and until approval, **no access to AI platforms** is permitted on that device — the extension fails closed and seals the covered AI surface, rather than leaving it open by default;
    - approval by network — "Approval depends on the network": "A device installed from an allowed network reports immediately; the others stay pending approval."
 
-The dialog offers **Windows ZIP** (one download containing the MSI, installation script and this organization's provisioning JSON) and **Linux RPM** (systemd service for the whole device). If your account uses a second factor, the Windows download resumes automatically after verification. The Linux RPM still carries the deployment key. After installation, the device enrolls once and keeps its state in an encrypted cache. The downloaded version is shown under the tile.
+The dialog offers **Windows ZIP** (one download containing the MSI, installation script and this organization's provisioning JSON) and **Linux RPM** (systemd service for the whole device). If your account uses a second factor, the Windows ZIP is only served when that factor was verified in the last 5 minutes; otherwise the console asks for it again, then the download resumes automatically. An account without a second factor downloads directly, and an API key can never download the ZIP. The Linux RPM asks for no new verification and still carries the deployment key. After installation, the device enrolls once and keeps its state in an encrypted cache. The downloaded version is shown under the tile.
 
 The MSI inside each Windows ZIP is identical for every organization; the provisioning JSON is specific to this organization. Protect the ZIP and JSON. Rotating the deployment key invalidates earlier Windows provisioning files and Linux RPMs, while enrolled devices remain active.
 
-![Milvago - Download the agent](/img/docs/fr/fleet-postes-03.png)
+![Milvago - Download the agent](/img/docs/en/fleet-postes-03.png)
 
 ## The device page
 
@@ -106,8 +106,6 @@ The page actions depend on the status: "Approve" on a pending device, "Revoke" o
 | **Browser extensions** | live presence of the extension per browser, detailed below |
 | **Status** | Pending / Active / Revoked |
 | **Last seen** | timestamp |
-
-![Milvago - Details](/img/docs/en/fleet-postes-05.png)
 
 #### A device's group
 

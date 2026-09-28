@@ -28,8 +28,6 @@ Cada semana publicada se lee según dos ejes, puestos lado a lado:
 
 La pestaña solo aparece si el desglose existe realmente; si ni el atributo de equipo ni los grupos existen, un aviso lo dice y propone dónde actuar: « No hay ningún atributo OIDC de equipo configurado ni ningún grupo de equipos, por lo que todas las filas aparecen como sin atribuir. Configure el atributo de equipo en Privacidad o cree grupos en Parque. »
 
-![Milvago - Dos desgloses de una misma semana](/img/docs/en/monitoring-reports-02.png)
-
 Una semana publicada **antes** de la existencia del desglose por grupos no lo lleva: la pantalla muestra « No hay desglose por grupo de equipos para esta semana: se publicó antes de que existiera este desglose, y un informe publicado nunca se vuelve a calcular. » en lugar de un cero engañoso — la ausencia del dato nunca vale « cero solicitudes ».
 
 ## Tabla o tarjeta
