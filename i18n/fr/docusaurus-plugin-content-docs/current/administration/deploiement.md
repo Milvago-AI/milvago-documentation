@@ -27,7 +27,7 @@ La clé de déploiement autorise l'inscription d'un poste. Sous Windows, elle se
 
 ## Télécharger l'agent
 
-Confirmez l'**URL HTTPS publique** dans [Paramètres](parametres.md), puis cliquez sur **Windows ZIP**. Une seule archive contient le MSI immuable, son script PowerShell et le JSON de provisionnement de cette organisation. Le téléchargement exige `installers.manage`. Si votre compte utilise un second facteur, une nouvelle vérification peut être demandée ; le ZIP se télécharge automatiquement à son retour. Le ZIP et le JSON contiennent un jeton de déploiement : protégez-les jusqu'à leur suppression ou à la rotation ou révocation de la clé.
+Confirmez l'**URL HTTPS publique** dans [Paramètres](parametres.md), puis cliquez sur **Windows ZIP**. Une seule archive contient le MSI immuable, son script PowerShell, le JSON de provisionnement de cette organisation et un `README.md` avec la commande d’installation. Le téléchargement exige `installers.manage`. Si votre compte utilise un second facteur, une nouvelle vérification peut être demandée ; le ZIP se télécharge automatiquement à son retour. Le ZIP et le JSON contiennent un jeton de déploiement : protégez-les jusqu'à leur suppression ou à la rotation ou révocation de la clé.
 
 Extrayez `milvago-windows-package.zip` dans un dossier protégé. Dans ce dossier, exécutez le script en administrateur :
 
@@ -35,7 +35,7 @@ Extrayez `milvago-windows-package.zip` dans un dossier protégé. Dans ce dossie
 powershell.exe -NoProfile -File .\milvago-windows-install.ps1 -MsiPath .\milvago-windows-installer.msi -ProvisionPath .\milvago-provision.json
 ```
 
-Les trois noms de fichiers ci-dessous sont ceux de l’archive. Conservez les fichiers ensemble après extraction.
+Les trois chemins de la commande correspondent aux fichiers du ZIP. Conservez-les ensemble après extraction. Les deux paramètres du script sont obligatoires ; sans eux, PowerShell demande `MsiPath` et `ProvisionPath`. Le `README.md` inclus reprend les étapes d’installation.
 
 Le script contrôle l'empreinte du MSI, vérifie la signature Authenticode de l'éditeur lorsqu'un certificat de signature est configuré, dépose le MSI et le JSON dans un répertoire réservé à SYSTEM et aux administrateurs, lance Windows Installer puis supprime ces fichiers temporaires. Ouvrir le MSI seul ne permet pas d'inscrire un nouveau poste, car il ne contient aucune clé d'organisation. Les paquets locaux fabriqués avant l'arrivée du certificat ne portent pas de signature Authenticode : réservez-les à un environnement de test contrôlé.
 

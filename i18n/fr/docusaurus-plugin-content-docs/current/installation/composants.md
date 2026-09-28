@@ -43,7 +43,7 @@ Le catalogue d'usine Enterprise couvre **neuf fournisseurs**. Le contrôle des m
 
 L'agent Windows est distribué sous forme de MSI immuable. Son manifeste de mise à jour est signé ; la signature Authenticode du MSI attend le certificat de l'éditeur :
 
-1. Téléchargez le ZIP Windows depuis la console. Il contient le MSI immuable, son script d’installation et le JSON de provisionnement de cette organisation. Si un second facteur est activé sur votre compte, le téléchargement reprend après une nouvelle vérification.
+1. Téléchargez le ZIP Windows depuis la console. Il contient le MSI immuable, son script d’installation, le JSON de provisionnement de cette organisation et un `README.md` avec la commande exacte. Si un second facteur est activé sur votre compte, le téléchargement reprend après une nouvelle vérification.
 2. Extrayez le ZIP puis lancez le script en administrateur avec les chemins du MSI et du JSON. Le service s’exécute sous un compte local et relaie les politiques vers l’extension par des canaux loopback. Protégez et supprimez le ZIP et le JSON dès qu’ils ne sont plus nécessaires.
 
 Les mises à jour sont distribuées par l'image Docker contenant le MSI et son manifeste : reconstruire et remettre en service l'image, puis vérifier l'empreinte du MSI effectivement servi, la signature et la version annoncée. L'application sur les postes dépend de la politique de mise à jour configurée.

@@ -27,7 +27,7 @@ La clave de despliegue autoriza la inscripción de un dispositivo. En Windows se
 
 ## Descargar el agente
 
-Confirme la **URL HTTPS pública** en [Ajustes](parametres.md) y haga clic en **Windows ZIP**. Un solo archivo contiene el MSI inmutable, su script de PowerShell y el JSON de aprovisionamiento de esta organización. La descarga requiere `installers.manage`. Si su cuenta utiliza un segundo factor, puede solicitarse una nueva verificación; el ZIP se descargará automáticamente al regresar. El ZIP y el JSON contienen un token de despliegue: protéjalos hasta eliminarlos o rotar o revocar la clave.
+Confirme la **URL HTTPS pública** en [Ajustes](parametres.md) y haga clic en **Windows ZIP**. Un solo archivo contiene el MSI inmutable, su script de PowerShell, el JSON de aprovisionamiento de esta organización y un `README.md` con el comando de instalación. La descarga requiere `installers.manage`. Si su cuenta utiliza un segundo factor, puede solicitarse una nueva verificación; el ZIP se descargará automáticamente al regresar. El ZIP y el JSON contienen un token de despliegue: protéjalos hasta eliminarlos o rotar o revocar la clave.
 
 Extraiga `milvago-windows-package.zip` en una carpeta protegida. Allí, ejecute el script como administrador:
 
@@ -35,7 +35,7 @@ Extraiga `milvago-windows-package.zip` en una carpeta protegida. Allí, ejecute 
 powershell.exe -NoProfile -File .\milvago-windows-install.ps1 -MsiPath .\milvago-windows-installer.msi -ProvisionPath .\milvago-provision.json
 ```
 
-Los tres nombres de archivo siguientes son los incluidos en el ZIP. Mantenga juntos los archivos extraídos.
+Las tres rutas del comando corresponden a archivos del ZIP. Manténgalos juntos tras extraerlos. Los dos parámetros del script son obligatorios; sin ellos, PowerShell solicita `MsiPath` y `ProvisionPath`. El `README.md` incluido repite los pasos de instalación.
 
 El script comprueba el hash del MSI, verifica la firma Authenticode del editor cuando se configura un certificado de firma, guarda el MSI y el JSON con acceso exclusivo de SYSTEM y administradores, ejecuta Windows Installer y elimina los archivos temporales. Abrir el MSI sin el archivo no puede inscribir un dispositivo nuevo porque no contiene la clave de la organización. Los paquetes locales fabricados antes de disponer del certificado carecen de firma Authenticode; úselos solo en un entorno de prueba controlado.
 
