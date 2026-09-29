@@ -9,6 +9,8 @@ title: Instalación con Docker
 
 Para acceso compartido, prepare un host Linux con acceso como `root` o mediante `sudo`. Instale `curl`, sincronice el reloj del host y prepare fuera de este instalador un DNS y un proxy inverso HTTPS que dirijan al puerto `4020` de la dirección IP privada del host de Milvago. El script no crea registros DNS ni certificados.
 
+A partir del instalador 1.0.3, se comprueba cualquier comando Docker existente antes de instalar requisitos previos o paquetes Docker. En WSL, se rechaza un comando encontrado bajo `/mnt/` y se indica que debe activar **Docker Desktop > Settings > Resources > WSL integration** para esa distribución. Si falla `docker --version`, repare o elimine el comando existente antes de volver a intentarlo. Se conserva un comando Docker de Linux que funciona; Docker o Compose ausentes todavía pueden instalarse en distribuciones compatibles.
+
 ### Operación de producción
 
 El perfil instalado ejecuta Keycloak con `start` en modo de producción detrás del proxy inverso HTTPS que usted proporciona. Mantenga ese proxy delante del puerto `4020`, conserve la cabecera `Host` y envíe `X-Forwarded-Proto: https`.
@@ -61,11 +63,11 @@ Cuando termine, abra la URL que indicó. Recupere `MILVAGO_SETUP_TOKEN` del arch
 
 ## Instalar una versión fijada
 
-En un servidor Linux, descargue anónimamente los recursos inmutables de la versión `v1.0.2`, compruébelos y ejecute el instalador:
+En un servidor Linux, descargue anónimamente los recursos inmutables de la versión `v1.0.3`, compruébelos y ejecute el instalador:
 
 ```bash
 mkdir -p milvago-install && cd milvago-install
-release_url=https://github.com/Milvago-AI/milvago-server/releases/download/v1.0.2
+release_url=https://github.com/Milvago-AI/milvago-server/releases/download/v1.0.3
 curl -fLO "$release_url/install-private.sh"
 curl -fLO "$release_url/SHA256SUMS"
 curl -fLO "$release_url/release.json"

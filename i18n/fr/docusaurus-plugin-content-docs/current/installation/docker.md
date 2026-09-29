@@ -13,6 +13,8 @@ Pour un accès partagé, choisissez l'adresse à laquelle les utilisateurs ouvri
 
 Vérifiez que l'horloge du serveur est synchronisée, notamment avant de configurer l'authentification à deux facteurs.
 
+À partir de l’installateur 1.0.3, une commande Docker déjà présente est contrôlée avant toute installation de prérequis ou de paquets Docker. Sous WSL, une commande trouvée sous `/mnt/` est refusée avec une invitation à activer **Docker Desktop > Settings > Resources > WSL integration** pour cette distribution. Si `docker --version` échoue, réparez ou supprimez la commande existante avant de réessayer. Une commande Docker Linux fonctionnelle est conservée ; Docker ou Compose manquants peuvent toujours être installés sur les distributions prises en charge.
+
 ### Exploitation de production
 
 Le profil installé exécute Keycloak avec `start`, en mode production, derrière le reverse proxy HTTPS que vous fournissez. Laissez ce proxy devant le port `4020`, conservez l'en-tête `Host` et transmettez `X-Forwarded-Proto: https`.
@@ -94,11 +96,11 @@ Conservez le fichier `.env` confidentiel : il contient les secrets générés po
 
 ## Installer une version précise
 
-Pour choisir explicitement une release et vérifier les fichiers téléchargés avant leur exécution, utilisez l'URL de cette version. Pour le serveur **1.0.2**, qui utilise l'agent et l'extension Community **0.6.4** :
+Pour choisir explicitement une release et vérifier les fichiers téléchargés avant leur exécution, utilisez l'URL de cette version. Pour le serveur **1.0.3**, qui utilise l'agent et l'extension Community **0.6.4** :
 
 ```bash
 mkdir -p milvago-install && cd milvago-install
-release_url=https://github.com/Milvago-AI/milvago-server/releases/download/v1.0.2
+release_url=https://github.com/Milvago-AI/milvago-server/releases/download/v1.0.3
 curl -fLO "$release_url/install-private.sh"
 curl -fLO "$release_url/SHA256SUMS"
 curl -fLO "$release_url/release.json"
