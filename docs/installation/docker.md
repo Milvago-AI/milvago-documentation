@@ -9,7 +9,7 @@ title: Docker installation
 
 Use a Linux server with Internet access, Bash, `curl`, and a `root` account or permission to use `sudo`. The `curl` command must be available before you run the command below.
 
-Choose the address people will use to open Milvago, such as `https://milvago.example.com`. For HTTPS access through a domain, configure its DNS and an HTTPS reverse proxy that forwards requests to the Milvago server's private IP address on port **4020**. Allow that connection through the server firewall. The installer configures the application URL; it does not create DNS records or issue your HTTPS certificate.
+For shared access, choose the address people will use to open Milvago, such as `https://milvago.example.com`. Configure its DNS and an HTTPS reverse proxy that forwards requests to the Milvago server's private IP address on port **4020**. Allow that connection through the server firewall. The installer configures the application URL; it does not create DNS records or issue your HTTPS certificate.
 
 Make sure the server clock is synchronized, particularly before configuring two-factor authentication.
 
@@ -35,23 +35,31 @@ The installer checks the required utilities, including `tar`, `gzip`, and CA cer
 
 The server image is public. The installer verifies its cosign signature and checks the Community agent bundle's SHA-256, signed Ed25519 update manifests, and expiration before making agent downloads available.
 
-## 3. Enter the public URL
+## 3. Choose local or public access
 
 At the prompt:
 
 ```text
-Milvago public URL:
+Milvago public URL [http://localhost:4020]:
 ```
 
-Enter the full address:
+For shared access, enter the full public address:
 
 ```text
 https://milvago.example.com
 ```
 
-The `https://` or `http://` prefix is required. You may include a port, but no path, query string, or fragment. An invalid URL stops the installer with an explanatory message. It does not add a protocol automatically.
+The `https://` or `http://` prefix is required. You may include a port, but no path, query string, or fragment. An invalid URL stops the installer with an explanatory message. It does not add a protocol automatically. This public mode binds the gateway to the host network on port `4020`; keep the HTTPS reverse proxy in front of it.
 
-The prompt reads from the terminal even when the script is piped into Bash.
+Leave the prompt blank for a local installation. It uses `http://localhost:4020` and binds port `4020` only to `127.0.0.1`. An explicit `http://localhost:4020` or `http://127.0.0.1:4020` selects the same local mode. Local mode opens no additional host ports; the application and identity service remain internal.
+
+Open a local installation in a browser on the server itself. From another computer, create an SSH tunnel first, then open `http://localhost:4020` locally:
+
+```bash
+ssh -L 4020:127.0.0.1:4020 user@server
+```
+
+The prompt reads from the terminal even when the script is piped into Bash. If there is no controlling terminal and no URL was supplied, the installer selects local mode.
 
 ### Provide the URL directly
 
@@ -62,6 +70,16 @@ curl -fsSL https://get.milvago.ai | MILVAGO_PUBLIC_URL=https://milvago.example.c
 ```
 
 Replace the example address with your own. The same validation applies. This skips the URL question; it does not suppress any required `sudo` authentication. Without a terminal, `MILVAGO_PUBLIC_URL` is required.
+
+For non-interactive local installation, set the variable to an empty value:
+
+```bash
+curl -fsSL https://get.milvago.ai | MILVAGO_PUBLIC_URL='' bash
+```
+
+The localhost default is available starting with installer version `1.0.2`.
+
+On a later run, the installer preserves the configured URL. It stops if a supplied URL, including a switch between local and public mode, conflicts with it; change it in **Administration > Settings** instead.
 
 ## 4. Complete setup
 
@@ -76,11 +94,11 @@ Keep the `.env` file private: it contains the instance's generated secrets.
 
 ## Install a specific version
 
-To choose a release explicitly and verify its downloaded files before execution, use its exact version URL. For server **1.0.0**, which uses Community agent and extension **0.6.4**:
+To choose a release explicitly and verify its downloaded files before execution, use its exact version URL. For server **1.0.2**, which uses Community agent and extension **0.6.4**:
 
 ```bash
 mkdir -p milvago-install && cd milvago-install
-release_url=https://github.com/Milvago-AI/milvago-server/releases/download/v1.0.0
+release_url=https://github.com/Milvago-AI/milvago-server/releases/download/v1.0.2
 curl -fLO "$release_url/install-private.sh"
 curl -fLO "$release_url/SHA256SUMS"
 curl -fLO "$release_url/release.json"
