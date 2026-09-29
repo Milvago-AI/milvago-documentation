@@ -13,6 +13,8 @@ For shared access, choose the address people will use to open Milvago, such as `
 
 Make sure the server clock is synchronized, particularly before configuring two-factor authentication.
 
+With installer 1.0.3 and later, an existing Docker command is checked before installing prerequisites or Docker packages. Under WSL, a Docker command found under `/mnt/` is rejected with instructions to enable **Docker Desktop > Settings > Resources > WSL integration** for that distribution. If `docker --version` fails, repair or remove the existing command before retrying. A working Linux Docker command is preserved; missing Docker or Compose can still be installed on supported distributions.
+
 ### Production operation
 
 The installed profile runs Keycloak with `start` in production mode behind the HTTPS reverse proxy you provide. Keep the proxy in front of port `4020`, preserve the `Host` header, and send `X-Forwarded-Proto: https`.
@@ -94,11 +96,11 @@ Keep the `.env` file private: it contains the instance's generated secrets.
 
 ## Install a specific version
 
-To choose a release explicitly and verify its downloaded files before execution, use its exact version URL. For server **1.0.2**, which uses Community agent and extension **0.6.4**:
+To choose a release explicitly and verify its downloaded files before execution, use its exact version URL. For server **1.0.3**, which uses Community agent and extension **0.6.4**:
 
 ```bash
 mkdir -p milvago-install && cd milvago-install
-release_url=https://github.com/Milvago-AI/milvago-server/releases/download/v1.0.2
+release_url=https://github.com/Milvago-AI/milvago-server/releases/download/v1.0.3
 curl -fLO "$release_url/install-private.sh"
 curl -fLO "$release_url/SHA256SUMS"
 curl -fLO "$release_url/release.json"
