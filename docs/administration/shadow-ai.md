@@ -59,6 +59,8 @@ This section exists only at the organization level: neither a group nor a device
 
 The section description carries the edition limit: "Community connects the extension to the open Rust bridge. Local application conversations remain an Enterprise capability."
 
+The **Purge** button next to **Retain request and response text** opens a dialog to choose a cutoff date and confirm permanent deletion of older retained text. It is available with the right to purge content (`content.purge`, owner by default) and requires a recently verified second factor. Event metadata is kept.
+
 ## Services
 
 "The catalog and allowed domains come from the server. An enabled service does not imply exhaustive interface coverage." Each covered service carries:
@@ -135,6 +137,8 @@ Keywords come from the protected phrases of Protections.
 :::
 
 ## AI platforms
+
+In Community, a short message below the presence notice explains: “With Milvago Enterprise, you can block access to these AI platform URLs.”
 
 This section is set **at the organization level**: Discovery is read there, and the platforms it is allowed to name are chosen there. It carries two distinct settings:
 

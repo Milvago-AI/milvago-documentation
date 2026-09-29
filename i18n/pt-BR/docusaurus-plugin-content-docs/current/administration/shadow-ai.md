@@ -59,6 +59,8 @@ Esta seção só existe no nível da organização: nem um grupo, nem um disposi
 
 A descrição da seção carrega o limite da edição: "O Community conecta a extensão à ponte Rust aberta. As conversas de aplicações locais continuam sendo um recurso Enterprise."
 
+O botão **Purgar**, ao lado de **Reter o texto das solicitações e das respostas**, abre uma janela para escolher uma data limite e confirmar a exclusão permanente dos textos retidos anteriores a essa data. Está disponível com o direito de purgar conteúdos (`content.purge`, proprietário por padrão) e exige um segundo fator verificado recentemente. Os metadados dos eventos são mantidos.
+
 ## Serviços
 
 "O catálogo e os domínios autorizados vêm do servidor. Um serviço ativado não implica cobertura exaustiva da interface." Cada serviço coberto porta:
@@ -135,6 +137,8 @@ As palavras-chave vêm das frases protegidas de "Proteções".
 :::
 
 ## Plataformas de IA
+
+No Community, uma breve mensagem abaixo da explicação da detecção de presença informa: “Com o Milvago Enterprise, você pode bloquear o acesso às URLs dessas plataformas de IA.”
 
 Esta seção se configura **no nível da organização**: a Descoberta se lê aí, as plataformas que ela tem o direito de nomear se escolhem aí. Ela porta dois ajustes distintos:
 
