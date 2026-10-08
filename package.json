@@ -30,6 +30,9 @@
     "@docusaurus/module-type-aliases": "3.10.2",
     "@docusaurus/types": "3.10.2"
   },
+  "overrides": {
+    "tinypool": "2.1.2"
+  },
   "browserslist": {
     "production": [
       ">0.5%",
