@@ -63,11 +63,11 @@ Cuando termine, abra la URL que indicó. Recupere `MILVAGO_SETUP_TOKEN` del arch
 
 ## Instalar una versión fijada
 
-En un servidor Linux, descargue anónimamente los recursos inmutables de la versión `v1.0.3`, compruébelos y ejecute el instalador:
+En un servidor Linux, descargue anónimamente los recursos inmutables de la versión `v1.0.5`, compruébelos y ejecute el instalador:
 
 ```bash
 mkdir -p milvago-install && cd milvago-install
-release_url=https://github.com/Milvago-AI/milvago-server/releases/download/v1.0.3
+release_url=https://github.com/Milvago-AI/milvago-server/releases/download/v1.0.5
 curl -fLO "$release_url/install-private.sh"
 curl -fLO "$release_url/SHA256SUMS"
 curl -fLO "$release_url/release.json"

@@ -96,11 +96,11 @@ Keep the `.env` file private: it contains the instance's generated secrets.
 
 ## Install a specific version
 
-To choose a release explicitly and verify its downloaded files before execution, use its exact version URL. For server **1.0.3**, which uses Community agent and extension **0.6.4**:
+To choose a release explicitly and verify its downloaded files before execution, use its exact version URL. For server **1.0.5**, which uses Community agent and extension **0.6.4**:
 
 ```bash
 mkdir -p milvago-install && cd milvago-install
-release_url=https://github.com/Milvago-AI/milvago-server/releases/download/v1.0.3
+release_url=https://github.com/Milvago-AI/milvago-server/releases/download/v1.0.5
 curl -fLO "$release_url/install-private.sh"
 curl -fLO "$release_url/SHA256SUMS"
 curl -fLO "$release_url/release.json"

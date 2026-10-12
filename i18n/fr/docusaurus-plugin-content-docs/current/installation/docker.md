@@ -96,11 +96,11 @@ Conservez le fichier `.env` confidentiel : il contient les secrets générés po
 
 ## Installer une version précise
 
-Pour choisir explicitement une release et vérifier les fichiers téléchargés avant leur exécution, utilisez l'URL de cette version. Pour le serveur **1.0.3**, qui utilise l'agent et l'extension Community **0.6.4** :
+Pour choisir explicitement une release et vérifier les fichiers téléchargés avant leur exécution, utilisez l'URL de cette version. Pour le serveur **1.0.5**, qui utilise l'agent et l'extension Community **0.6.4** :
 
 ```bash
 mkdir -p milvago-install && cd milvago-install
-release_url=https://github.com/Milvago-AI/milvago-server/releases/download/v1.0.3
+release_url=https://github.com/Milvago-AI/milvago-server/releases/download/v1.0.5
 curl -fLO "$release_url/install-private.sh"
 curl -fLO "$release_url/SHA256SUMS"
 curl -fLO "$release_url/release.json"
