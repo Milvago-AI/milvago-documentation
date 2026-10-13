@@ -30,7 +30,7 @@ La lista **Idioma de la consola** está disponible para todos los tipos de cuent
 
 ## Seguridad y acceso
 
-El bloque **Seguridad y acceso** muestra el estado del segundo factor: **estado desconocido** cuando no se puede obtener, **configurado** o **sin configurar**.
+El bloque **Seguridad y acceso** enumera, una fila por elemento, su dirección de correo, su contraseña y su segundo factor. Cada botón **Cambiar**, **Añadir un dispositivo** o **Eliminar** abre una página segura de inicio de sesión de Milvago en la misma pestaña y luego vuelve a **Mi perfil**, donde un mensaje confirma el cambio.
 
 Las acciones disponibles dependen del tipo de cuenta:
 
@@ -38,11 +38,15 @@ Las acciones disponibles dependen del tipo de cuenta:
 - **LDAP**: gestionar el segundo factor, que se puede configurar localmente.
 - **SSO**: el nombre, la dirección de correo, la contraseña y el segundo factor se gestionan en el proveedor de identidad.
 
-Cuando el segundo factor está **sin configurar**, el botón **Configurar mi segundo factor** abre directamente su inscripción en el proveedor de identidad en la pestaña actual. Al finalizar la inscripción, vuelve automáticamente a **Mi perfil**. Cuando está **configurado** o su estado es **desconocido**, el botón **Gestionar mis segundos factores** abre en una nueva pestaña el espacio seguro del proveedor de identidad, donde puede consultar sus autenticadores, añadirlos o eliminarlos.
+La fila **Segundo factor** enumera sus dispositivos, cada uno con su nombre y la fecha en que se añadió:
 
-**Mi perfil** permanece abierto en su pestaña: vuelva a él después de gestionar los autenticadores en el proveedor de identidad y su estado se actualizará. Las acciones para modificar la dirección de correo y la contraseña también vuelven automáticamente a **Mi perfil**.
+- Sin ningún dispositivo, **Configurar mi segundo factor** le guía para escanear un código QR con una aplicación de autenticación (Microsoft Authenticator, Google Authenticator, FreeOTP…) y luego introducir el código que muestra.
+- **Añadir un dispositivo** configura otra aplicación, por ejemplo en un segundo teléfono; al iniciar sesión, usted elige qué dispositivo muestra el código.
+- **Eliminar** pide primero una confirmación y luego un código de uno de sus dispositivos. Si inició sesión hace más de unos minutos, también se vuelve a pedir su contraseña. Sin ningún dispositivo restante, su inicio de sesión solo pide la contraseña, salvo que su organización exija un segundo factor: en ese caso configura un nuevo dispositivo en su próximo inicio de sesión.
 
-Si utiliza **¿Olvidó su contraseña?** en la página de inicio de sesión, el enlace enviado por correo le permite establecer una nueva contraseña. El autenticador ya configurado para la cuenta se conserva y seguirá siendo obligatorio en el siguiente inicio de sesión.
+Cuando no se puede comprobar el segundo factor, la fila lo indica y no ofrece ninguna acción.
+
+Si utiliza **¿Olvidó su contraseña?** en la página de inicio de sesión, el enlace enviado por correo le permite establecer una nueva contraseña. Un dispositivo ya configurado para la cuenta se conserva y seguirá siendo obligatorio en el siguiente inicio de sesión.
 
 En una instancia de demostración de solo lectura, estos botones están ocultos y un aviso lo indica.
 

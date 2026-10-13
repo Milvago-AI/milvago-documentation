@@ -30,7 +30,7 @@ La liste **Langue de la console** est disponible pour tous les types de compte :
 
 ## Sécurité et accès
 
-Le bloc **Sécurité et accès** indique l'état du second facteur : **état inconnu** lorsqu'il ne peut pas être obtenu, **configuré** ou **non configuré**.
+Le bloc **Sécurité et accès** présente, une ligne chacun, votre adresse e-mail, votre mot de passe et votre second facteur. Chaque bouton **Changer**, **Ajouter un appareil** ou **Retirer** ouvre une page de connexion sécurisée de Milvago dans le même onglet, puis vous ramène à **Mon profil**, où un message confirme la modification.
 
 Les actions proposées dépendent du type de compte :
 
@@ -38,11 +38,15 @@ Les actions proposées dépendent du type de compte :
 - **LDAP** : gérer le second facteur, qui peut être configuré localement.
 - **SSO** : le nom, l'adresse e-mail, le mot de passe et le second facteur sont gérés par le fournisseur d'identité.
 
-Lorsque le second facteur est **non configuré**, le bouton **Configurer mon second facteur** ouvre directement son enrôlement chez le fournisseur d'identité dans l'onglet courant. À la fin de l'enrôlement, vous revenez automatiquement à **Mon profil**. Lorsqu'il est **configuré** ou que son état est **inconnu**, le bouton **Gérer mes seconds facteurs** ouvre dans un nouvel onglet l'espace sécurisé du fournisseur d'identité, où vous pouvez consulter vos authentificateurs, en ajouter ou en supprimer.
+La ligne **Second facteur** liste vos appareils, chacun avec son nom et sa date d'ajout :
 
-**Mon profil** reste ouvert dans son onglet : revenez-y après la gestion chez le fournisseur d'identité ; son état est alors actualisé. Les actions de modification de l'adresse e-mail et du mot de passe reviennent elles aussi automatiquement à **Mon profil**.
+- Sans appareil, **Configurer mon second facteur** vous guide : scanner un QR code avec une application d'authentification (Microsoft Authenticator, Google Authenticator, FreeOTP…), puis saisir le code qu'elle affiche.
+- **Ajouter un appareil** configure une autre application, par exemple sur un second téléphone ; à la connexion, vous choisissez l'appareil qui affiche le code.
+- **Retirer** demande d'abord une confirmation, puis un code de l'un de vos appareils. Si votre connexion date de plus de quelques minutes, votre mot de passe vous est aussi redemandé. Sans plus aucun appareil, votre connexion ne demande que votre mot de passe, sauf si votre organisation exige un second facteur : vous en configurez alors un nouveau à la prochaine connexion.
 
-Si vous utilisez **Mot de passe oublié** sur la page de connexion, le lien reçu par e-mail permet de choisir un nouveau mot de passe. L’application d’authentification déjà configurée reste en place et sera encore exigée à la prochaine connexion.
+Lorsque le second facteur ne peut pas être vérifié, la ligne l'indique et ne propose aucune action.
+
+Si vous utilisez **Mot de passe oublié ?** sur la page de connexion, le lien reçu par e-mail permet de choisir un nouveau mot de passe. L’appareil déjà configuré reste en place et sera encore exigé à la prochaine connexion.
 
 Dans une instance de démonstration en lecture seule, ces boutons sont masqués et un message l'indique.
 
