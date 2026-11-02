@@ -30,7 +30,7 @@ The **Console language** list is available for every account type: Français, En
 
 ## Security and access
 
-The **Security and access** block shows the second-factor status: **unknown status** when it cannot be retrieved, **configured**, or **not configured**.
+The **Security and access** block lists, one row each, your email address, your password and your second factor. Each **Change**, **Add a device** or **Remove** button opens a secure Milvago sign-in page in the same tab, then brings you back to **My profile**, where a message confirms the change.
 
 The available actions depend on the account type:
 
@@ -38,11 +38,15 @@ The available actions depend on the account type:
 - **LDAP**: manage the second factor, which can be configured locally.
 - **SSO**: the name, email address, password, and second factor are managed by the identity provider.
 
-When the second factor is **not configured**, the **Configure my second factor** button opens direct enrollment with the identity provider in the current tab. Once enrollment is complete, you return automatically to **My profile**. When it is **configured** or its status is **unknown**, the **Manage my second factors** button opens the identity provider's secure area in a new tab, where you can view, add, or remove authenticators.
+The **Second factor** row lists your devices, each with its name and the date it was added:
 
-**My profile** remains open in its tab: return to it after managing authenticators with the identity provider, and its status refreshes. The actions to change the email address and password also return automatically to **My profile**.
+- With no device, **Configure my second factor** walks you through scanning a QR code with an authenticator app (Microsoft Authenticator, Google Authenticator, FreeOTP…), then entering the code it shows.
+- **Add a device** sets up another app, for example on a second phone; at sign-in, you choose which device shows the code.
+- **Remove** asks for confirmation first, then a code from one of your devices. If you signed in more than a few minutes ago, your password is asked again too. Without any device left, your sign-in only asks for your password, unless your organization requires a second factor: you then set up a new device at your next sign-in.
 
-If you use **Forgot password** on the sign-in page, the email link lets you set a new password. An authenticator already configured for the account remains in place and is still required at the next sign-in.
+When the second factor cannot be checked, the row says so and offers no action.
+
+If you use **Forgot your password?** on the sign-in page, the email link lets you set a new password. A device already configured for the account remains in place and is still required at the next sign-in.
 
 In a read-only demo instance, these buttons are hidden and a notice explains this.
 

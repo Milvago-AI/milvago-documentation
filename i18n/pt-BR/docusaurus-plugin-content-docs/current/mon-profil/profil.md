@@ -30,7 +30,7 @@ A lista **Idioma do console** está disponível para todos os tipos de conta: Fr
 
 ## Segurança e acesso
 
-O bloco **Segurança e acesso** mostra o estado do segundo fator: **status desconhecido** quando não é possível obtê-lo, **configurado** ou **não configurado**.
+O bloco **Segurança e acesso** lista, uma linha por item, seu endereço de e-mail, sua senha e seu segundo fator. Cada botão **Alterar**, **Adicionar um dispositivo** ou **Remover** abre uma página segura de login do Milvago na mesma guia e depois volta a **Meu perfil**, onde uma mensagem confirma a alteração.
 
 As ações disponíveis dependem do tipo de conta:
 
@@ -38,11 +38,15 @@ As ações disponíveis dependem do tipo de conta:
 - **LDAP**: gerenciar o segundo fator, que pode ser configurado localmente.
 - **SSO**: o nome, o endereço de e-mail, a senha e o segundo fator são gerenciados pelo provedor de identidade.
 
-Quando o segundo fator está **não configurado**, o botão **Configurar meu segundo fator** abre diretamente sua inscrição no provedor de identidade na guia atual. Ao concluir a inscrição, você retorna automaticamente a **Meu perfil**. Quando ele está **configurado** ou seu status é **desconhecido**, o botão **Gerenciar meus segundos fatores** abre a área segura do provedor de identidade em uma nova guia, onde você pode consultar seus autenticadores, adicioná-los ou removê-los.
+A linha **Segundo fator** lista seus dispositivos, cada um com seu nome e a data em que foi adicionado:
 
-**Meu perfil** permanece aberto na guia: volte a ele depois de gerenciar os autenticadores no provedor de identidade, e seu status será atualizado. As ações para alterar o endereço de e-mail e a senha também retornam automaticamente a **Meu perfil**.
+- Sem nenhum dispositivo, **Configurar meu segundo fator** orienta você a escanear um QR code com um aplicativo autenticador (Microsoft Authenticator, Google Authenticator, FreeOTP…) e depois a informar o código exibido.
+- **Adicionar um dispositivo** configura outro aplicativo, por exemplo em um segundo celular; no login, você escolhe qual dispositivo exibe o código.
+- **Remover** pede antes uma confirmação e depois um código de um dos seus dispositivos. Se você fez login há mais de alguns minutos, sua senha também é solicitada novamente. Sem nenhum dispositivo restante, seu login pede apenas a senha, a menos que sua organização exija um segundo fator: nesse caso, você configura um novo dispositivo no próximo login.
 
-Se você usar **Esqueceu a senha?** na página de login, o link enviado por e-mail permite definir uma nova senha. O aplicativo autenticador já configurado para a conta é mantido e continuará obrigatório no próximo login.
+Quando o segundo fator não pode ser verificado, a linha informa isso e não oferece nenhuma ação.
+
+Se você usar **Esqueceu a senha?** na página de login, o link enviado por e-mail permite definir uma nova senha. Um dispositivo já configurado para a conta é mantido e continuará obrigatório no próximo login.
 
 Em uma instância de demonstração somente para leitura, esses botões ficam ocultos e um aviso informa isso.
 
